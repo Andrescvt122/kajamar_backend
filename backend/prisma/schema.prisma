@@ -1,0 +1,273 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model acceso {
+  acceso_id       Int               @id @default(autoincrement())
+  email           String            @unique @db.VarChar(100)
+  password_hash   String            @db.VarChar(255)
+  rol_id          Int
+  estado_usuario  Boolean?          @default(true)
+  created_at      DateTime?         @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime?         @default(now()) @db.Timestamptz(6)
+  roles           roles             @relation(fields: [rol_id], references: [rol_id], onUpdate: NoAction)
+  password_resets password_resets[]
+  usuarios        usuarios?
+}
+
+model categorias {
+  id_categoria          Int         @id @default(autoincrement())
+  nombre_categoria      String      @unique(map: "uq_categorias_nombre") @db.VarChar(80)
+  descripcion_categoria String?     @db.VarChar(80)
+  estado                Boolean
+  productos             productos[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model clientes {
+  id_cliente       Int      @id @default(autoincrement())
+  nombre_cliente   String   @db.VarChar(100)
+  tipo_docume      String   @db.VarChar(20)
+  numero_doc       String   @unique(map: "uq_cliente_numero_doc") @db.VarChar(30)
+  correo_cliente   String?  @unique(map: "uq_cliente_correo") @db.VarChar(100)
+  telefono_cliente String?  @db.VarChar(20)
+  estado_cliente   String   @db.VarChar(10)
+  ventas           ventas[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model compras {
+  id_compra      Int              @id @default(autoincrement())
+  fecha_compra   DateTime         @default(now()) @db.Timestamp(6)
+  id_proveedor   Int
+  total          Decimal          @db.Decimal(12, 2)
+  estado_compra  String?          @db.VarChar(25)
+  proveedores    proveedores      @relation(fields: [id_proveedor], references: [id_proveedor], onUpdate: NoAction, map: "fk_compras_proveedor")
+  detalle_compra detalle_compra[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model detalle_compra {
+  id_detalle          Int                @id @default(autoincrement())
+  id_compra           Int
+  cantidad            Int
+  precio_unitario     Decimal            @db.Decimal(12, 2)
+  subtotal            Decimal?           @default(dbgenerated("((cantidad)::numeric * precio_unitario)")) @db.Decimal(12, 2)
+  id_detalle_producto Int?
+  iva_aplicado        Decimal?           @db.Decimal
+  icu_aplicado        Decimal?           @db.Decimal
+  compras             compras            @relation(fields: [id_compra], references: [id_compra], onDelete: Cascade, onUpdate: NoAction, map: "fk_detalle_compra_compra")
+  detalle_productos   detalle_productos? @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+}
+
+model detalle_devolucion_cliente {
+  id_detalle_devolucion_cliente      Int                 @id @default(autoincrement())
+  id_devolucion_cliente              Int?
+  id_detalle_producto                Int?
+  id_detalle_venta                   Int?
+  cantidad_cliente_devuelta          Int?
+  cantidad_devuelta_a_cliente        Int?
+  precio_unitario_devolucion         Decimal?            @db.Decimal
+  monto_clientes_productos_devueltos Decimal?            @db.Decimal
+  estado_condicion_producto          String?             @db.VarChar(10)
+  estado_devolucion_proveedor        String?             @db.VarChar(20)
+  detalle_productos                  detalle_productos?  @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+  detalle_venta                      detalle_venta?      @relation(fields: [id_detalle_venta], references: [id_detalle], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_venta")
+  devolucion_cliente                 devolucion_cliente? @relation(fields: [id_devolucion_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_cliente")
+}
+
+model detalle_devolucion_producto {
+  id_detalle_devolucion_productos Int                  @id @default(autoincrement())
+  id_devolucion_producto          Int?
+  id_detalle_producto             Int?
+  motivo                          String?              @db.VarChar(10)
+  cantidad_devuelta               Int?
+  es_descuento                    Boolean?
+  detalle_productos               detalle_productos?   @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+  devolucion_producto             devolucion_producto? @relation(fields: [id_devolucion_producto], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_producto")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model detalle_productos {
+  id_detalle_producto           Int                           @id @default(autoincrement())
+  id_producto                   Int
+  codigo_barras_producto_compra String                        @db.VarChar(50)
+  fecha_vencimiento             DateTime                      @db.Date
+  stock_producto                Int
+  es_devolucion                 Boolean?                      @default(false)
+  detalle_compra                detalle_compra[]
+  detalle_devolucion_cliente    detalle_devolucion_cliente[]
+  detalle_devolucion_producto   detalle_devolucion_producto[]
+  productos                     productos                     @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction)
+  detalle_venta                 detalle_venta[]
+  productos_baja                productos_baja[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model detalle_venta {
+  id_detalle                 Int                          @id @default(autoincrement())
+  id_venta                   Int
+  cantidad                   Int
+  precio_unitario            Decimal                      @db.Decimal(10, 2)
+  subtotal                   Decimal?                     @default(dbgenerated("((cantidad)::numeric * precio_unitario)")) @db.Decimal(10, 2)
+  id_detalle_producto        Int?
+  iva_venta                  Decimal?                     @db.Decimal
+  icu_venta                  Decimal?                     @db.Decimal
+  detalle_devolucion_cliente detalle_devolucion_cliente[]
+  detalle_productos          detalle_productos?           @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_venta")
+  ventas                     ventas                       @relation(fields: [id_venta], references: [id_venta], onDelete: Cascade, onUpdate: NoAction, map: "fk_detalle_venta_venta")
+}
+
+model devolucion_cliente {
+  id_devoluciones_cliente                  Int                          @id @default(autoincrement())
+  id_venta                                 Int?
+  id_responsable                           Int?
+  fecha_devolucion                         DateTime?                    @db.Date
+  total_devolucion                         Decimal?                     @db.Decimal
+  tipo                                     String?                      @db.VarChar(50)
+  fecha_cambio_estado_devolucion_proveedor DateTime?                    @db.Date
+  detalle_devolucion_cliente               detalle_devolucion_cliente[]
+  usuarios                                 usuarios?                    @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
+  ventas                                   ventas?                      @relation(fields: [id_venta], references: [id_venta], onDelete: NoAction, onUpdate: NoAction, map: "fk_venta")
+}
+
+model devolucion_producto {
+  id_devolucion_product       Int                           @id @default(autoincrement())
+  id_responsable              Int?
+  fecha_devolucion            DateTime?                     @db.Date
+  cantidad_total              Int?
+  detalle_devolucion_producto detalle_devolucion_producto[]
+  usuarios                    usuarios?                     @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model impuestos_productos {
+  id_impuesto                                                    Int         @id @default(autoincrement())
+  nombre_impuesto                                                String      @db.VarChar(30)
+  valor_impuesto                                                 Float
+  productos_productos_icuToimpuestos_productos                   productos[] @relation("productos_icuToimpuestos_productos")
+  productos_productos_ivaToimpuestos_productos                   productos[] @relation("productos_ivaToimpuestos_productos")
+  productos_productos_porcentaje_incrementoToimpuestos_productos productos[] @relation("productos_porcentaje_incrementoToimpuestos_productos")
+}
+
+model password_resets {
+  id         Int      @id @default(autoincrement())
+  acceso_id  Int
+  token      String   @unique @db.VarChar(255)
+  expires_at DateTime @db.Timestamptz(6)
+  acceso     acceso   @relation(fields: [acceso_id], references: [acceso_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model permisos {
+  permiso_id     Int            @id @default(autoincrement())
+  modulo         String         @db.VarChar(50)
+  permiso_nombre String         @unique @db.VarChar(100)
+  rol_permisos   rol_permisos[]
+}
+
+model producto_proveedor {
+  id_producto_proveedor     Int         @id @default(autoincrement())
+  id_proveedor              Int
+  id_producto               Int
+  estado_producto_proveedor Boolean
+  productos                 productos   @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction)
+  proveedores               proveedores @relation(fields: [id_proveedor], references: [id_proveedor], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model productos {
+  id_producto                                                              Int                  @id @default(autoincrement())
+  nombre                                                                   String               @db.VarChar(100)
+  descripcion                                                              String?              @db.VarChar(100)
+  stock_actual                                                             Int
+  stock_minimo                                                             Int
+  stock_maximo                                                             Int
+  estado                                                                   Boolean
+  id_categoria                                                             Int
+  iva                                                                      Int
+  icu                                                                      Int
+  porcentaje_incremento                                                    Int
+  costo_unitario                                                           Int
+  precio_venta                                                             Int
+  detalle_productos                                                        detalle_productos[]
+  producto_proveedor                                                       producto_proveedor[]
+  impuestos_productos_productos_icuToimpuestos_productos                   impuestos_productos  @relation("productos_icuToimpuestos_productos", fields: [icu], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+  categorias                                                               categorias           @relation(fields: [id_categoria], references: [id_categoria], onDelete: NoAction, onUpdate: NoAction)
+  impuestos_productos_productos_ivaToimpuestos_productos                   impuestos_productos  @relation("productos_ivaToimpuestos_productos", fields: [iva], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+  impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos impuestos_productos  @relation("productos_porcentaje_incrementoToimpuestos_productos", fields: [porcentaje_incremento], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model productos_baja {
+  id_baja_productos    Int                @id @default(autoincrement())
+  id_detalle_productos Int?
+  id_responsable       Int?
+  fecha_baja           DateTime?          @db.Date
+  motivo               String?            @db.VarChar(50)
+  cantida_baja         Int?
+  total_precio_baja    Decimal?           @db.Decimal
+  detalle_productos    detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+  usuarios             usuarios?          @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model proveedores {
+  id_proveedor                 Int                  @id @default(autoincrement())
+  nombre                       String               @db.VarChar(100)
+  telefono                     String?              @db.VarChar(15)
+  direccion                    String?              @db.VarChar(250)
+  estado                       Boolean
+  descripcion                  String?              @db.VarChar(225)
+  nit                          Int                  @unique(map: "uq_proveedores_nit")
+  max_porcentaje_de_devolucion Decimal?             @db.Decimal
+  compras                      compras[]
+  producto_proveedor           producto_proveedor[]
+}
+
+model rol_permisos {
+  rol_id     Int
+  permiso_id Int
+  permisos   permisos @relation(fields: [permiso_id], references: [permiso_id], onDelete: Cascade, onUpdate: NoAction)
+  roles      roles    @relation(fields: [rol_id], references: [rol_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([rol_id, permiso_id])
+}
+
+model roles {
+  rol_id       Int            @id @default(autoincrement())
+  rol_nombre   String         @unique @db.VarChar(50)
+  descripcion  String?        @db.VarChar(255)
+  estado_rol   Boolean?       @default(true)
+  acceso       acceso[]
+  rol_permisos rol_permisos[]
+}
+
+model usuarios {
+  usuario_id          Int                   @id @default(autoincrement())
+  acceso_id           Int                   @unique
+  nombre              String                @db.VarChar(50)
+  apellido            String?               @db.VarChar(50)
+  telefono            String?               @db.VarChar(20)
+  documento           String?               @unique @db.VarChar(50)
+  devolucion_cliente  devolucion_cliente[]
+  devolucion_producto devolucion_producto[]
+  productos_baja      productos_baja[]
+  acceso              acceso                @relation(fields: [acceso_id], references: [acceso_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model ventas {
+  id_venta           Int                  @id @default(autoincrement())
+  fecha_venta        DateTime             @default(now()) @db.Timestamp(6)
+  id_cliente         Int?
+  metodo_pago        String               @db.VarChar(20)
+  total              Decimal              @db.Decimal(10, 2)
+  estado_venta       String?              @db.VarChar(20)
+  detalle_venta      detalle_venta[]
+  devolucion_cliente devolucion_cliente[]
+  clientes           clientes?            @relation(fields: [id_cliente], references: [id_cliente], onUpdate: NoAction, map: "fk_ventas_clientes")
+}

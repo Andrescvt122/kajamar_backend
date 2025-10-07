@@ -1,0 +1,34 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend de kajamart",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "start": "node src/index.js",
+    "build": "npx prisma generate",
+    "prisma_studio": "npx prisma studio",
+    "migrate": "npx prisma migrate --name"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrescvt122/kajamar_backend.git"
+  },
+  "author": "kajamart_team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrescvt122/kajamar_backend/issues"
+  },
+  "homepage": "https://github.com/Andrescvt122/kajamar_backend#readme",
+  "dependencies": {
+    "@prisma/client": "^6.16.3",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.16.3"
+  }
+}

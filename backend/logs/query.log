@@ -1,0 +1,120 @@
+
+[2025-10-07T02:58:33.535Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 134 ms
+----------------------------------------------
+
+[2025-10-07T02:59:00.790Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-10-07T02:59:10.399Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-10-07T02:59:41.169Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 142 ms
+----------------------------------------------
+
+[2025-10-07T03:00:31.558Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 139 ms
+----------------------------------------------
+
+[2025-10-07T03:00:59.521Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 136 ms
+----------------------------------------------
+
+[2025-10-07T03:01:02.636Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 136 ms
+----------------------------------------------
+
+[2025-10-07T03:01:06.016Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-10-07T03:01:20.368Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 141 ms
+----------------------------------------------
+
+[2025-10-07T03:10:25.254Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 191 ms
+----------------------------------------------
+
+[2025-10-07T03:15:03.768Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-10-07T03:16:05.679Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 137 ms
+----------------------------------------------
+
+[2025-10-07T03:16:07.758Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-10-07T03:20:19.363Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 136 ms
+----------------------------------------------
+
+[2025-10-07T03:22:36.819Z]
+Query: SELECT 1
+Params: []
+Duration: 72 ms
+----------------------------------------------
+
+[2025-10-07T03:22:36.893Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-10-07T03:22:40.586Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-10-07T03:22:49.280Z]
+Query: INSERT INTO "public"."categorias" ("nombre_categoria","descripcion_categoria","estado") VALUES ($1,$2,$3) RETURNING "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado"
+Params: ["mecato","mecatos variados",true]
+Duration: 195 ms
+----------------------------------------------
+
+[2025-10-07T03:22:56.498Z]
+Query: SELECT 1
+Params: []
+Duration: 73 ms
+----------------------------------------------
+
+[2025-10-07T03:22:56.570Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 71 ms
+----------------------------------------------
