@@ -104,8 +104,8 @@ model detalle_productos {
   detalle_devolucion_cliente    detalle_devolucion_cliente[]
   detalle_devolucion_producto   detalle_devolucion_producto[]
   productos                     productos                     @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction)
+  detalle_productos_baja        detalle_productos_baja[]
   detalle_venta                 detalle_venta[]
-  productos_baja                productos_baja[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -203,15 +203,13 @@ model productos {
 }
 
 model productos_baja {
-  id_baja_productos    Int                @id @default(autoincrement())
-  id_detalle_productos Int?
-  id_responsable       Int?
-  fecha_baja           DateTime?          @db.Date
-  motivo               String?            @db.VarChar(50)
-  cantida_baja         Int?
-  total_precio_baja    Decimal?           @db.Decimal
-  detalle_productos    detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
-  usuarios             usuarios?          @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
+  id_baja_productos      Int                      @id @default(autoincrement())
+  id_responsable         Int?
+  fecha_baja             DateTime?                @db.Date
+  cantida_baja           Int?
+  total_precio_baja      Decimal?                 @db.Decimal
+  detalle_productos_baja detalle_productos_baja[]
+  usuarios               usuarios?                @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -270,4 +268,15 @@ model ventas {
   detalle_venta      detalle_venta[]
   devolucion_cliente devolucion_cliente[]
   clientes           clientes?            @relation(fields: [id_cliente], references: [id_cliente], onUpdate: NoAction, map: "fk_ventas_clientes")
+}
+
+model detalle_productos_baja {
+  id_detalle_productos_baja Int                @id @default(autoincrement())
+  id_baja_productos         Int?
+  id_detalle_productos      Int?
+  cantidad                  Int?
+  motivo                    String?            @db.VarChar(50)
+  total_producto_baja       Decimal?           @db.Decimal(10, 2)
+  productos_baja            productos_baja?    @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
+  detalle_productos         detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
 }
