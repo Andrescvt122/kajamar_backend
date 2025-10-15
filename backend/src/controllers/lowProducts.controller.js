@@ -10,13 +10,27 @@ const getLowProducts = async (req,res) => {
 }
 
 const createLowProduct = async (req,res) =>{
+    const data = req.body;
+    const fecha = new Date();
     try{
-        
+        const responsable = await prisma.usuarios.findUnique({
+            where:{
+                usuario_id: data.id_responsable
+            }
+        })
+        const lowProduct = await prisma.productos_baja.create({
+            data:{
+                id_responsabl: responsable.usuario_id,
+                fecha_baja: fecha.toISOString().slice(0, 19).replace('T', ' '),
+                
+            }
+        })
     }catch(error){
         return res.status(500).json({error:"Error al crear el producto"});
     }
 }
 
 module.exports = {
-    getLowProducts
+    getLowProducts,
+    createLowProduct
 }
