@@ -97,7 +97,7 @@ model detalle_productos {
   id_detalle_producto           Int                           @id @default(autoincrement())
   id_producto                   Int
   codigo_barras_producto_compra String                        @db.VarChar(50)
-  fecha_vencimiento             DateTime                      @db.Date
+  fecha_vencimiento             DateTime?                     @db.Date
   stock_producto                Int
   es_devolucion                 Boolean?                      @default(false)
   detalle_compra                detalle_compra[]
@@ -264,7 +264,7 @@ model ventas {
   id_cliente         Int?
   metodo_pago        String               @db.VarChar(20)
   total              Decimal              @db.Decimal(10, 2)
-  estado_venta       String?              @db.VarChar(20)
+  estado_venta       String?              @default("Completada") @db.VarChar(20)
   detalle_venta      detalle_venta[]
   devolucion_cliente devolucion_cliente[]
   clientes           clientes?            @relation(fields: [id_cliente], references: [id_cliente], onUpdate: NoAction, map: "fk_ventas_clientes")
