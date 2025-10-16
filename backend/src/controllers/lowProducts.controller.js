@@ -9,24 +9,60 @@ const getLowProducts = async (req,res) => {
     }
 }
 
-const createLowProduct = async (req,res) =>{
-    const data = req.body;
-    const fecha = new Date();
+const getResponsable = async (id)=>{
     try{
         const responsable = await prisma.usuarios.findUnique({
             where:{
-                usuario_id: data.id_responsable
+                usuarios_id: id
             }
-        })
-        const lowProduct = await prisma.productos_baja.create({
-            data:{
-                id_responsabl: responsable.usuario_id,
-                fecha_baja: fecha.toISOString().slice(0, 19).replace('T', ' '),
-                
-            }
-        })
-    }catch(error){
-        return res.status(500).json({error:"Error al crear el producto"});
+    })
+        return responsable;
+    } catch(error){
+        console.log("No se encontro responsable")
+    }
+}
+
+const createLowProduct = async (req,res) =>{
+    const data = req.body;
+    const responsable = await getResponsable(data.usuarios_id);
+    if(responsable){
+        try{
+            // cabecera
+            const result = await prisma.$transaction(async (tx)=>{
+                const lowProduct = await tx.productos_baja.create({
+                    data:{
+                        id_responsable: responsable.nombre,
+                        fecha_baja: new Date().toISOString().split('T')[0],
+                        cantidad_baja: cantidad_total_baja,
+                        total_precio_baja: total_precio_baja
+                    }
+                })
+                // detalle
+                for (const p of data.products){
+                    const detalle = await tx.detalle_productos_baja.create({
+                        data:{
+                            id_baja_productos: lowProduct.id_baja_productos,
+                            id_detalle_productos: p.id_detalle_productos,
+                            cantidad: p.cantidad,
+                            motivo: p.motivo,
+                            total_producto_baja: p.total_producto_baja
+                        }
+                    })
+                    await tx.detalle_productos.update({
+                        where:{
+                            id_detalle_productos: p.id_detalle_productos
+                        },
+                        data:{
+                            stock_producto: {
+                                decrement: p.cantidad
+                            }
+                        }
+                    })
+                }
+            })
+        }catch(error){
+            return res.status(500).json({error:"Error al crear el producto"});
+        }
     }
 }
 
