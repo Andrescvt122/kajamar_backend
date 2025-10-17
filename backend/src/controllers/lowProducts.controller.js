@@ -13,7 +13,7 @@ const getResponsable = async (id)=>{
     try{
         const responsable = await prisma.usuarios.findUnique({
             where:{
-                usuarios_id: id
+                usuario_id: id
             }
     })
         return responsable;
@@ -24,16 +24,18 @@ const getResponsable = async (id)=>{
 
 const createLowProduct = async (req,res) =>{
     const data = req.body;
-    const responsable = await getResponsable(data.usuarios_id);
+    const responsable = await getResponsable(data.id_responsable);
+    const cantidad_total_baja = data.products.reduce((acc, p) => acc + p.cantidad, 0);
+    const total_precio_baja = data.products.reduce((acc, p) => acc + p.total_producto_baja, 0);
     if(responsable){
         try{
             // cabecera
             const result = await prisma.$transaction(async (tx)=>{
                 const lowProduct = await tx.productos_baja.create({
                     data:{
-                        id_responsable: responsable.nombre,
-                        fecha_baja: new Date().toISOString().split('T')[0],
-                        cantidad_baja: cantidad_total_baja,
+                        id_responsable: responsable.usuario_id,
+                        fecha_baja: new Date(),
+                        cantida_baja: cantidad_total_baja,
                         total_precio_baja: total_precio_baja
                     }
                 })
@@ -50,7 +52,7 @@ const createLowProduct = async (req,res) =>{
                     })
                     await tx.detalle_productos.update({
                         where:{
-                            id_detalle_productos: p.id_detalle_productos
+                            id_detalle_producto: p.id_detalle_productos
                         },
                         data:{
                             stock_producto: {
@@ -58,8 +60,33 @@ const createLowProduct = async (req,res) =>{
                             }
                         }
                     })
+                    const detalleProduct = await tx.detalle_productos.findUnique({
+                        where:{
+                            id_detalle_producto: p.id_detalle_productos
+                        }
+                    })
+                    await tx.productos.update({
+                        where:{
+                            id_producto: detalleProduct.id_producto
+                        },
+                        data:{
+                            stock_actual: {
+                                decrement: p.cantidad
+                            }
+                        }
+                    })
+                    // retornar todo
+                    return await tx.productos_baja.findUnique({
+                        where:{
+                            id_baja_productos: lowProduct.id_baja_productos
+                        },
+                        include:{
+                            detalle_productos_baja: true
+                        }
+                    })
                 }
             })
+            return res.status(201).json(result);
         }catch(error){
             return res.status(500).json({error:"Error al crear el producto"});
         }

@@ -250,3 +250,249 @@ Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre",
 Params: [14,0]
 Duration: 79 ms
 ----------------------------------------------
+
+[2025-10-17T02:16:15.423Z]
+Query: SELECT 1
+Params: []
+Duration: 85 ms
+----------------------------------------------
+
+[2025-10-17T02:17:00.170Z]
+Query: SELECT 1
+Params: []
+Duration: 72 ms
+----------------------------------------------
+
+[2025-10-17T02:19:40.303Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE ("public"."usuarios"."usuario_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 195 ms
+----------------------------------------------
+
+[2025-10-17T02:19:40.414Z]
+Query: BEGIN
+Params: []
+Duration: 69 ms
+----------------------------------------------
+
+[2025-10-17T02:19:40.509Z]
+Query: ROLLBACK
+Params: []
+Duration: 70 ms
+----------------------------------------------
+
+[2025-10-17T02:22:57.611Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE ("public"."usuarios"."usuario_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-10-17T02:22:57.692Z]
+Query: BEGIN
+Params: []
+Duration: 71 ms
+----------------------------------------------
+
+[2025-10-17T02:22:57.925Z]
+Query: INSERT INTO "public"."productos_baja" ("id_responsable","fecha_baja","cantida_baja","total_precio_baja") VALUES ($1,$2,$3,$4) RETURNING "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja"
+Params: [1,"2025-10-17 02:22:57.695 UTC",2,4000]
+Duration: 191 ms
+----------------------------------------------
+
+[2025-10-17T02:22:58.084Z]
+Query: INSERT INTO "public"."detalle_productos_baja" ("id_baja_productos","id_detalle_productos","cantidad","motivo","total_producto_baja") VALUES ($1,$2,$3,$4,$5) RETURNING "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja"
+Params: [1,1,2,"supero fecha de vencimiento",4000]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-10-17T02:22:58.168Z]
+Query: ROLLBACK
+Params: []
+Duration: 70 ms
+----------------------------------------------
+
+[2025-10-17T02:23:33.055Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE ("public"."usuarios"."usuario_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-10-17T02:23:33.134Z]
+Query: BEGIN
+Params: []
+Duration: 70 ms
+----------------------------------------------
+
+[2025-10-17T02:23:33.282Z]
+Query: INSERT INTO "public"."productos_baja" ("id_responsable","fecha_baja","cantida_baja","total_precio_baja") VALUES ($1,$2,$3,$4) RETURNING "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja"
+Params: [1,"2025-10-17 02:23:33.138 UTC",2,4000]
+Duration: 142 ms
+----------------------------------------------
+
+[2025-10-17T02:23:33.458Z]
+Query: INSERT INTO "public"."detalle_productos_baja" ("id_baja_productos","id_detalle_productos","cantidad","motivo","total_producto_baja") VALUES ($1,$2,$3,$4,$5) RETURNING "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja"
+Params: [2,1,2,"supero fecha de vencimiento",4000]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-10-17T02:23:33.642Z]
+Query: UPDATE "public"."detalle_productos" SET "stock_producto" = ("public"."detalle_productos"."stock_producto" - $1) WHERE ("public"."detalle_productos"."id_detalle_producto" = $2 AND 1=1) RETURNING "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion"
+Params: [2,1]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-10-17T02:23:33.731Z]
+Query: ROLLBACK
+Params: []
+Duration: 71 ms
+----------------------------------------------
+
+[2025-10-17T02:23:53.549Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE ("public"."usuarios"."usuario_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 141 ms
+----------------------------------------------
+
+[2025-10-17T02:23:53.629Z]
+Query: BEGIN
+Params: []
+Duration: 72 ms
+----------------------------------------------
+
+[2025-10-17T02:23:53.776Z]
+Query: INSERT INTO "public"."productos_baja" ("id_responsable","fecha_baja","cantida_baja","total_precio_baja") VALUES ($1,$2,$3,$4) RETURNING "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja"
+Params: [1,"2025-10-17 02:23:53.633 UTC",2,4000]
+Duration: 141 ms
+----------------------------------------------
+
+[2025-10-17T02:23:53.926Z]
+Query: INSERT INTO "public"."detalle_productos_baja" ("id_baja_productos","id_detalle_productos","cantidad","motivo","total_producto_baja") VALUES ($1,$2,$3,$4,$5) RETURNING "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja"
+Params: [3,1,2,"supero fecha de vencimiento",4000]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-10-17T02:23:54.073Z]
+Query: UPDATE "public"."detalle_productos" SET "stock_producto" = ("public"."detalle_productos"."stock_producto" - $1) WHERE ("public"."detalle_productos"."id_detalle_producto" = $2 AND 1=1) RETURNING "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion"
+Params: [2,1]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-10-17T02:23:54.221Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-10-17T02:23:54.300Z]
+Query: ROLLBACK
+Params: []
+Duration: 70 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.080Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE ("public"."usuarios"."usuario_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 139 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.156Z]
+Query: BEGIN
+Params: []
+Duration: 68 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.302Z]
+Query: INSERT INTO "public"."productos_baja" ("id_responsable","fecha_baja","cantida_baja","total_precio_baja") VALUES ($1,$2,$3,$4) RETURNING "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja"
+Params: [1,"2025-10-17 02:24:16.159 UTC",2,4000]
+Duration: 142 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.451Z]
+Query: INSERT INTO "public"."detalle_productos_baja" ("id_baja_productos","id_detalle_productos","cantidad","motivo","total_producto_baja") VALUES ($1,$2,$3,$4,$5) RETURNING "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja"
+Params: [4,1,2,"supero fecha de vencimiento",4000]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.596Z]
+Query: UPDATE "public"."detalle_productos" SET "stock_producto" = ("public"."detalle_productos"."stock_producto" - $1) WHERE ("public"."detalle_productos"."id_detalle_producto" = $2 AND 1=1) RETURNING "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion"
+Params: [2,1]
+Duration: 139 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.739Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 138 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.882Z]
+Query: UPDATE "public"."productos" SET "stock_actual" = ("public"."productos"."stock_actual" - $1) WHERE ("public"."productos"."id_producto" = $2 AND 1=1) RETURNING "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta"
+Params: [2,14]
+Duration: 138 ms
+----------------------------------------------
+
+[2025-10-17T02:24:16.971Z]
+Query: ROLLBACK
+Params: []
+Duration: 67 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.136Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE ("public"."usuarios"."usuario_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 138 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.211Z]
+Query: BEGIN
+Params: []
+Duration: 68 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.356Z]
+Query: INSERT INTO "public"."productos_baja" ("id_responsable","fecha_baja","cantida_baja","total_precio_baja") VALUES ($1,$2,$3,$4) RETURNING "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja"
+Params: [1,"2025-10-17 02:24:54.215 UTC",2,4000]
+Duration: 139 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.500Z]
+Query: INSERT INTO "public"."detalle_productos_baja" ("id_baja_productos","id_detalle_productos","cantidad","motivo","total_producto_baja") VALUES ($1,$2,$3,$4,$5) RETURNING "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja"
+Params: [5,1,2,"supero fecha de vencimiento",4000]
+Duration: 139 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.642Z]
+Query: UPDATE "public"."detalle_productos" SET "stock_producto" = ("public"."detalle_productos"."stock_producto" - $1) WHERE ("public"."detalle_productos"."id_detalle_producto" = $2 AND 1=1) RETURNING "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion"
+Params: [2,1]
+Duration: 138 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.788Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 142 ms
+----------------------------------------------
+
+[2025-10-17T02:24:54.933Z]
+Query: UPDATE "public"."productos" SET "stock_actual" = ("public"."productos"."stock_actual" - $1) WHERE ("public"."productos"."id_producto" = $2 AND 1=1) RETURNING "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta"
+Params: [2,14]
+Duration: 139 ms
+----------------------------------------------
+
+[2025-10-17T02:24:55.085Z]
+Query: SELECT "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja" FROM "public"."productos_baja" WHERE ("public"."productos_baja"."id_baja_productos" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [5,1,0]
+Duration: 141 ms
+----------------------------------------------
+
+[2025-10-17T02:24:55.261Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_baja_productos" IN ($1) OFFSET $2
+Params: [5,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-10-17T02:24:55.379Z]
+Query: COMMIT
+Params: []
+Duration: 70 ms
+----------------------------------------------
