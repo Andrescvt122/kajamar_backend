@@ -1,48 +1,98 @@
 const prisma = require("../prisma/prismaClient");
 
-const getLowProducts = async (req,res) => {
-    try{
-        const lowProducts = await prisma.productos_baja.findMany();
+const getLowProducts = async (req, res) => {
+    try {
+        const lowProducts = await prisma.productos_baja.findMany(
+            { include: { detalle_productos_baja: true } }
+        );
         return res.status(200).json(lowProducts);
-    }catch(error){
-        return res.status(500).json({error:"Error al obtener los productos"});
+    } catch (error) {
+        return res.status(500).json({ error: "Error al obtener los productos" });
     }
 }
-
-const getResponsable = async (id)=>{
-    try{
+const searchLowProduct = async (req, res) => {
+    const { p } = req.query;
+    try {
+        const lowProducts = await prisma.productos_baja.findMany({
+            where: {
+                OR: [
+                    {
+                        id_baja_productos: {
+                            contains: p
+                        }
+                    },
+                    {
+                        fecha_baja: {
+                            contains: p
+                        }
+                    },
+                    {
+                        cantida_baja: {
+                            contains: p
+                        }
+                    },
+                    {
+                        total_precio_baja: {
+                            contains: p
+                        }
+                    },
+                    {
+                        nombre_responsable: {
+                            contains: p
+                        }
+                    },
+                    {
+                        detalle_productos_baja: {
+                            some: {
+                                nombre_producto: {
+                                    contains: p
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        })
+        return res.status(200).json(lowProducts);
+    } catch (error) {
+        return res.status(500).json({ error: "Error al buscar los productos" });
+    }
+ }
+const getResponsable = async (id) => {
+    try {
         const responsable = await prisma.usuarios.findUnique({
-            where:{
+            where: {
                 usuario_id: id
             }
-    })
+        })
         return responsable;
-    } catch(error){
+    } catch (error) {
         console.log("No se encontro responsable")
     }
 }
 
-const createLowProduct = async (req,res) =>{
+const createLowProduct = async (req, res) => {
     const data = req.body;
     const responsable = await getResponsable(data.id_responsable);
     const cantidad_total_baja = data.products.reduce((acc, p) => acc + p.cantidad, 0);
     const total_precio_baja = data.products.reduce((acc, p) => acc + p.total_producto_baja, 0);
-    if(responsable){
-        try{
+    if (responsable) {
+        try {
             // cabecera
-            const result = await prisma.$transaction(async (tx)=>{
+            const result = await prisma.$transaction(async (tx) => {
                 const lowProduct = await tx.productos_baja.create({
-                    data:{
+                    data: {
                         id_responsable: responsable.usuario_id,
                         fecha_baja: new Date(),
                         cantida_baja: cantidad_total_baja,
-                        total_precio_baja: total_precio_baja
+                        total_precio_baja: total_precio_baja,
+                        nombre_responsable: responsable.nombre
                     }
                 })
                 // detalle
-                for (const p of data.products){
+                for (const p of data.products) {
                     const detalle = await tx.detalle_productos_baja.create({
-                        data:{
+                        data: {
                             id_baja_productos: lowProduct.id_baja_productos,
                             id_detalle_productos: p.id_detalle_productos,
                             cantidad: p.cantidad,
@@ -51,25 +101,25 @@ const createLowProduct = async (req,res) =>{
                         }
                     })
                     await tx.detalle_productos.update({
-                        where:{
+                        where: {
                             id_detalle_producto: p.id_detalle_productos
                         },
-                        data:{
+                        data: {
                             stock_producto: {
                                 decrement: p.cantidad
                             }
                         }
                     })
                     const detalleProduct = await tx.detalle_productos.findUnique({
-                        where:{
+                        where: {
                             id_detalle_producto: p.id_detalle_productos
                         }
                     })
                     await tx.productos.update({
-                        where:{
+                        where: {
                             id_producto: detalleProduct.id_producto
                         },
-                        data:{
+                        data: {
                             stock_actual: {
                                 decrement: p.cantidad
                             }
@@ -77,18 +127,18 @@ const createLowProduct = async (req,res) =>{
                     })
                     // retornar todo
                     return await tx.productos_baja.findUnique({
-                        where:{
+                        where: {
                             id_baja_productos: lowProduct.id_baja_productos
                         },
-                        include:{
+                        include: {
                             detalle_productos_baja: true
                         }
                     })
                 }
             })
             return res.status(201).json(result);
-        }catch(error){
-            return res.status(500).json({error:"Error al crear el producto"});
+        } catch (error) {
+            return res.status(500).json({ error: "Error al crear el producto" });
         }
     }
 }
