@@ -278,6 +278,7 @@ model detalle_productos_baja {
   cantidad                  Int?
   motivo                    String?            @db.VarChar(50)
   total_producto_baja       Decimal?           @db.Decimal(10, 2)
+  nombre_producto           String?            @db.VarChar(50)
   productos_baja            productos_baja?    @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
   detalle_productos         detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
 }

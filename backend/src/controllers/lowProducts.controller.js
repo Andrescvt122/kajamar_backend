@@ -11,53 +11,67 @@ const getLowProducts = async (req, res) => {
     }
 }
 const searchLowProduct = async (req, res) => {
-    const { p } = req.query;
-    try {
-        const lowProducts = await prisma.productos_baja.findMany({
-            where: {
-                OR: [
-                    {
-                        id_baja_productos: {
-                            contains: p
-                        }
-                    },
-                    {
-                        fecha_baja: {
-                            contains: p
-                        }
-                    },
-                    {
-                        cantida_baja: {
-                            contains: p
-                        }
-                    },
-                    {
-                        total_precio_baja: {
-                            contains: p
-                        }
-                    },
-                    {
-                        nombre_responsable: {
-                            contains: p
-                        }
-                    },
-                    {
-                        detalle_productos_baja: {
-                            some: {
-                                nombre_producto: {
-                                    contains: p
-                                }
+  const { q } = req.query;
+
+  try {
+    // Detecta si el valor es número o texto
+    const isNumber = !isNaN(q);
+
+    // Construye condiciones dinámicas según tipo
+    const filter = isNumber
+      ? {
+          OR: [
+            { id_baja_productos: { equals: Number(q) } },
+            { cantida_baja: { equals: Number(q) } },
+            { total_precio_baja: { equals: q } } // si es string en la BD
+          ]
+        }
+      : {
+          OR: [
+            {
+              nombre_responsable: {
+                contains: q,
+                mode: "insensitive"
+              }
+            },
+            {
+              detalle_productos_baja: {
+                some: {
+                    OR: [
+                        {
+                            motivo: {
+                                contains: q,
+                                mode: "insensitive"
+                            }
+                        },
+                        {
+                            nombre_producto: {
+                                contains: q,
+                                mode: "insensitive"
                             }
                         }
-                    }
-                ]
+                    ]
+                }
+              }
             }
-        })
-        return res.status(200).json(lowProducts);
-    } catch (error) {
-        return res.status(500).json({ error: "Error al buscar los productos" });
-    }
- }
+          ]
+        };
+
+    // Ejecutar búsqueda
+    const lowProducts = await prisma.productos_baja.findMany({
+      where: filter,
+      include: {
+        detalle_productos_baja: true
+      }
+    });
+
+    return res.status(200).json(lowProducts);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error al buscar los productos" });
+  }
+};
+
 const getResponsable = async (id) => {
     try {
         const responsable = await prisma.usuarios.findUnique({
@@ -91,13 +105,24 @@ const createLowProduct = async (req, res) => {
                 })
                 // detalle
                 for (const p of data.products) {
+                    const detalle_producto = await tx.detalle_productos.findUnique({
+                        where: {
+                            id_detalle_producto: p.id_detalle_productos
+                        }
+                    })
+                    const product = await tx.productos.findUnique({
+                        where: {
+                            id_producto: detalle_producto.id_producto
+                        }
+                    })
                     const detalle = await tx.detalle_productos_baja.create({
                         data: {
                             id_baja_productos: lowProduct.id_baja_productos,
                             id_detalle_productos: p.id_detalle_productos,
                             cantidad: p.cantidad,
                             motivo: p.motivo,
-                            total_producto_baja: p.total_producto_baja
+                            total_producto_baja: p.total_producto_baja,
+                            nombre_producto: product.nombre
                         }
                     })
                     await tx.detalle_productos.update({
@@ -145,5 +170,6 @@ const createLowProduct = async (req, res) => {
 
 module.exports = {
     getLowProducts,
-    createLowProduct
+    createLowProduct,
+    searchLowProduct
 }
