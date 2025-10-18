@@ -11,6 +11,5 @@ const searchRoutes = require("./search.routes");
 router.use("/kajamart/api/categories", categoriesRoutes);
 router.use("/kajamart/api/lowProducts", lowProductsRoutes);
 router.use("/kajamart/api/search", searchRoutes);
-router.use("/kajamart/api/lowProducts", lowProductsRoutes);
 
 module.exports = router;
