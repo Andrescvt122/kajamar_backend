@@ -10,6 +10,23 @@ const getLowProducts = async (req, res) => {
         return res.status(500).json({ error: "Error al obtener los productos" });
     }
 }
+
+const getOneLowProduct = async (req, res) =>{
+    const { id } = req.params;
+    try{
+        const lowProduct = await prisma.productos_baja.findUnique({
+            where: {
+                id_baja_productos: Number(id)
+            },
+            include: {
+                detalle_productos_baja: true
+            }
+        })
+        return res.status(200).json(lowProduct);
+    }catch(error){
+        return res.status(500).json({ error: "Error al obtener el producto" });
+    }
+}
 const searchLowProduct = async (req, res) => {
   const { q } = req.query;
 
@@ -171,5 +188,6 @@ const createLowProduct = async (req, res) => {
 module.exports = {
     getLowProducts,
     createLowProduct,
-    searchLowProduct
+    searchLowProduct,
+    getOneLowProduct
 }
