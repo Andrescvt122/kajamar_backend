@@ -1450,3 +1450,33 @@ Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "pu
 Params: [6,8,0]
 Duration: 143 ms
 ----------------------------------------------
+
+[2025-10-19T21:41:41.497Z]
+Query: SELECT "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja", "public"."productos_baja"."nombre_responsable" FROM "public"."productos_baja" WHERE ("public"."productos_baja"."nombre_responsable" ILIKE $1 OR EXISTS(SELECT "t0"."id_baja_productos" FROM "public"."detalle_productos_baja" AS "t0" WHERE (("t0"."motivo" ILIKE $2 OR "t0"."nombre_producto" ILIKE $3) AND ("public"."productos_baja"."id_baja_productos") = ("t0"."id_baja_productos") AND "t0"."id_baja_productos" IS NOT NULL))) OFFSET $4
+Params: ["%cerveza%","%cerveza%","%cerveza%",0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-10-19T21:41:41.658Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja", "public"."detalle_productos_baja"."nombre_producto" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_baja_productos" IN ($1,$2) OFFSET $3
+Params: [6,8,0]
+Duration: 141 ms
+----------------------------------------------
+
+[2025-10-19T21:42:08.452Z]
+Query: SELECT 1
+Params: []
+Duration: 73 ms
+----------------------------------------------
+
+[2025-10-19T21:42:08.612Z]
+Query: SELECT "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja", "public"."productos_baja"."nombre_responsable" FROM "public"."productos_baja" WHERE ("public"."productos_baja"."id_baja_productos" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [5,1,0]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-10-19T21:42:08.756Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja", "public"."detalle_productos_baja"."nombre_producto" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_baja_productos" IN ($1) OFFSET $2
+Params: [5,0]
+Duration: 143 ms
+----------------------------------------------
