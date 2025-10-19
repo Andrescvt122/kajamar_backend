@@ -208,6 +208,7 @@ model productos_baja {
   fecha_baja             DateTime?                @db.Date
   cantida_baja           Int?
   total_precio_baja      Decimal?                 @db.Decimal
+  nombre_responsable     String?                  @db.VarChar(50)
   detalle_productos_baja detalle_productos_baja[]
   usuarios               usuarios?                @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
 }
@@ -277,6 +278,7 @@ model detalle_productos_baja {
   cantidad                  Int?
   motivo                    String?            @db.VarChar(50)
   total_producto_baja       Decimal?           @db.Decimal(10, 2)
+  nombre_producto           String?            @db.VarChar(50)
   productos_baja            productos_baja?    @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
   detalle_productos         detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
 }
