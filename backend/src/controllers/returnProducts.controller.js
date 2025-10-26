@@ -1,4 +1,5 @@
 const prisma = require("../prisma/prismaClient");
+const lowProductsController = require("./lowProducts.controller");
 
 const getReturnProducts = async (req, res) => {
   try {
@@ -11,7 +12,7 @@ const getReturnProducts = async (req, res) => {
   }
 };
 
-const getOneReturnProdcts = async (req, res) => {
+const searchReturnProdcts = async (req, res) => {
   const { q } = req.query;
   const isNumber = !isNaN(q);
   console.log(q);
@@ -60,7 +61,78 @@ const getOneReturnProdcts = async (req, res) => {
   }
 };
 
+const createReturnProduct = async (req,res)=>{
+  const data = req.body;
+  const responsable = await lowProductsController.getResponsable(data.id_responsable);
+  const cantidadTotal = data.products.reduce((acc,p)=> acc + p.cantidad, 0);
+  if(responsable){
+    try{
+      const result = await prisma.$transaction(async(tx)=>{
+        const returnProduct = await tx.devolucion_producto.create({
+          data:{
+            id_responsable: responsable.usuario_id,
+            fecha_devolucion: new Date(),
+            cantidad_total: cantidadTotal,
+            nombre_responsable: responsable.nombre,
+          }
+        })
+        for(const p of data.products){
+          const detailReturnProduct = await tx.detalle_devolucion_producto.create({
+            data:{
+              id_devolucion_product: returnProduct.id_devolucion_product,
+              id_detalle_producto: p.id_detalle_producto,
+              cantidad_devuelta: p.cantidad,
+              motivo: p.motivo,
+              nombre_producto: p.nombre_producto,
+              es_descuento: p.es_descuento
+            }
+          })
+          await tx.detalle_productos.update({
+            where:{
+              id_detalle_producto: p.id_detalle_productos,
+            },
+            data:{
+              stock_producto:{
+                decrement: p.cantidad,
+              }
+            }
+          })
+          const detalleProduct = await tx.detalle_productos.findUnique({
+            where:{
+              id_detalle_producto: p.id_detalle_productos,
+            }
+          })
+          await tx.productos.update({
+            where:{
+              id_producto: detalleProduct.id_producto,
+            },
+            data:{
+              stock_actual:{
+                decrement: p.cantidad,
+              }
+            }
+          })
+        }
+        return await tx.devolucion_producto.findUnique({
+          where:{
+            id_devolucion_product: returnProduct.id_devolucion_product,
+          },
+          include:{
+            detalle_devolucion_producto: true,
+          }
+        })
+      })
+      return res.status(201).json(result);
+    }catch(error){
+      return res.status(500).json({error:"Error al crear el producto"})
+    }
+  }
+}
+
+
+
 module.exports = {
   getReturnProducts,
-  getOneReturnProdcts,
+  searchReturnProdcts,
+  createReturnProduct
 };
