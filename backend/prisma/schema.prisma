@@ -21,11 +21,12 @@ model acceso {
 }
 
 model categorias {
-  id_categoria          Int         @id @default(autoincrement())
-  nombre_categoria      String      @unique(map: "uq_categorias_nombre") @db.VarChar(80)
-  descripcion_categoria String?     @db.VarChar(80)
+  id_categoria          Int                   @id @default(autoincrement())
+  nombre_categoria      String                @unique(map: "uq_categorias_nombre") @db.VarChar(80)
+  descripcion_categoria String?               @db.VarChar(80)
   estado                Boolean
   productos             productos[]
+  proveedor_categoria   proveedor_categoria[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -76,6 +77,7 @@ model detalle_devolucion_cliente {
   monto_clientes_productos_devueltos Decimal?            @db.Decimal
   estado_condicion_producto          String?             @db.VarChar(10)
   estado_devolucion_proveedor        String?             @db.VarChar(20)
+  nombre_producto                    String?             @db.VarChar(20)
   detalle_productos                  detalle_productos?  @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
   detalle_venta                      detalle_venta?      @relation(fields: [id_detalle_venta], references: [id_detalle], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_venta")
   devolucion_cliente                 devolucion_cliente? @relation(fields: [id_devolucion_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_cliente")
@@ -88,6 +90,7 @@ model detalle_devolucion_producto {
   motivo                          String?              @db.VarChar(10)
   cantidad_devuelta               Int?
   es_descuento                    Boolean?
+  nombre_producto                 String?              @db.VarChar(20)
   detalle_productos               detalle_productos?   @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
   devolucion_producto             devolucion_producto? @relation(fields: [id_devolucion_producto], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_producto")
 }
@@ -131,6 +134,8 @@ model devolucion_cliente {
   total_devolucion                         Decimal?                     @db.Decimal
   tipo                                     String?                      @db.VarChar(50)
   fecha_cambio_estado_devolucion_proveedor DateTime?                    @db.Date
+  nombre_responsable                       String?                      @db.VarChar(20)
+  nombre_cliente                           String?                      @db.VarChar(20)
   detalle_devolucion_cliente               detalle_devolucion_cliente[]
   usuarios                                 usuarios?                    @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
   ventas                                   ventas?                      @relation(fields: [id_venta], references: [id_venta], onDelete: NoAction, onUpdate: NoAction, map: "fk_venta")
@@ -141,6 +146,7 @@ model devolucion_producto {
   id_responsable              Int?
   fecha_devolucion            DateTime?                     @db.Date
   cantidad_total              Int?
+  nombre_responsable          String?                       @db.VarChar(20)
   detalle_devolucion_producto detalle_devolucion_producto[]
   usuarios                    usuarios?                     @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
 }
@@ -215,16 +221,17 @@ model productos_baja {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model proveedores {
-  id_proveedor                 Int                  @id @default(autoincrement())
-  nombre                       String               @db.VarChar(100)
-  telefono                     String?              @db.VarChar(15)
-  direccion                    String?              @db.VarChar(250)
+  id_proveedor                 Int                   @id @default(autoincrement())
+  nombre                       String                @db.VarChar(100)
+  telefono                     String?               @db.VarChar(15)
+  direccion                    String?               @db.VarChar(250)
   estado                       Boolean
-  descripcion                  String?              @db.VarChar(225)
-  nit                          Int                  @unique(map: "uq_proveedores_nit")
-  max_porcentaje_de_devolucion Decimal?             @db.Decimal
+  descripcion                  String?               @db.VarChar(225)
+  nit                          Int                   @unique(map: "uq_proveedores_nit")
+  max_porcentaje_de_devolucion Decimal?              @db.Decimal
   compras                      compras[]
   producto_proveedor           producto_proveedor[]
+  proveedor_categoria          proveedor_categoria[]
 }
 
 model rol_permisos {
@@ -281,4 +288,16 @@ model detalle_productos_baja {
   nombre_producto           String?            @db.VarChar(50)
   productos_baja            productos_baja?    @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
   detalle_productos         detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model proveedor_categoria {
+  id_proveedor_categoria Int         @id @default(autoincrement())
+  id_proveedor           Int
+  id_categoria           Int
+  created_at             DateTime?   @default(now()) @db.Timestamp(6)
+  updated_at             DateTime?   @default(now()) @db.Timestamp(6)
+  categorias             categorias  @relation(fields: [id_categoria], references: [id_categoria], onDelete: Cascade, map: "fk_proveedor_categoria_categoria")
+  proveedores            proveedores @relation(fields: [id_proveedor], references: [id_proveedor], onDelete: Cascade, map: "fk_proveedor_categoria_proveedor")
+
+  @@unique([id_proveedor, id_categoria], map: "uq_proveedor_categoria")
 }
