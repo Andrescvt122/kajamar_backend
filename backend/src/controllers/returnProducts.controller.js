@@ -1,5 +1,18 @@
 const prisma = require("../prisma/prismaClient");
-const lowProductsController = require("./lowProducts.controller");
+// const { getResponsable } = require("./lowProducts.controller");
+
+const getResponsable = async (id) => {
+  try {
+    const responsable = await prisma.usuarios.findUnique({
+      where: {
+        usuario_id: id,
+      },
+    });
+    return responsable;
+  } catch (error) {
+    console.log("No se encontro responsable");
+  }
+};
 
 const getReturnProducts = async (req, res) => {
   try {
@@ -63,7 +76,7 @@ const searchReturnProdcts = async (req, res) => {
 
 const createReturnProduct = async (req,res)=>{
   const data = req.body;
-  const responsable = await lowProductsController.getResponsable(data.id_responsable);
+  const responsable = await getResponsable(data.id_responsable);
   const cantidadTotal = data.products.reduce((acc,p)=> acc + p.cantidad, 0);
   if(responsable){
     try{
@@ -79,7 +92,7 @@ const createReturnProduct = async (req,res)=>{
         for(const p of data.products){
           const detailReturnProduct = await tx.detalle_devolucion_producto.create({
             data:{
-              id_devolucion_product: returnProduct.id_devolucion_product,
+              id_devolucion_producto: returnProduct.id_devolucion_product,
               id_detalle_producto: p.id_detalle_producto,
               cantidad_devuelta: p.cantidad,
               motivo: p.motivo,
@@ -89,7 +102,7 @@ const createReturnProduct = async (req,res)=>{
           })
           await tx.detalle_productos.update({
             where:{
-              id_detalle_producto: p.id_detalle_productos,
+              id_detalle_producto: p.id_detalle_producto,
             },
             data:{
               stock_producto:{
@@ -99,7 +112,7 @@ const createReturnProduct = async (req,res)=>{
           })
           const detalleProduct = await tx.detalle_productos.findUnique({
             where:{
-              id_detalle_producto: p.id_detalle_productos,
+              id_detalle_producto: p.id_detalle_producto,
             }
           })
           await tx.productos.update({

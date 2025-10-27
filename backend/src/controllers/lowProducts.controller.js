@@ -196,4 +196,5 @@ module.exports = {
   createLowProduct,
   searchLowProduct,
   getOneLowProduct,
+  getResponsable
 };
