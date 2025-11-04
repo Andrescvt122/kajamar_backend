@@ -87,10 +87,10 @@ model detalle_devolucion_producto {
   id_detalle_devolucion_productos Int                  @id @default(autoincrement())
   id_devolucion_producto          Int?
   id_detalle_producto             Int?
-  motivo                          String?              @db.VarChar(10)
+  motivo                          String?              @db.VarChar(50)
   cantidad_devuelta               Int?
   es_descuento                    Boolean?
-  nombre_producto                 String?              @db.VarChar(20)
+  nombre_producto                 String?              @db.VarChar(50)
   detalle_productos               detalle_productos?   @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
   devolucion_producto             devolucion_producto? @relation(fields: [id_devolucion_producto], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_producto")
 }

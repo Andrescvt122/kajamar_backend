@@ -8,7 +8,9 @@ const createDetailProduct = async (req, res) => {
         data: {
           id_producto: data.id_producto,
           codigo_barras_producto_compra: data.codigo_barras,
-          fecha_vencimiento: data.fecha_vencimiento,
+          fecha_vencimiento: data.fecha_vencimiento
+            ? new Date(data.fecha_vencimiento)
+            : null,
           stock_producto: data.stock_producto,
           es_devolucion: true,
         },
