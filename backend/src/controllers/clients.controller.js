@@ -36,22 +36,24 @@ const getClientById = async (req, res) => {
 const createClient = async (req, res) => {
   const {
     nombre_cliente,
-    apellido_cliente,
+    tipo_docume,
+    numero_doc,
     correo_cliente,
     telefono_cliente,
-    estado,
+    estado_cliente,
   } = req.body;
 
   if (
     !nombre_cliente ||
-    !apellido_cliente ||
+    !tipo_docume ||
+    !numero_doc ||
     !correo_cliente ||
     !telefono_cliente ||
-    estado === undefined
+    estado_cliente === undefined
   ) {
     return res.status(400).json({
       error:
-        "Faltan datos requeridos: nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente o estado",
+        "Faltan datos requeridos: nombre_cliente, tipo_docume, numero_doc, correo_cliente, telefono_cliente o estado_cliente",
     });
   }
 
@@ -67,10 +69,11 @@ const createClient = async (req, res) => {
     const client = await prisma.clientes.create({
       data: {
         nombre_cliente,
-        apellido_cliente,
+        tipo_docume,
+        numero_doc,
         correo_cliente,
         telefono_cliente,
-        estado,
+        estado_cliente,
       },
     });
 
@@ -89,10 +92,11 @@ const updateClient = async (req, res) => {
   const id = parseInt(req.params.id);
   const {
     nombre_cliente,
-    apellido_cliente,
+    tipo_docume,
+    numero_doc,
     correo_cliente,
     telefono_cliente,
-    estado,
+    estado_cliente,
   } = req.body;
 
   try {
@@ -108,10 +112,11 @@ const updateClient = async (req, res) => {
       where: { id_cliente: id },
       data: {
         nombre_cliente: nombre_cliente ?? existing.nombre_cliente,
-        apellido_cliente: apellido_cliente ?? existing.apellido_cliente,
+        tipo_docume: tipo_docume ?? existing.tipo_docume,
+        numero_doc: numero_doc ?? existing.numero_doc,
         correo_cliente: correo_cliente ?? existing.correo_cliente,
         telefono_cliente: telefono_cliente ?? existing.telefono_cliente,
-        estado: estado ?? existing.estado,
+        estado_cliente: estado_cliente ?? existing.estado_cliente,
       },
     });
 
