@@ -1,5 +1,5 @@
 const prisma = require("../prisma/prismaClient");
-// const { getResponsable } = require("./lowProducts.controller");
+
 
 const getResponsable = async (id) => {
   try {
