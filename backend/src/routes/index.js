@@ -20,7 +20,6 @@ router.use("/kajamart/api/roles", rolesRoutes);
 router.use("/kajamart/api/roles", accessRoutes);
 router.use("/kajamart/api/returnProducts", returnProductsRoutes);
 router.use("/kajamart/api/clients", clientsRoutes); // 👈 Agregado
-module.exports = router;
 router.use("/kajamart/api/roles", accessRoutes)
 router.use("/kajamart/api/returnProducts", returnProductsRoutes)
 router.use("/kajamart/api/detailsProducts", detailsProductsRoutes)
