@@ -234,6 +234,7 @@ model proveedores {
   proveedor_categoria          proveedor_categoria[]
 }
 
+
 model rol_permisos {
   rol_id     Int
   permiso_id Int
