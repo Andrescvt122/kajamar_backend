@@ -52,7 +52,7 @@ const createCategory = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "✅ Categoría creada correctamente",
+      message: "Categoría creada correctamente",
       category,
     });
   } catch (error) {
@@ -85,7 +85,7 @@ const updateCategory = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "✅ Categoría actualizada correctamente",
+      message: "Categoría actualizada correctamente",
       category: updated,
     });
   } catch (error) {
@@ -111,7 +111,7 @@ const deleteCategory = async (req, res) => {
       where: { id_categoria: id },
     });
 
-    return res.status(200).json({ message: "✅ Categoría eliminada correctamente" });
+    return res.status(200).json({ message: "Categoría eliminada correctamente" });
   } catch (error) {
     console.error("❌ Error al eliminar la categoría:", error);
     return res.status(500).json({ error: "Error al eliminar la categoría" });

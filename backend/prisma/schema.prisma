@@ -21,11 +21,12 @@ model acceso {
 }
 
 model categorias {
-  id_categoria          Int         @id @default(autoincrement())
-  nombre_categoria      String      @unique(map: "uq_categorias_nombre") @db.VarChar(80)
-  descripcion_categoria String?     @db.VarChar(80)
+  id_categoria          Int                   @id @default(autoincrement())
+  nombre_categoria      String                @unique(map: "uq_categorias_nombre") @db.VarChar(80)
+  descripcion_categoria String?               @db.VarChar(80)
   estado                Boolean
   productos             productos[]
+  proveedor_categoria   proveedor_categoria[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -225,7 +226,10 @@ model proveedores {
   max_porcentaje_de_devolucion Decimal?             @db.Decimal
   compras                      compras[]
   producto_proveedor           producto_proveedor[]
+  proveedor_categoria          proveedor_categoria[]
+
 }
+
 
 model rol_permisos {
   rol_id     Int
@@ -281,4 +285,16 @@ model detalle_productos_baja {
   nombre_producto           String?            @db.VarChar(50)
   productos_baja            productos_baja?    @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
   detalle_productos         detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
+}
+model proveedor_categoria {
+  id_proveedor_categoria Int          @id @default(autoincrement())
+  id_proveedor           Int
+  id_categoria           Int
+  created_at             DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at             DateTime?    @default(now()) @db.Timestamp(6)
+
+  proveedores            proveedores  @relation(fields: [id_proveedor], references: [id_proveedor], onDelete: Cascade, onUpdate: Cascade)
+  categorias             categorias   @relation(fields: [id_categoria], references: [id_categoria], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([id_proveedor, id_categoria], map: "uq_proveedor_categoria")
 }
