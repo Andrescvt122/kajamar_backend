@@ -200,6 +200,7 @@ model productos {
   porcentaje_incremento                                                    Int
   costo_unitario                                                           Int
   precio_venta                                                             Int
+  url_imagen                                                               String?              @db.VarChar(255)
   detalle_productos                                                        detalle_productos[]
   producto_proveedor                                                       producto_proveedor[]
   impuestos_productos_productos_icuToimpuestos_productos                   impuestos_productos  @relation("productos_icuToimpuestos_productos", fields: [icu], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
@@ -233,7 +234,6 @@ model proveedores {
   producto_proveedor           producto_proveedor[]
   proveedor_categoria          proveedor_categoria[]
 }
-
 
 model rol_permisos {
   rol_id     Int
