@@ -7,7 +7,7 @@ Ejecuta los siguientes comandos para instalar los paquetes necesarios:
 
 ```bash
 npm i
-npx i
+
 ```
 
 ### 2️⃣ Revisa los modelos de Prisma
