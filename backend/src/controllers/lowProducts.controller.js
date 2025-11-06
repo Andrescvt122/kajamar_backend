@@ -126,7 +126,6 @@ const createLowProduct = async (req, res) => {
             nombre_responsable: responsable.nombre,
           },
         });
-        console.log(data.products);
         // detalle
         for (const p of data.products) {
           const detalle_producto = await tx.detalle_productos.findUnique({
@@ -197,4 +196,5 @@ module.exports = {
   createLowProduct,
   searchLowProduct,
   getOneLowProduct,
+  getResponsable
 };
