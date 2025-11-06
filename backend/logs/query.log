@@ -21790,3 +21790,243 @@ Query: UPDATE "public"."categorias" SET "nombre_categoria" = $1, "descripcion_ca
 Params: ["Bebidas","Jugos, gaseosas y agua",false,5]
 Duration: 108 ms
 ----------------------------------------------
+
+[2025-11-06T01:31:45.572Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 215 ms
+----------------------------------------------
+
+[2025-11-06T01:34:08.234Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-06T01:34:08.311Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-06T01:41:03.969Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-06T01:41:04.158Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-06T01:41:20.456Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-06T01:41:20.607Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 142 ms
+----------------------------------------------
+
+[2025-11-06T01:41:28.005Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" ASC OFFSET $1
+Params: [0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-06T01:41:37.742Z]
+Query: SELECT 1
+Params: []
+Duration: 82 ms
+----------------------------------------------
+
+[2025-11-06T01:41:37.821Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-06T01:41:37.961Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-06T01:41:38.904Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-06T01:41:38.983Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [16,1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-06T01:41:39.848Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-06T01:41:39.924Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [16,1,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-06T01:41:41.171Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-06T01:41:41.252Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [16,1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-06T01:42:04.750Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 136 ms
+----------------------------------------------
+
+[2025-11-06T01:42:04.913Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-06T01:42:54.265Z]
+Query: SELECT 1
+Params: []
+Duration: 112 ms
+----------------------------------------------
+
+[2025-11-06T01:52:41.237Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [1,0]
+Duration: 230 ms
+----------------------------------------------
+
+[2025-11-06T01:52:41.398Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-06T01:52:52.660Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-06T01:54:32.114Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [14,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-06T01:54:37.196Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-06T01:54:37.366Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-06T01:55:20.601Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-06T01:55:39.278Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-06T01:55:56.972Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-06T01:55:57.194Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-06T01:56:10.148Z]
+Query: SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [24,0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-06T01:56:37.734Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-06T01:56:37.906Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-06T01:56:42.698Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-06T01:57:06.173Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-06T01:57:32.783Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-06T01:57:40.160Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-11-06T01:58:49.059Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-06T01:58:57.547Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-06T01:59:20.071Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [23,0]
+Duration: 146 ms
+----------------------------------------------
