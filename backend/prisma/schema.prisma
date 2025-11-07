@@ -230,6 +230,9 @@ model proveedores {
   descripcion                  String?               @db.VarChar(225)
   nit                          Int                   @unique(map: "uq_proveedores_nit")
   max_porcentaje_de_devolucion Decimal?              @db.Decimal
+  tipo_persona                 String?               @db.VarChar(50)
+  contacto                     String?               @db.VarChar(100)
+  correo                       String?               @unique @db.VarChar(120)
   compras                      compras[]
   producto_proveedor           producto_proveedor[]
   proveedor_categoria          proveedor_categoria[]
