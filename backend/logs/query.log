@@ -28620,3 +28620,15 @@ Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombr
 Params: [3,23,0]
 Duration: 80 ms
 ----------------------------------------------
+
+[2025-11-07T01:54:52.150Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_categoria" = $1 OFFSET $2
+Params: [3,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-07T01:54:52.318Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE ("public"."productos"."id_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [16,1,0]
+Duration: 155 ms
+----------------------------------------------
