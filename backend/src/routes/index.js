@@ -4,7 +4,6 @@ const categoriesRoutes = require("./categories.routes");
 const lowProductsRoutes = require("./lowProducts.routes");
 const searchRoutes = require("./search.routes");
 const suppliersRoutes = require("./suppliers.routes");
-const productsRoutes = require("./products.routes");
 //usas tus rutas
 //llama tus rutas con el prejito /kajamart/api/<nombre de la ruta>
 const usersRoutes = require("./users.routes");
