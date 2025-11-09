@@ -7,13 +7,15 @@ const searchRoutes = require("./search.routes");
 const usersRoutes = require("./users.routes");
 const rolesRoutes = require("./roles.routes");
 const accessRoutes = require("./access.routes");
-
+const permisosRoutes = require("./permisos.routes");
 
 router.use("/kajamart/api/categories", categoriesRoutes);
 router.use("/kajamart/api/lowProducts", lowProductsRoutes);
 router.use("/kajamart/api/search", searchRoutes);
 router.use("/kajamart/api/users", usersRoutes);
 router.use("/kajamart/api/roles", rolesRoutes);
-router.use("/kajamart/api/roles", accessRoutes)
+router.use("/kajamart/api/acceso", accessRoutes);
+router.use("/kajamart/api/permisos", permisosRoutes);
+
 
 module.exports = router;
