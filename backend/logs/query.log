@@ -21790,3 +21790,75 @@ Query: UPDATE "public"."categorias" SET "nombre_categoria" = $1, "descripcion_ca
 Params: ["Bebidas","Jugos, gaseosas y agua",false,5]
 Duration: 108 ms
 ----------------------------------------------
+
+[2025-11-09T23:29:15.913Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 197 ms
+----------------------------------------------
+
+[2025-11-09T23:29:16.113Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-09T23:29:16.283Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-11-09T23:29:16.357Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-09T23:29:20.507Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" ASC OFFSET $1
+Params: [0]
+Duration: 250 ms
+----------------------------------------------
+
+[2025-11-09T23:29:21.252Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" ASC OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-09T23:29:28.862Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."nombre_categoria" ILIKE $1 LIMIT $2 OFFSET $3
+Params: ["si",1,0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-09T23:29:29.073Z]
+Query: INSERT INTO "public"."categorias" ("nombre_categoria","descripcion_categoria","estado") VALUES ($1,$2,$3) RETURNING "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado"
+Params: ["si","no",false]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-09T23:29:33.861Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" ASC OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-09T23:29:50.457Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-09T23:29:50.608Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" ASC OFFSET $1
+Params: [0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-09T23:29:51.509Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" ASC OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
