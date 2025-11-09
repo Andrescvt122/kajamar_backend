@@ -9,8 +9,6 @@ const {
   deleteProduct,
   getRandomProduct
 } = require("../controllers/products.controller");
-const productsController = require("../controllers/products.controller");
-const router = express.Router();
 
 router.get("/", getAllProducts);
 router.get("/supplier/:id", getProductsBySupplier);
