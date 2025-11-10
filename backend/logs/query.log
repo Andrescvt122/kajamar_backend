@@ -9796,3 +9796,15 @@ Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_d
 Params: ["evaristo","CC","1046273899","evaristo@gmail.com","8172637499","Activo"]
 Duration: 168 ms
 ----------------------------------------------
+
+[2025-11-10T14:59:11.878Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 223 ms
+----------------------------------------------
+
+[2025-11-10T14:59:12.007Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 104 ms
+----------------------------------------------
