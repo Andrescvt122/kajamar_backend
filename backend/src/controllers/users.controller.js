@@ -73,11 +73,10 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { acceso_id, nombre, apellido, telefono, documento } = req.body;
+  const { nombre, apellido, telefono, documento } = req.body;
   try {
     const newUser = await prisma.usuarios.create({
       data: {
-        acceso_id: Number(acceso_id),
         nombre,
         apellido,
         telefono,

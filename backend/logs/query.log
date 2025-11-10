@@ -24222,6 +24222,319 @@ Duration: 83 ms
 ----------------------------------------------
 
 [2025-11-10T11:31:00.043Z]
+[2025-11-10T00:30:42.160Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:30:42.722Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:30:42.734Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-11-10T00:30:42.874Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.029Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.181Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.338Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.413Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.528Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.597Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.600Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.750Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:30:43.906Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:31:10.591Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:31:10.623Z]
+Query: SELECT 1
+Params: []
+Duration: 104 ms
+----------------------------------------------
+
+[2025-11-10T00:31:10.777Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:31:10.782Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE ("public"."categorias"."id_categoria" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [27,1,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T00:31:10.950Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."valor_impuesto" = $1 LIMIT $2 OFFSET $3
+Params: [10,1,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:32:46.272Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 168 ms
+----------------------------------------------
+
+[2025-11-10T00:32:46.691Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T00:32:46.710Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:32:46.851Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T00:32:46.999Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.147Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.303Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.377Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.489Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.551Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.554Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.699Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T00:32:47.898Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 198 ms
+----------------------------------------------
+
+[2025-11-10T00:33:18.264Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T00:33:18.298Z]
+Query: SELECT 1
+Params: []
+Duration: 117 ms
+----------------------------------------------
+
+[2025-11-10T00:33:18.448Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE ("public"."categorias"."id_categoria" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:33:18.457Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T00:33:18.619Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."valor_impuesto" = $1 LIMIT $2 OFFSET $3
+Params: [10,1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:33:19.902Z]
+Query: INSERT INTO "public"."productos" ("nombre","descripcion","stock_actual","stock_minimo","stock_maximo","estado","id_categoria","iva","icu","porcentaje_incremento","costo_unitario","precio_venta","url_imagen") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen"
+Params: ["asd","asd",5,10,2,true,29,null,null,2,500,6000,"https://res.cloudinary.com/dkcxn2riy/image/upload/v1762734749/kajamart/products/di6hxdxwogyof5hhjv1q.png"]
+Duration: 161 ms
+----------------------------------------------
+
+[2025-11-10T00:34:29.893Z]
+Query: SELECT 1
+Params: []
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:34:29.901Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.045Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.052Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.205Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.208Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.356Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.359Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.505Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.656Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:34:30.731Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:34:39.734Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:34:39.740Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T00:34:39.812Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:34:39.816Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:34:39.895Z]
 Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
 Params: [1,27,3,0]
 Duration: 82 ms
@@ -24660,6 +24973,337 @@ Duration: 145 ms
 ----------------------------------------------
 
 [2025-11-10T12:07:46.506Z]
+[2025-11-10T00:34:39.900Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T00:34:39.975Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:34:40.049Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T00:34:40.126Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:34:47.143Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:34:47.149Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T00:34:47.220Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:34:47.225Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE ("public"."categorias"."id_categoria" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T00:34:47.379Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."valor_impuesto" = $1 LIMIT $2 OFFSET $3
+Params: [10,1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:34:48.533Z]
+Query: INSERT INTO "public"."productos" ("nombre","descripcion","stock_actual","stock_minimo","stock_maximo","estado","id_categoria","iva","icu","porcentaje_incremento","costo_unitario","precio_venta","url_imagen") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen"
+Params: ["asd","asd",20,10,2,true,29,null,null,2,500,6000,"https://res.cloudinary.com/dkcxn2riy/image/upload/v1762734838/kajamart/products/fjknjglsnqtxrcclntsi.png"]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T00:34:59.783Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:35:00.345Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE ("public"."categorias"."id_categoria" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:35:00.505Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."valor_impuesto" = $1 LIMIT $2 OFFSET $3
+Params: [10,1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:35:01.410Z]
+Query: INSERT INTO "public"."productos" ("nombre","descripcion","stock_actual","stock_minimo","stock_maximo","estado","id_categoria","iva","icu","porcentaje_incremento","costo_unitario","precio_venta","url_imagen") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen"
+Params: ["asd","asd",20,10,2,true,29,null,null,2,500,6000,"https://res.cloudinary.com/dkcxn2riy/image/upload/v1762734851/kajamart/products/ie0f86xuycn5sqcurfib.png"]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:35:30.072Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:35:30.078Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T00:35:30.149Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:35:30.155Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE ("public"."categorias"."id_categoria" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:35:30.234Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."valor_impuesto" = $1 LIMIT $2 OFFSET $3
+Params: [10,1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:35:30.978Z]
+Query: INSERT INTO "public"."productos" ("nombre","descripcion","stock_actual","stock_minimo","stock_maximo","estado","id_categoria","iva","icu","porcentaje_incremento","costo_unitario","precio_venta","url_imagen") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen"
+Params: ["asd","asd",20,10,50,true,29,null,null,2,500,6000,"https://res.cloudinary.com/dkcxn2riy/image/upload/v1762734881/kajamart/products/lv5laew9ezlxlfw2gmom.png"]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.134Z]
+Query: INSERT INTO "public"."producto_proveedor" ("id_proveedor","id_producto","estado_producto_proveedor") VALUES ($1,$2,$3) RETURNING "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor"
+Params: [30,45,true]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.307Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.315Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.454Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [29,3,1,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.464Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.610Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [45,16,14,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.615Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.760Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [30,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:35:31.916Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:35:32.068Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:35:32.142Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:12:51.467Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 227 ms
+----------------------------------------------
+
+[2025-11-10T02:12:51.647Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [29,3,1,0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T02:12:51.809Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [45,16,14,0]
+Duration: 161 ms
+----------------------------------------------
+
+[2025-11-10T02:12:51.887Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:12:51.951Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:12:51.985Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [30,0]
+Duration: 176 ms
+----------------------------------------------
+
+[2025-11-10T02:12:52.148Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T02:12:52.307Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:12:52.382Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:12:52.800Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 382 ms
+----------------------------------------------
+
+[2025-11-10T02:12:52.874Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 459 ms
+----------------------------------------------
+
+[2025-11-10T02:12:52.876Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 459 ms
+----------------------------------------------
+
+[2025-11-10T02:12:53.034Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T02:12:53.185Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.152Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.170Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 166 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.300Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [29,3,1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.321Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.452Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [45,16,14,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.469Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.601Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [30,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.749Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.897Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:12:54.973Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:11.626Z]
 Query: SELECT 1
 Params: []
 Duration: 84 ms
@@ -24711,4 +25355,2145 @@ Duration: 135 ms
 Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_producto" = $1 AND "public"."detalle_productos"."estado" = $2) ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $3
 Params: [16,true,0]
 Duration: 148 ms
+----------------------------------------------
+[2025-11-10T02:13:11.630Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T02:13:11.798Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-10T02:13:11.870Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 242 ms
+----------------------------------------------
+
+[2025-11-10T02:13:11.954Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.008Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.090Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.108Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.173Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.189Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.224Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.262Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.338Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.391Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 166 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.550Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.697Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.778Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.853Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:13:12.926Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.095Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.164Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.170Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.243Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.321Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.401Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.406Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.482Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.484Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:13:13.556Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:13:20.253Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-11-10T02:13:20.410Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-11-10T02:13:20.557Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:13:20.637Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:13:20.712Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:13:20.788Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:15:23.513Z]
+Query: SELECT 1
+Params: []
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-10T02:15:23.522Z]
+Query: SELECT 1
+Params: []
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-10T02:15:23.666Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T02:15:23.747Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 233 ms
+----------------------------------------------
+
+[2025-11-10T02:15:23.816Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:15:23.913Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-11-10T02:15:24.005Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T02:15:24.059Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 242 ms
+----------------------------------------------
+
+[2025-11-10T02:15:24.123Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:15:24.209Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:15:24.283Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:15:24.361Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:15:28.441Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:15:28.517Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:15:28.590Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:15:28.671Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:15:28.746Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:15:28.821Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.188Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 202 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.359Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.518Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.648Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 123 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.696Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.724Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.799Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:10.878Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 181 ms
+----------------------------------------------
+
+[2025-11-10T02:22:11.110Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 231 ms
+----------------------------------------------
+
+[2025-11-10T02:22:11.188Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:22:11.262Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:11.339Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:22.871Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:22:22.879Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T02:22:22.952Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T02:22:22.958Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.027Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.033Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.108Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.116Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.185Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.192Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.260Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:23.267Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.326Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.329Z]
+Query: SELECT 1
+Params: []
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.481Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.484Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.627Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.637Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.775Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.857Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.864Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 226 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.930Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:22:48.946Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:22:49.004Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:22:49.022Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:22:49.101Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.225Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.295Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.304Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.307Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.383Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.386Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.458Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.465Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.542Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.546Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 70 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.612Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 69 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.691Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.708Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 164 ms
+----------------------------------------------
+
+[2025-11-10T02:24:06.785Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:24:50.835Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:24:50.844Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:24:50.912Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:24:50.916Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:24:50.985Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.059Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.065Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.140Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.210Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.234Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.283Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.356Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.382Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:24:51.462Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:26:21.808Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:26:21.815Z]
+Query: SELECT 1
+Params: []
+Duration: 82 ms
+----------------------------------------------
+
+[2025-11-10T02:26:21.890Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T02:26:21.892Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T02:26:21.969Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:26:21.972Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.042Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.104Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.185Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.189Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.262Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.266Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.338Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:22.341Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.502Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.511Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.578Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.587Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.661Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.728Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.808Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.811Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.883Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.956Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:24.959Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:26:25.032Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:25.964Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:26:25.967Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:26.038Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:26.115Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:26:26.122Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-11-10T02:26:26.196Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.094Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.098Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.104Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.188Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.336Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.413Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.416Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.492Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.567Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.651Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.735Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T02:26:27.810Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:26:28.635Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T02:26:28.783Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:26:28.934Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T02:26:29.014Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:26:29.087Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:26:29.161Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:28:00.281Z]
+Query: SELECT 1
+Params: []
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:28:00.431Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:28:00.656Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 224 ms
+----------------------------------------------
+
+[2025-11-10T02:28:00.807Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:29:07.851Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:07.928Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.074Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.150Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.233Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.306Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.381Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.783Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:29:08.932Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:29:09.080Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:29:09.162Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:09.237Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:09.309Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.471Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.481Z]
+Query: SELECT 1
+Params: []
+Duration: 82 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.554Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.626Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.632Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.706Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.788Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.851Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 224 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.865Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:29:31.945Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.004Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.086Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.237Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.311Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.832Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.835Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.908Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.912Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.986Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:32.990Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T02:29:33.071Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:33.079Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 69 ms
+----------------------------------------------
+
+[2025-11-10T02:29:33.147Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:33.151Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:33.223Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:33.284Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.543Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 82 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.553Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.614Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.678Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.689Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.707Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.774Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.793Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.849Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.868Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.922Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:40.941Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.435Z]
+Query: SELECT 1
+Params: []
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.503Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.512Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.522Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.586Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.596Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.670Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.735Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.757Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.823Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.830Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.898Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.905Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:29:59.972Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:30:00.801Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:00.805Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:00.877Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:30:00.880Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:30:00.954Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:30:00.958Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.038Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.042Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.117Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.191Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.194Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.266Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.730Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.736Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.809Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.877Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.882Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.951Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:01.965Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:02.033Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:02.092Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:30:02.108Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:02.114Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:30:02.186Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:30:22.774Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:30:22.922Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.152Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 230 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.238Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.313Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.330Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.386Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.479Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.631Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.712Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.787Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:30:23.862Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.373Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.381Z]
+Query: SELECT 1
+Params: []
+Duration: 100 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.453Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.463Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.527Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.538Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.601Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.613Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.683Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.752Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.761Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.827Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:09.923Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 95 ms
+----------------------------------------------
+
+[2025-11-10T02:31:10.141Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 379 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.385Z]
+Query: SELECT 1
+Params: []
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.394Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.461Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.470Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.545Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.607Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.623Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.683Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.709Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.772Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.786Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.858Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.916Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-11-10T02:31:55.990Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-10T02:32:25.516Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:32:27.661Z]
+Query: SELECT 1
+Params: []
+Duration: 82 ms
+----------------------------------------------
+
+[2025-11-10T02:32:27.730Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:32:27.814Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T02:32:27.879Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.030Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.037Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 222 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.108Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.182Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.190Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.255Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.272Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.420Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T02:32:28.495Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:38:25.450Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:38:25.627Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 176 ms
+----------------------------------------------
+
+[2025-11-10T02:38:25.854Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 227 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.016Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.165Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.323Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.330Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.333Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.480Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.483Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.630Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.705Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 224 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.716Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.793Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.854Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.869Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.875Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:38:26.949Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.028Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 190 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.039Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 195 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.180Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.239Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.391Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.396Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 215 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.555Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.558Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.702Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:56:09.849Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:56:10.740Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE ("public"."roles"."rol_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [107,1,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-10T02:56:10.888Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1) OFFSET $2
+Params: [107,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-10T02:56:11.036Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) OFFSET $11
+Params: [14,16,11,12,21,19,2,3,7,8,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T02:56:15.468Z]
+Query: DELETE FROM "public"."roles" WHERE ("public"."roles"."rol_id" = $1 AND 1=1) RETURNING "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol"
+Params: [108]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.587Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.594Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.778Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 174 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.825Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2) OFFSET $3
+Params: [1,107,0]
+Duration: 236 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.860Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.971Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) OFFSET $14
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T02:56:18.996Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:56:19.051Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T02:56:19.125Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2) OFFSET $3
+Params: [1,107,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T02:56:19.199Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) OFFSET $14
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,0]
+Duration: 73 ms
 ----------------------------------------------
