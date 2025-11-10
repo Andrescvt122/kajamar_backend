@@ -40792,3 +40792,9 @@ Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_
 Params: [1,2,0]
 Duration: 77 ms
 ----------------------------------------------
+
+[2025-11-10T00:28:13.201Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."id_producto" = $1 ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $2
+Params: [16,0]
+Duration: 234 ms
+----------------------------------------------
