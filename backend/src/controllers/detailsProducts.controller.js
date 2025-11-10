@@ -14,6 +14,7 @@ const createDetailProduct = async (req, res) => {
             : null,
           stock_producto: data.stock_producto,
           es_devolucion: data.es_devolucion ?? false,
+          estado: true
         },
       });
 
@@ -43,6 +44,10 @@ const getAllDetails = async (req, res) => {
           select: { nombre: true },
         },
       },
+      orderBy: { id_detalle_producto: "desc" },
+      where: {
+        estado: true,
+      }, 
     });
     res.json(detalles);
   } catch (error) {
@@ -56,7 +61,10 @@ const getDetailsByProduct = async (req, res) => {
   const { id_producto } = req.params;
   try {
     const detalles = await prisma.detalle_productos.findMany({
-      where: { id_producto: Number(id_producto) },
+      where: { AND:[
+        { id_producto: Number(id_producto) },
+        { estado: true },
+      ] },
       orderBy: { id_detalle_producto: "desc" }, // ✅ corregido
     });
 
@@ -107,6 +115,7 @@ const updateDetailProduct = async (req, res) => {
           : null,
         stock_producto: data.stock_producto,
         es_devolucion: data.es_devolucion ?? false,
+        estado:true
       },
     });
     res.json(updated);
@@ -119,11 +128,14 @@ const updateDetailProduct = async (req, res) => {
 // 🔴 Eliminar detalle
 const deleteDetailProduct = async (req, res) => {
   const { id_detalle_producto } = req.params;
-
+  console.log(id_detalle_producto);
   try {
-    const deleted = await prisma.detalle_productos.delete({
+    const deleted = await prisma.detalle_productos.update({
       where: { id_detalle_producto: Number(id_detalle_producto) },
-    });
+      data: {
+        estado: false,
+      },
+    })
     res.json({ message: "Detalle eliminado correctamente", deleted });
   } catch (error) {
     console.error("❌ Error al eliminar detalle:", error);
