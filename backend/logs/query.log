@@ -22546,3 +22546,711 @@ Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre",
 Params: [16,1,0]
 Duration: 155 ms
 ----------------------------------------------
+
+[2025-11-10T00:03:04.463Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 219 ms
+----------------------------------------------
+
+[2025-11-10T00:03:04.966Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-10T00:03:04.972Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.115Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.266Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.420Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.586Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.660Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.774Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.785Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:03:05.853Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T00:03:06.011Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T00:03:06.158Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.599Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.608Z]
+Query: SELECT 1
+Params: []
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.678Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.754Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.760Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.829Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.905Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.920Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-10T00:05:23.976Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T00:05:24.051Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:05:24.077Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-10T00:06:53.848Z]
+Query: SELECT 1
+Params: []
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T00:06:53.871Z]
+Query: SELECT 1
+Params: []
+Duration: 97 ms
+----------------------------------------------
+
+[2025-11-10T00:06:54.033Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE ("public"."categorias"."id_categoria" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T00:06:54.038Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 165 ms
+----------------------------------------------
+
+[2025-11-10T00:06:54.268Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."valor_impuesto" = $1 LIMIT $2 OFFSET $3
+Params: [10,1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.333Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.350Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.482Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.502Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2) OFFSET $3
+Params: [3,1,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.629Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.655Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,14,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.807Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:09:09.957Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:09:10.033Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:19:44.373Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 175 ms
+----------------------------------------------
+
+[2025-11-10T00:19:44.557Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T00:19:44.715Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-11-10T00:19:44.893Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 242 ms
+----------------------------------------------
+
+[2025-11-10T00:19:45.045Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [3,1,27,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:19:45.200Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [16,14,40,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:19:45.351Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [30,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:19:45.505Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:19:45.681Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-11-10T00:19:45.754Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [1,2,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:19:46.903Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 81 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.010Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [3,1,27,0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.064Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [16,14,40,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.081Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 248 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.140Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [30,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.215Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.290Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.367Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [1,2,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:19:47.616Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:19:48.535Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:19:48.682Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [3,1,27,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:19:48.828Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [16,14,40,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-10T00:19:48.975Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [30,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.125Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.272Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.350Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [1,2,0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.438Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 168 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.596Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.754Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.837Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.912Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:19:49.988Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.582Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.646Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 230 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.735Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.739Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2) OFFSET $3
+Params: [1,107,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.822Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.890Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) OFFSET $14
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.909Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T00:19:50.971Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:19:51.045Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2) OFFSET $3
+Params: [1,107,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T00:19:51.192Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) OFFSET $14
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T00:20:52.464Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-10T00:20:52.658Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE ("public"."roles"."rol_nombre" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["un rol re epico",1,0]
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T00:20:52.776Z]
+Query: BEGIN
+Params: []
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:20:52.963Z]
+Query: INSERT INTO "public"."roles" ("rol_nombre","descripcion","estado_rol") VALUES ($1,$2,$3) RETURNING "public"."roles"."rol_id"
+Params: ["un rol re epico","si",true]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-10T00:20:53.136Z]
+Query: INSERT INTO "public"."rol_permisos" ("rol_id","permiso_id") VALUES ($1,$2), ($3,$4), ($5,$6), ($7,$8), ($9,$10), ($11,$12), ($13,$14)
+Params: [108,14,108,13,108,10,108,2,108,5,108,4,108,3]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T00:20:53.286Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE "public"."roles"."rol_id" = $1 LIMIT $2 OFFSET $3
+Params: [108,1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-10T00:20:53.436Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1) OFFSET $2
+Params: [108,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:20:53.586Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7) OFFSET $8
+Params: [14,13,10,2,5,4,3,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:20:53.662Z]
+Query: COMMIT
+Params: []
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.486Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.587Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.593Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.636Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.797Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.856Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 221 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.937Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T00:20:57.959Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T00:20:58.010Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-10T00:20:58.043Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-10T00:20:58.086Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:21:00.904Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-11-10T00:21:01.057Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:21:01.209Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2025-11-10T00:21:01.293Z]
+Query: SELECT "public"."usuarios"."usuario_id", "public"."usuarios"."acceso_id", "public"."usuarios"."nombre", "public"."usuarios"."apellido", "public"."usuarios"."telefono", "public"."usuarios"."documento" FROM "public"."usuarios" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:21:01.371Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."estado_usuario", "public"."acceso"."rol_id" FROM "public"."acceso" WHERE "public"."acceso"."acceso_id" IN ($1,$2) OFFSET $3
+Params: [3,4,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:21:01.448Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre" FROM "public"."roles" WHERE "public"."roles"."rol_id" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-10T00:22:18.854Z]
+Query: SELECT 1
+Params: []
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-10T00:22:18.862Z]
+Query: SELECT 1
+Params: []
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.013Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 153 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.079Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 223 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.162Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.167Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.247Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.320Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.331Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE 1=1 ORDER BY "public"."permisos"."modulo" ASC OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.400Z]
+Query: SELECT "public"."roles"."rol_id", "public"."roles"."rol_nombre", "public"."roles"."descripcion", "public"."roles"."estado_rol" FROM "public"."roles" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.476Z]
+Query: SELECT "public"."rol_permisos"."rol_id", "public"."rol_permisos"."permiso_id" FROM "public"."rol_permisos" WHERE "public"."rol_permisos"."rol_id" IN ($1,$2,$3) OFFSET $4
+Params: [1,107,108,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-10T00:22:19.553Z]
+Query: SELECT "public"."permisos"."permiso_id", "public"."permisos"."modulo", "public"."permisos"."permiso_nombre" FROM "public"."permisos" WHERE "public"."permisos"."permiso_id" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) OFFSET $16
+Params: [14,17,16,11,13,10,12,21,19,2,3,7,8,5,4,0]
+Duration: 76 ms
+----------------------------------------------
