@@ -8,6 +8,9 @@ async function main() {
     "Gestión Productos",
     "Gestión Categorías",
     "Gestión Proveedores",
+    "Gestión Devolución Clientes",
+    "Gestión Devolución Productos",
+    "Gestión Baja Productos"
   ];
 
   const acciones = ["Ver", "Crear", "Editar", "Eliminar"];
