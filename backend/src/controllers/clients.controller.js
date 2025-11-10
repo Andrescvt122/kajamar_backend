@@ -81,7 +81,7 @@ const createClient = async (req, res) => {
   ) {
     return res.status(400).json({
       error:
-        "Faltan datos requeridos: nombre_cliente, tipo_docume, numero_doc, correo_cliente, telefono_cliente o estado_cliente",
+        "Faltan datos requeridos: nombre_cliente,   tipo_docume, numero_doc, correo_cliente, telefono_cliente o estado_cliente",
     });
   }
 

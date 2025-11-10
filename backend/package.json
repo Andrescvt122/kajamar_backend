@@ -1,4 +1,4 @@
-{
+  {
   "name": "backend",
   "version": "1.0.0",
   "description": "backend de kajamart",
@@ -23,12 +23,18 @@
   "homepage": "https://github.com/Andrescvt122/kajamar_backend#readme",
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
     "nodemon": "^3.1.10",
     "prisma": "^6.18.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
