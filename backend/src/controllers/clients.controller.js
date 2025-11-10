@@ -6,7 +6,20 @@ const getClients = async (req, res) => {
     const clients = await prisma.clientes.findMany({
       orderBy: { id_cliente: "asc" },
     });
-    return res.status(200).json(clients);
+
+    // Cliente de Caja (fijo)
+    const clienteCaja = {
+      id_cliente: 0, // ID especial para el cliente de caja
+      nombre_cliente: "Cliente de Caja",
+      tipo_docume: "N/A",
+      numero_doc: "N/A",
+      correo_cliente: "caja@correo.com",
+      telefono_cliente: "N/A",
+      estado_cliente: true,
+    };
+
+    // Devolver Cliente de Caja + clientes reales
+    return res.status(200).json([clienteCaja, ...clients]);
   } catch (error) {
     console.error("❌ Error al obtener los clientes:", error);
     return res.status(500).json({ error: "Error al obtener los clientes" });
@@ -16,6 +29,21 @@ const getClients = async (req, res) => {
 // ✅ Obtener un cliente por ID
 const getClientById = async (req, res) => {
   const id = parseInt(req.params.id);
+
+  // Verificar si es el Cliente de Caja
+  if (id === 0) {
+    const clienteCaja = {
+      id_cliente: 0,
+      nombre_cliente: "Cliente de Caja",
+      tipo_docume: "N/A",
+      numero_doc: "N/A",
+      correo_cliente: "caja@correo.com",
+      telefono_cliente: "N/A",
+      estado_cliente: true,
+    };
+    return res.status(200).json(clienteCaja);
+  }
+
   try {
     const client = await prisma.clientes.findUnique({
       where: { id_cliente: id },
@@ -90,6 +118,12 @@ const createClient = async (req, res) => {
 // ✅ Actualizar un cliente existente
 const updateClient = async (req, res) => {
   const id = parseInt(req.params.id);
+
+  // No permitir editar el Cliente de Caja
+  if (id === 0) {
+    return res.status(400).json({ error: "No se puede editar el Cliente de Caja" });
+  }
+
   const {
     nombre_cliente,
     tipo_docume,
@@ -133,6 +167,11 @@ const updateClient = async (req, res) => {
 // ✅ Eliminar un cliente
 const deleteClient = async (req, res) => {
   const id = parseInt(req.params.id);
+
+  // No permitir eliminar el Cliente de Caja
+  if (id === 0) {
+    return res.status(400).json({ error: "No se puede eliminar el Cliente de Caja" });
+  }
 
   try {
     const existing = await prisma.clientes.findUnique({
