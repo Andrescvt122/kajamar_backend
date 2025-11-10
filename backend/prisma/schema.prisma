@@ -103,6 +103,7 @@ model detalle_productos {
   fecha_vencimiento             DateTime?                     @db.Date
   stock_producto                Int
   es_devolucion                 Boolean?                      @default(false)
+  estado                        Boolean?
   detalle_compra                detalle_compra[]
   detalle_devolucion_cliente    detalle_devolucion_cliente[]
   detalle_devolucion_producto   detalle_devolucion_producto[]
