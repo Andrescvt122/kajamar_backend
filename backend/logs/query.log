@@ -28951,6 +28951,810 @@ Params: [0]
 Duration: 104 ms
 ----------------------------------------------
 
+[2025-11-11T01:34:18.521Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 189 ms
+----------------------------------------------
+
+[2025-11-11T01:34:18.717Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-11T01:34:18.891Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-11-11T01:34:18.964Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T01:34:19.046Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T01:34:19.125Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-11T01:34:19.267Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T01:34:19.340Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T01:34:25.075Z]
+Query: SELECT "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja", "public"."productos_baja"."nombre_responsable" FROM "public"."productos_baja" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 169 ms
+----------------------------------------------
+
+[2025-11-11T01:34:25.224Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja", "public"."detalle_productos_baja"."nombre_producto" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_baja_productos" IN ($1,$2) OFFSET $3
+Params: [36,37,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-11T01:34:25.309Z]
+Query: SELECT "public"."productos_baja"."id_baja_productos", "public"."productos_baja"."id_responsable", "public"."productos_baja"."fecha_baja", "public"."productos_baja"."cantida_baja", "public"."productos_baja"."total_precio_baja", "public"."productos_baja"."nombre_responsable" FROM "public"."productos_baja" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-11T01:34:25.381Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja", "public"."detalle_productos_baja"."nombre_producto" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_baja_productos" IN ($1,$2) OFFSET $3
+Params: [36,37,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T01:34:27.664Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cer%","%cer%",0]
+Duration: 185 ms
+----------------------------------------------
+
+[2025-11-11T01:34:27.811Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-11T01:34:29.239Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerveza aguila%","%cerveza aguila%",0]
+Duration: 161 ms
+----------------------------------------------
+
+[2025-11-11T01:34:29.311Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T01:36:03.893Z]
+Query: SELECT 1
+Params: []
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-11T01:36:03.973Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.116Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.196Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.272Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.352Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.428Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.508Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T01:36:04.580Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T01:36:06.669Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cer%","%cer%",0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T01:36:06.745Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T01:36:08.203Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerveza aguila%","%cerveza aguila%",0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-11T01:36:08.276Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T01:36:11.887Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-11T01:36:12.037Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-11T01:45:13.695Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 180 ms
+----------------------------------------------
+
+[2025-11-11T01:45:13.853Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 157 ms
+----------------------------------------------
+
+[2025-11-11T01:47:37.908Z]
+Query: SELECT 1
+Params: []
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T01:47:38.149Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cer%","%cer%",0]
+Duration: 240 ms
+----------------------------------------------
+
+[2025-11-11T01:47:38.297Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-11T01:47:39.391Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerveza aguila%","%cerveza aguila%",0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T01:47:39.467Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T02:06:31.704Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 192 ms
+----------------------------------------------
+
+[2025-11-11T02:06:31.899Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 194 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.062Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.135Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.215Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.291Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.370Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.442Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.800Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%c%","%c%",0]
+Duration: 176 ms
+----------------------------------------------
+
+[2025-11-11T02:06:32.948Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1,$2) OFFSET $3
+Params: [14,16,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-11-11T02:06:34.202Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%papel higienico%","%papel higienico%",0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-11T02:06:34.446Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [14,0]
+Duration: 244 ms
+----------------------------------------------
+
+[2025-11-11T02:06:39.587Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-11T02:06:39.660Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.027Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.194Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.274Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.347Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.485Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.556Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.636Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:06:41.711Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:06:46.776Z]
+Query: SELECT 1
+Params: []
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:06:46.852Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cer%","%cer%",0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:06:46.923Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:06:48.414Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerveza aguila%","%cerveza aguila%",0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T02:06:48.489Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:06:54.340Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%pap%","%pap%",0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T02:06:54.416Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [14,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T02:06:55.692Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%papel higienico%","%papel higienico%",0]
+Duration: 79 ms
+----------------------------------------------
+
+[2025-11-11T02:06:55.766Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [14,0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:07:02.387Z]
+Query: SELECT 1
+Params: []
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:07:02.463Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%papel%","%papel%",0]
+Duration: 74 ms
+----------------------------------------------
+
+[2025-11-11T02:07:02.535Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [14,0]
+Duration: 72 ms
+----------------------------------------------
+
+[2025-11-11T02:07:04.015Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%papel higienico%","%papel higienico%",0]
+Duration: 77 ms
+----------------------------------------------
+
+[2025-11-11T02:07:04.089Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [14,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-11T02:07:09.729Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-11-11T02:07:09.803Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 73 ms
+----------------------------------------------
+
+[2025-11-11T02:41:13.633Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 185 ms
+----------------------------------------------
+
+[2025-11-11T02:41:13.792Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 158 ms
+----------------------------------------------
+
+[2025-11-11T02:41:22.848Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerve%","%cerve%",0]
+Duration: 246 ms
+----------------------------------------------
+
+[2025-11-11T02:41:22.992Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-11-11T02:41:24.000Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerveza aguila%","%cerveza aguila%",0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:41:24.072Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T02:42:06.100Z]
+Query: SELECT 1
+Params: []
+Duration: 75 ms
+----------------------------------------------
+
+[2025-11-11T02:42:06.246Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2025-11-11T02:42:06.389Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 142 ms
+----------------------------------------------
+
+[2025-11-11T02:42:08.630Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cer%","%cer%",0]
+Duration: 80 ms
+----------------------------------------------
+
+[2025-11-11T02:42:08.707Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 76 ms
+----------------------------------------------
+
+[2025-11-11T02:42:09.738Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cerveza aguila%","%cerveza aguila%",0]
+Duration: 70 ms
+----------------------------------------------
+
+[2025-11-11T02:42:09.809Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-11-11T15:18:34.213Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:34.823Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:34.832Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-11T15:18:34.994Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [27,3,1,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.166Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2,$3) OFFSET $4
+Params: [47,16,14,0]
+Duration: 172 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.337Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."nit" FROM "public"."proveedores" WHERE "public"."proveedores"."id_proveedor" IN ($1) OFFSET $2
+Params: [29,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.504Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.675Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.760Z]
+Query: SELECT "public"."impuestos_productos"."id_impuesto", "public"."impuestos_productos"."nombre_impuesto", "public"."impuestos_productos"."valor_impuesto" FROM "public"."impuestos_productos" WHERE "public"."impuestos_productos"."id_impuesto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.947Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.985Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC OFFSET $1
+Params: [0]
+Duration: 169 ms
+----------------------------------------------
+
+[2025-11-11T15:18:35.995Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-11T15:18:36.168Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3) OFFSET $4
+Params: [30,29,23,0]
+Duration: 177 ms
+----------------------------------------------
+
+[2025-11-11T15:18:36.344Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,27,3,0]
+Duration: 175 ms
+----------------------------------------------
+
+[2025-11-11T15:18:55.072Z]
+Query: SELECT 1
+Params: []
+Duration: 93 ms
+----------------------------------------------
+
+[2025-11-11T15:18:55.312Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 239 ms
+----------------------------------------------
+
+[2025-11-11T15:18:55.489Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 177 ms
+----------------------------------------------
+
+[2025-11-11T15:18:55.674Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:55.844Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:18:55.947Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T15:18:56.038Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-11T15:18:56.145Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 90 ms
+----------------------------------------------
+
+[2025-11-11T15:18:56.232Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T15:18:59.029Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion" FROM "public"."detalle_productos" LEFT JOIN "public"."productos" AS "j0" ON ("j0"."id_producto") = ("public"."detalle_productos"."id_producto") WHERE ("public"."detalle_productos"."codigo_barras_producto_compra" ILIKE $1 OR ("j0"."nombre" ILIKE $2 AND ("j0"."id_producto" IS NOT NULL))) OFFSET $3
+Params: ["%cer%","%cer%",0]
+Duration: 181 ms
+----------------------------------------------
+
+[2025-11-11T15:18:59.198Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [16,0]
+Duration: 169 ms
+----------------------------------------------
+
+[2025-11-11T15:19:01.526Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-11T15:19:01.696Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 169 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.005Z]
+Query: SELECT 1
+Params: []
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.181Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 175 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.268Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.373Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.463Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.563Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.649Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.747Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T15:20:03.832Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T15:23:19.924Z]
+Query: SELECT 1
+Params: []
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.111Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 186 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.260Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.369Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.455Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.556Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.651Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 94 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.756Z]
+Query: SELECT "public"."devolucion_producto"."id_devolucion_product", "public"."devolucion_producto"."id_responsable", "public"."devolucion_producto"."fecha_devolucion", "public"."devolucion_producto"."cantidad_total", "public"."devolucion_producto"."nombre_responsable" FROM "public"."devolucion_producto" WHERE 1=1 OFFSET $1
+Params: [0]
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T15:23:20.842Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_devolucion_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) OFFSET $19
+Params: [1,7,14,15,23,24,25,26,27,28,29,30,31,32,33,34,35,36,0]
+Duration: 85 ms
+----------------------------------------------
+
 [2025-11-10T15:12:08.809Z]
 Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
 Params: [0]
