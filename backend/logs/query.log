@@ -28950,3 +28950,1893 @@ Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_clie
 Params: [0]
 Duration: 104 ms
 ----------------------------------------------
+
+[2025-11-10T15:12:08.809Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 332 ms
+----------------------------------------------
+
+[2025-11-10T15:12:09.000Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 164 ms
+----------------------------------------------
+
+[2025-11-10T15:13:42.373Z]
+Query: SELECT 1
+Params: []
+Duration: 162 ms
+----------------------------------------------
+
+[2025-11-10T15:13:42.764Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 387 ms
+----------------------------------------------
+
+[2025-11-10T15:13:42.940Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-10T15:16:26.540Z]
+Query: SELECT 1
+Params: []
+Duration: 130 ms
+----------------------------------------------
+
+[2025-11-10T15:16:26.789Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 255 ms
+----------------------------------------------
+
+[2025-11-10T15:16:29.407Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-11-10T15:16:29.590Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-10T15:20:00.765Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 331 ms
+----------------------------------------------
+
+[2025-11-10T15:20:00.950Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 175 ms
+----------------------------------------------
+
+[2025-11-10T15:21:46.341Z]
+Query: SELECT 1
+Params: []
+Duration: 590 ms
+----------------------------------------------
+
+[2025-11-10T15:21:46.515Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 173 ms
+----------------------------------------------
+
+[2025-11-10T15:21:46.682Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-11-10T15:36:52.980Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 507 ms
+----------------------------------------------
+
+[2025-11-10T15:40:42.541Z]
+Query: SELECT 1
+Params: []
+Duration: 161 ms
+----------------------------------------------
+
+[2025-11-10T15:40:42.665Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 122 ms
+----------------------------------------------
+
+[2025-11-10T15:40:42.828Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-11-10T15:40:52.828Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-11-10T15:40:52.975Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 109 ms
+----------------------------------------------
+
+[2025-11-10T15:41:39.991Z]
+Query: SELECT 1
+Params: []
+Duration: 895 ms
+----------------------------------------------
+
+[2025-11-10T15:41:40.553Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 560 ms
+----------------------------------------------
+
+[2025-11-10T15:41:41.786Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 1225 ms
+----------------------------------------------
+
+[2025-11-10T15:42:32.197Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 289 ms
+----------------------------------------------
+
+[2025-11-10T15:42:32.357Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-11-10T15:43:16.718Z]
+Query: SELECT 1
+Params: []
+Duration: 263 ms
+----------------------------------------------
+
+[2025-11-10T15:43:17.044Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 325 ms
+----------------------------------------------
+
+[2025-11-10T15:43:17.368Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 311 ms
+----------------------------------------------
+
+[2025-11-10T15:46:57.976Z]
+Query: SELECT 1
+Params: []
+Duration: 694 ms
+----------------------------------------------
+
+[2025-11-10T15:46:58.543Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 566 ms
+----------------------------------------------
+
+[2025-11-10T15:46:59.260Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 705 ms
+----------------------------------------------
+
+[2025-11-10T15:48:03.872Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 573 ms
+----------------------------------------------
+
+[2025-11-10T15:48:03.982Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 103 ms
+----------------------------------------------
+
+[2025-11-10T15:49:17.334Z]
+Query: SELECT 1
+Params: []
+Duration: 154 ms
+----------------------------------------------
+
+[2025-11-10T15:49:17.724Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 389 ms
+----------------------------------------------
+
+[2025-11-10T15:49:17.881Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 149 ms
+----------------------------------------------
+
+[2025-11-10T15:49:46.661Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 271 ms
+----------------------------------------------
+
+[2025-11-10T15:49:47.150Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 471 ms
+----------------------------------------------
+
+[2025-11-10T15:50:19.182Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 668 ms
+----------------------------------------------
+
+[2025-11-10T15:50:19.375Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 172 ms
+----------------------------------------------
+
+[2025-11-10T15:50:37.162Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 205 ms
+----------------------------------------------
+
+[2025-11-10T15:50:37.395Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 215 ms
+----------------------------------------------
+
+[2025-11-10T15:53:24.500Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [11,1,0]
+Duration: 271 ms
+----------------------------------------------
+
+[2025-11-10T15:53:24.798Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [11]
+Duration: 283 ms
+----------------------------------------------
+
+[2025-11-10T15:53:26.037Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 1213 ms
+----------------------------------------------
+
+[2025-11-10T15:53:32.937Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [17,1,0]
+Duration: 103 ms
+----------------------------------------------
+
+[2025-11-10T15:53:33.478Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [17]
+Duration: 537 ms
+----------------------------------------------
+
+[2025-11-10T15:53:33.576Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T15:53:47.976Z]
+Query: SELECT 1
+Params: []
+Duration: 106 ms
+----------------------------------------------
+
+[2025-11-10T15:53:48.089Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [19,1,0]
+Duration: 113 ms
+----------------------------------------------
+
+[2025-11-10T15:53:53.753Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 137 ms
+----------------------------------------------
+
+[2025-11-10T15:53:53.944Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 138 ms
+----------------------------------------------
+
+[2025-11-10T15:54:13.322Z]
+Query: SELECT 1
+Params: []
+Duration: 258 ms
+----------------------------------------------
+
+[2025-11-10T15:54:13.602Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalencia.t@gmail.com",1,0]
+Duration: 279 ms
+----------------------------------------------
+
+[2025-11-10T15:58:35.475Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [19,1,0]
+Duration: 785 ms
+----------------------------------------------
+
+[2025-11-10T15:58:35.835Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [19]
+Duration: 358 ms
+----------------------------------------------
+
+[2025-11-10T15:58:36.190Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 346 ms
+----------------------------------------------
+
+[2025-11-10T15:58:59.831Z]
+Query: SELECT 1
+Params: []
+Duration: 550 ms
+----------------------------------------------
+
+[2025-11-10T15:58:59.996Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [18,1,0]
+Duration: 164 ms
+----------------------------------------------
+
+[2025-11-10T16:13:58.691Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 260 ms
+----------------------------------------------
+
+[2025-11-10T16:13:58.804Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 106 ms
+----------------------------------------------
+
+[2025-11-10T16:14:19.575Z]
+Query: SELECT 1
+Params: []
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:14:19.817Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andres@gmail.com",1,0]
+Duration: 241 ms
+----------------------------------------------
+
+[2025-11-10T16:21:41.363Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 243 ms
+----------------------------------------------
+
+[2025-11-10T16:21:41.469Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:22:05.289Z]
+Query: SELECT 1
+Params: []
+Duration: 93 ms
+----------------------------------------------
+
+[2025-11-10T16:22:05.494Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalencia.t@gmail.com",1,0]
+Duration: 204 ms
+----------------------------------------------
+
+[2025-11-10T16:23:21.944Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 174 ms
+----------------------------------------------
+
+[2025-11-10T16:23:22.052Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:23:42.271Z]
+Query: SELECT 1
+Params: []
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:23:42.441Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalencia.t@gmail.com",1,0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-10T16:23:42.646Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["asdasdas","CC","1034419488","andrescvalencia.t@gmail.com","10354194888","activo"]
+Duration: 191 ms
+----------------------------------------------
+
+[2025-11-10T16:27:48.183Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 192 ms
+----------------------------------------------
+
+[2025-11-10T16:27:48.299Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-10T16:28:09.695Z]
+Query: SELECT 1
+Params: []
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-10T16:28:09.881Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalencia.t@gmail.com",1,0]
+Duration: 183 ms
+----------------------------------------------
+
+[2025-11-10T16:28:10.068Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["alejandro","CC","1035419488","andrescvalencia.t@gmail.com","10349812837","activo"]
+Duration: 179 ms
+----------------------------------------------
+
+[2025-11-10T16:28:15.369Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:28:15.464Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.374Z]
+Query: SELECT 1
+Params: []
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.460Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.556Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.658Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 93 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.757Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.855Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-10T16:29:31.963Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-10T16:30:08.101Z]
+Query: SELECT 1
+Params: []
+Duration: 101 ms
+----------------------------------------------
+
+[2025-11-10T16:30:08.192Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalencia.t@gmail.com",1,0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-10T16:30:16.355Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalenciat@gmail.com",1,0]
+Duration: 95 ms
+----------------------------------------------
+
+[2025-11-10T16:30:16.466Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["karoll","CC","1035419488","andrescvalenciat@gmail.com","3233664743","activo"]
+Duration: 107 ms
+----------------------------------------------
+
+[2025-11-10T16:30:40.573Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["andrescvalenciat@gmail.com",1,0]
+Duration: 240 ms
+----------------------------------------------
+
+[2025-11-10T16:30:40.753Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["karoll","CC","1035419488","andrescvalenciat@gmail.com","3233664743","activo"]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-10T16:30:59.558Z]
+Query: SELECT 1
+Params: []
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:30:59.642Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["xxxkarollxx@gmail.com",1,0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T16:30:59.728Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["karoll","CC","1035419488","xxxkarollxx@gmail.com","3233664743","activo"]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T16:31:26.389Z]
+Query: SELECT 1
+Params: []
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:31:26.473Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["xxxkarollxx@gmail.com",1,0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:31:26.567Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["karoll","CC","2938471828","xxxkarollxx@gmail.com","3233664743","activo"]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:31:26.756Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-10T16:31:34.629Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:31:34.730Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-10T16:31:34.838Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-10T16:31:34.940Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:31:35.044Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:31:35.140Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:33:48.853Z]
+Query: SELECT 1
+Params: []
+Duration: 95 ms
+----------------------------------------------
+
+[2025-11-10T16:33:48.941Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-10T16:33:49.052Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 98 ms
+----------------------------------------------
+
+[2025-11-10T16:34:17.778Z]
+Query: SELECT 1
+Params: []
+Duration: 96 ms
+----------------------------------------------
+
+[2025-11-10T16:34:17.884Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["asdsa@gmail.com",1,0]
+Duration: 105 ms
+----------------------------------------------
+
+[2025-11-10T16:34:17.989Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["asdadasd","CC","7371723817","asdsa@gmail.com","10312093","activo"]
+Duration: 102 ms
+----------------------------------------------
+
+[2025-11-10T16:34:18.094Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.301Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.404Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.512Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.610Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.713Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.803Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.897Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:24.992Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:34:25.086Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:25.176Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:43.330Z]
+Query: SELECT 1
+Params: []
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-10T16:34:43.416Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["xxxkarollxx@gmail.com",1,0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:34:43.540Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 112 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.347Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.442Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.536Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.634Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.734Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.835Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:48.936Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-10T16:34:49.047Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-10T16:34:49.139Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-10T16:34:49.235Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.226Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 239 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.353Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.465Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.572Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.693Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 94 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.823Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T13:43:48.935Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T13:43:49.133Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T13:43:49.231Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T13:43:49.417Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 90 ms
+----------------------------------------------
+
+[2025-11-11T13:44:06.221Z]
+Query: SELECT 1
+Params: []
+Duration: 96 ms
+----------------------------------------------
+
+[2025-11-11T13:44:06.609Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 309 ms
+----------------------------------------------
+
+[2025-11-11T13:44:07.147Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 137 ms
+----------------------------------------------
+
+[2025-11-11T13:44:07.410Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T13:44:07.746Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T13:44:08.016Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T13:44:08.439Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 192 ms
+----------------------------------------------
+
+[2025-11-11T13:44:08.671Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-11T13:44:08.981Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T13:44:09.219Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T13:44:09.425Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T13:50:58.809Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 343 ms
+----------------------------------------------
+
+[2025-11-11T13:50:58.917Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 99 ms
+----------------------------------------------
+
+[2025-11-11T13:50:59.302Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 372 ms
+----------------------------------------------
+
+[2025-11-11T13:50:59.559Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 243 ms
+----------------------------------------------
+
+[2025-11-11T13:51:00.095Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 500 ms
+----------------------------------------------
+
+[2025-11-11T13:51:00.487Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 378 ms
+----------------------------------------------
+
+[2025-11-11T13:51:00.659Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 166 ms
+----------------------------------------------
+
+[2025-11-11T13:51:00.769Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 105 ms
+----------------------------------------------
+
+[2025-11-11T13:51:01.094Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 293 ms
+----------------------------------------------
+
+[2025-11-11T13:51:01.221Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 102 ms
+----------------------------------------------
+
+[2025-11-11T13:52:14.879Z]
+Query: SELECT 1
+Params: []
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T13:52:14.982Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-11T13:52:17.292Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 128 ms
+----------------------------------------------
+
+[2025-11-11T13:52:17.396Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T13:52:17.503Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T13:52:17.617Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 90 ms
+----------------------------------------------
+
+[2025-11-11T13:52:17.814Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 181 ms
+----------------------------------------------
+
+[2025-11-11T13:52:17.961Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T13:55:16.992Z]
+Query: SELECT 1
+Params: []
+Duration: 111 ms
+----------------------------------------------
+
+[2025-11-11T13:55:17.085Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T13:55:17.219Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 115 ms
+----------------------------------------------
+
+[2025-11-11T13:56:58.212Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 176 ms
+----------------------------------------------
+
+[2025-11-11T13:57:13.330Z]
+Query: SELECT 1
+Params: []
+Duration: 277 ms
+----------------------------------------------
+
+[2025-11-11T13:57:13.858Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["karoll@gmail.com",1,0]
+Duration: 513 ms
+----------------------------------------------
+
+[2025-11-11T13:57:14.092Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["hola","CC","1234565432","karoll@gmail.com","232452342","activo"]
+Duration: 213 ms
+----------------------------------------------
+
+[2025-11-11T13:57:14.200Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.215Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 98 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.317Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.477Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.596Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 101 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.719Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.843Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 100 ms
+----------------------------------------------
+
+[2025-11-11T13:57:23.941Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T13:57:24.045Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T13:57:24.147Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T13:57:24.248Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T13:57:30.344Z]
+Query: SELECT 1
+Params: []
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T13:57:30.433Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["karoll@gmail.com",1,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T13:57:30.658Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 173 ms
+----------------------------------------------
+
+[2025-11-11T14:00:15.745Z]
+Query: SELECT 1
+Params: []
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:00:15.918Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [27,1,0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-11T14:00:16.110Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [27]
+Duration: 182 ms
+----------------------------------------------
+
+[2025-11-11T14:00:16.207Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:00:16.350Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:00:16.451Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-11T14:00:16.548Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:00:16.645Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:00:32.810Z]
+Query: SELECT 1
+Params: []
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:00:32.931Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["karoll@gmail.com",1,0]
+Duration: 121 ms
+----------------------------------------------
+
+[2025-11-11T14:00:33.029Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["hola","CC","12345678","karoll@gmail.com","343432423","activo"]
+Duration: 95 ms
+----------------------------------------------
+
+[2025-11-11T14:00:33.126Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:00:37.946Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 186 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.060Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 101 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.172Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 94 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.292Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.389Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.490Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.594Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 93 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.773Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 150 ms
+----------------------------------------------
+
+[2025-11-11T14:00:38.870Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:00:39.007Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 96 ms
+----------------------------------------------
+
+[2025-11-11T14:11:33.936Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 182 ms
+----------------------------------------------
+
+[2025-11-11T14:11:34.253Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-11T14:11:34.344Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:11:34.627Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:11:34.728Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T14:11:34.841Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 109 ms
+----------------------------------------------
+
+[2025-11-11T14:11:34.938Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:11:38.567Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:12:18.124Z]
+Query: SELECT 1
+Params: []
+Duration: 114 ms
+----------------------------------------------
+
+[2025-11-11T14:12:18.647Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["mateo@gmail.com",1,0]
+Duration: 522 ms
+----------------------------------------------
+
+[2025-11-11T14:12:18.861Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["mateo","CC","1234567","mateo@gmail.com","12345678","activo"]
+Duration: 211 ms
+----------------------------------------------
+
+[2025-11-11T14:12:18.989Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 98 ms
+----------------------------------------------
+
+[2025-11-11T14:12:19.141Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 98 ms
+----------------------------------------------
+
+[2025-11-11T14:12:19.342Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 179 ms
+----------------------------------------------
+
+[2025-11-11T14:15:45.700Z]
+Query: SELECT 1
+Params: []
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:15:45.785Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T14:15:45.965Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T14:18:11.040Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-11T14:18:11.223Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["maria","CC","343243424","N/A","N/A","Activo"]
+Duration: 174 ms
+----------------------------------------------
+
+[2025-11-11T14:18:11.550Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 283 ms
+----------------------------------------------
+
+[2025-11-11T14:18:21.608Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["mateo@gmail.com",1,0]
+Duration: 90 ms
+----------------------------------------------
+
+[2025-11-11T14:19:51.445Z]
+Query: SELECT 1
+Params: []
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:19:51.625Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 179 ms
+----------------------------------------------
+
+[2025-11-11T14:20:14.889Z]
+Query: SELECT 1
+Params: []
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:20:14.975Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [1,1,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:20:43.233Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T14:20:43.319Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:20:43.423Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:24:09.763Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [16,1,0]
+Duration: 169 ms
+----------------------------------------------
+
+[2025-11-11T14:24:09.957Z]
+Query: UPDATE "public"."clientes" SET "nombre_cliente" = $1, "tipo_docume" = $2, "numero_doc" = $3, "correo_cliente" = $4, "telefono_cliente" = $5, "estado_cliente" = $6 WHERE ("public"."clientes"."id_cliente" = $7 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["Carlos Ramírez","CC","1010101010","carlosramirez@example.com","3105556677","Activo",16]
+Duration: 179 ms
+----------------------------------------------
+
+[2025-11-11T14:24:10.244Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 253 ms
+----------------------------------------------
+
+[2025-11-11T14:24:17.977Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [28,1,0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:24:18.068Z]
+Query: UPDATE "public"."clientes" SET "nombre_cliente" = $1, "tipo_docume" = $2, "numero_doc" = $3, "correo_cliente" = $4, "telefono_cliente" = $5, "estado_cliente" = $6 WHERE ("public"."clientes"."id_cliente" = $7 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["hola","CC","12345678","karoll@gmail.com","343432423","Activo",28]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:24:18.200Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 98 ms
+----------------------------------------------
+
+[2025-11-11T14:24:25.755Z]
+Query: SELECT 1
+Params: []
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:24:25.840Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T14:24:25.931Z]
+Query: UPDATE "public"."clientes" SET "nombre_cliente" = $1, "tipo_docume" = $2, "numero_doc" = $3, "correo_cliente" = $4, "telefono_cliente" = $5, "estado_cliente" = $6 WHERE ("public"."clientes"."id_cliente" = $7 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["mateo","CC","1234567","mateo@gmail.com","12345678","Activo",29]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:24:26.043Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T14:24:30.021Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [29,1,0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:24:30.115Z]
+Query: UPDATE "public"."clientes" SET "nombre_cliente" = $1, "tipo_docume" = $2, "numero_doc" = $3, "correo_cliente" = $4, "telefono_cliente" = $5, "estado_cliente" = $6 WHERE ("public"."clientes"."id_cliente" = $7 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["mateo","CC","1234567","mateo@gmail.com","N/A","Activo",29]
+Duration: 90 ms
+----------------------------------------------
+
+[2025-11-11T14:24:30.225Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:27:39.652Z]
+Query: SELECT 1
+Params: []
+Duration: 98 ms
+----------------------------------------------
+
+[2025-11-11T14:27:39.825Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 172 ms
+----------------------------------------------
+
+[2025-11-11T14:27:46.385Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:27:51.674Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:30:14.663Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 185 ms
+----------------------------------------------
+
+[2025-11-11T14:30:30.317Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T14:30:30.501Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 182 ms
+----------------------------------------------
+
+[2025-11-11T14:31:00.989Z]
+Query: SELECT 1
+Params: []
+Duration: 97 ms
+----------------------------------------------
+
+[2025-11-11T14:31:01.076Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["ujav@gmail.com",1,0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:31:01.263Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["javier","TI","123456789","ujav@gmail.com","N/A","Activo"]
+Duration: 181 ms
+----------------------------------------------
+
+[2025-11-11T14:31:01.386Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:32:09.742Z]
+Query: SELECT 1
+Params: []
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:32:09.913Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [31,1,0]
+Duration: 172 ms
+----------------------------------------------
+
+[2025-11-11T14:32:10.086Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [31]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T14:32:10.185Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:32:26.670Z]
+Query: SELECT 1
+Params: []
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T14:32:26.757Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:34:12.604Z]
+Query: SELECT 1
+Params: []
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:34:12.695Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [30,1,0]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-11T14:34:12.803Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [30]
+Duration: 103 ms
+----------------------------------------------
+
+[2025-11-11T14:34:12.902Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:37:48.533Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["javier","CC","45678987",null,"456789876","Inactivo"]
+Duration: 176 ms
+----------------------------------------------
+
+[2025-11-11T14:37:48.768Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 186 ms
+----------------------------------------------
+
+[2025-11-11T14:38:08.676Z]
+Query: SELECT 1
+Params: []
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:38:08.848Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["mario@gmail.com",1,0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-11T14:38:08.940Z]
+Query: INSERT INTO "public"."clientes" ("nombre_cliente","tipo_docume","numero_doc","correo_cliente","telefono_cliente","estado_cliente") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["mario","TI","3456789","mario@gmail.com",null,"Activo"]
+Duration: 89 ms
+----------------------------------------------
+
+[2025-11-11T14:38:09.055Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-11-11T14:38:17.914Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [33,1,0]
+Duration: 474 ms
+----------------------------------------------
+
+[2025-11-11T14:38:18.095Z]
+Query: UPDATE "public"."clientes" SET "nombre_cliente" = $1, "tipo_docume" = $2, "numero_doc" = $3, "correo_cliente" = $4, "telefono_cliente" = $5, "estado_cliente" = $6 WHERE ("public"."clientes"."id_cliente" = $7 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["mario","TI","3456789","mario@gmail.com","34567890987","Activo",33]
+Duration: 176 ms
+----------------------------------------------
+
+[2025-11-11T14:38:18.209Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 92 ms
+----------------------------------------------
+
+[2025-11-11T14:40:57.998Z]
+Query: SELECT 1
+Params: []
+Duration: 87 ms
+----------------------------------------------
+
+[2025-11-11T14:40:58.085Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [14,1,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:40:58.288Z]
+Query: DELETE FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: [14]
+Duration: 193 ms
+----------------------------------------------
+
+[2025-11-11T14:40:58.398Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 100 ms
+----------------------------------------------
+
+[2025-11-11T14:41:45.103Z]
+Query: SELECT 1
+Params: []
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:41:45.248Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 100 ms
+----------------------------------------------
+
+[2025-11-11T14:41:45.383Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 91 ms
+----------------------------------------------
+
+[2025-11-11T14:48:58.476Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-11T14:48:58.661Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T14:49:06.045Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 83 ms
+----------------------------------------------
+
+[2025-11-11T14:49:06.227Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 169 ms
+----------------------------------------------
+
+[2025-11-11T14:51:13.813Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 184 ms
+----------------------------------------------
+
+[2025-11-11T14:51:14.009Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T14:52:28.391Z]
+Query: SELECT 1
+Params: []
+Duration: 86 ms
+----------------------------------------------
+
+[2025-11-11T14:52:28.476Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 84 ms
+----------------------------------------------
+
+[2025-11-11T14:52:28.743Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 249 ms
+----------------------------------------------
+
+[2025-11-11T14:54:29.601Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 167 ms
+----------------------------------------------
+
+[2025-11-11T14:54:29.804Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 168 ms
+----------------------------------------------
+
+[2025-11-11T14:54:49.132Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 476 ms
+----------------------------------------------
+
+[2025-11-11T14:54:49.341Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 181 ms
+----------------------------------------------
+
+[2025-11-11T14:55:20.750Z]
+Query: SELECT 1
+Params: []
+Duration: 88 ms
+----------------------------------------------
+
+[2025-11-11T14:55:20.934Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."id_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [33,1,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T14:55:21.114Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE ("public"."clientes"."correo_cliente" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["N/A",1,0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T14:55:21.309Z]
+Query: UPDATE "public"."clientes" SET "nombre_cliente" = $1, "tipo_docume" = $2, "numero_doc" = $3, "correo_cliente" = $4, "telefono_cliente" = $5, "estado_cliente" = $6 WHERE ("public"."clientes"."id_cliente" = $7 AND 1=1) RETURNING "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente"
+Params: ["mario","TI","3456789","N/A","34567890987","Activo",33]
+Duration: 171 ms
+----------------------------------------------
+
+[2025-11-11T14:55:21.538Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 170 ms
+----------------------------------------------
+
+[2025-11-11T15:12:25.582Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 239 ms
+----------------------------------------------
+
+[2025-11-11T15:12:25.761Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 168 ms
+----------------------------------------------
