@@ -202,6 +202,8 @@ model productos {
   costo_unitario                                                           Int
   precio_venta                                                             Int
   url_imagen                                                               String?              @db.VarChar(255)
+  created_at                                                               DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at                                                               DateTime?            @default(now()) @db.Timestamptz(6)
   detalle_productos                                                        detalle_productos[]
   producto_proveedor                                                       producto_proveedor[]
   impuestos_productos_productos_icuToimpuestos_productos                   impuestos_productos? @relation("productos_icuToimpuestos_productos", fields: [icu], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
