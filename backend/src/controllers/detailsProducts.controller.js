@@ -143,6 +143,22 @@ const deleteDetailProduct = async (req, res) => {
   }
 };
 
+const deleteOneDetailProduct = async (req, res)=>{
+  let {q} = req.query;
+  q = Number(q);
+  try{
+    const deleted = await prisma.detalle_productos.delete({
+      where:{
+        id_detalle_producto: q
+      }
+    })
+    res.json({message:"Detalle eliminado correctamente", deleted})
+  }catch(error){
+    console.error("❌ Error al eliminar detalle:", error);
+    res.status(500).json({ message: "Error al eliminar detalle" });
+  }
+}
+
 module.exports = {
   createDetailProduct,
   getAllDetails,
@@ -150,4 +166,5 @@ module.exports = {
   getDetailById,
   updateDetailProduct,
   deleteDetailProduct,
+  deleteOneDetailProduct,
 };
