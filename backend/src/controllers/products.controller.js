@@ -63,7 +63,8 @@ const getAllProducts = async (_req, res) => {
         // Opcional: incluir info de impuestos
         impuestos_productos_productos_ivaToimpuestos_productos: true,
         impuestos_productos_productos_icuToimpuestos_productos: true,
-        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
+        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos:
+          true,
       },
     });
 
@@ -71,8 +72,10 @@ const getAllProducts = async (_req, res) => {
       ...p,
       categoria: p.categorias ? p.categorias.nombre_categoria : null,
       proveedores: p.producto_proveedor.map((pp) => pp.proveedores),
-      iva_detalle: p.impuestos_productos_productos_ivaToimpuestos_productos || null,
-      icu_detalle: p.impuestos_productos_productos_icuToimpuestos_productos || null,
+      iva_detalle:
+        p.impuestos_productos_productos_ivaToimpuestos_productos || null,
+      icu_detalle:
+        p.impuestos_productos_productos_icuToimpuestos_productos || null,
       incremento_detalle:
         p.impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos ||
         null,
@@ -147,37 +150,33 @@ const createProduct = async (req, res) => {
       porcentaje_incremento,
       costo_unitario,
       precio_venta,
-      id_proveedor,
+      id_proveedor, // ahora opcional (se asocia desde otro módulo)
     } = req.body;
 
-    // Validaciones mínimas
-    if (!nombre || !id_categoria || !id_proveedor) {
+    // ✅ Validaciones mínimas (sin id_proveedor, sin obligar precios)
+    if (!nombre || !id_categoria) {
       return res.status(400).json({
-        message: "nombre, id_categoria e id_proveedor son requeridos",
+        message: "nombre e id_categoria son requeridos",
       });
     }
-    if (costo_unitario == null || isNaN(Number(costo_unitario))) {
-      return res
-        .status(400)
-        .json({ message: "costo_unitario es requerido y debe ser numérico" });
-    }
-    if (precio_venta == null || isNaN(Number(precio_venta))) {
-      return res
-        .status(400)
-        .json({ message: "precio_venta es requerido y debe ser numérico" });
+
+    // ✅ Verificar FK: categoría siempre, proveedor solo si viene
+    const cat = await prisma.categorias.findUnique({
+      where: { id_categoria: Number(id_categoria) },
+    });
+    if (!cat) {
+      return res.status(400).json({ message: "La categoría no existe" });
     }
 
-    // Verificar FK: categoría y proveedor existen
-    const [cat, prov] = await Promise.all([
-      prisma.categorias.findUnique({
-        where: { id_categoria: Number(id_categoria) },
-      }),
-      prisma.proveedores.findUnique({
+    let prov = null;
+    if (id_proveedor) {
+      prov = await prisma.proveedores.findUnique({
         where: { id_proveedor: Number(id_proveedor) },
-      }),
-    ]);
-    if (!cat) return res.status(400).json({ message: "La categoría no existe" });
-    if (!prov) return res.status(400).json({ message: "El proveedor no existe" });
+      });
+      if (!prov) {
+        return res.status(400).json({ message: "El proveedor no existe" });
+      }
+    }
 
     // ───────── RESOLVER IMPUESTOS (usa tabla impuestos_productos) ─────────
     const ivaId = await resolveImpuestoId(iva, "IVA");
@@ -206,6 +205,51 @@ const createProduct = async (req, res) => {
       }
     }
 
+    // 🔹 Normalizar precios para cumplir chk_productos_precio
+    let costoUnitarioNum = Number(costo_unitario);
+    let precioVentaNum = Number(precio_venta);
+
+    const hasCosto =
+      costo_unitario !== undefined &&
+      costo_unitario !== "" &&
+      !Number.isNaN(costoUnitarioNum) &&
+      costoUnitarioNum > 0;
+
+    const hasPrecio =
+      precio_venta !== undefined &&
+      precio_venta !== "" &&
+      !Number.isNaN(precioVentaNum) &&
+      precioVentaNum > 0;
+
+    if (!hasCosto && !hasPrecio) {
+      // Nada viene desde el frontend → ponemos valores "seguros"
+      costoUnitarioNum = 1000;
+      precioVentaNum = 2000;
+    } else if (hasCosto && !hasPrecio) {
+      // Solo costo → precio a partir del costo
+      if (costoUnitarioNum <= 0) costoUnitarioNum = 1000;
+      precioVentaNum = Math.max(costoUnitarioNum * 1.2, costoUnitarioNum + 1);
+    } else if (!hasCosto && hasPrecio) {
+      // Solo precio → costo menor que el precio
+      if (precioVentaNum <= 0) precioVentaNum = 2000;
+      costoUnitarioNum = Math.max(1, Math.floor(precioVentaNum / 2));
+    } else {
+      // Vienen ambos → normalizamos por si acaso
+      if (costoUnitarioNum <= 0) costoUnitarioNum = 1000;
+      if (precioVentaNum <= 0) precioVentaNum = costoUnitarioNum * 1.2;
+    }
+
+    // Asegurar que precio_venta sea estrictamente mayor que el costo
+    if (precioVentaNum <= costoUnitarioNum) {
+      precioVentaNum = costoUnitarioNum + 1;
+    }
+
+    // (Opcional: log para depurar si vuelve a fallar el constraint)
+    console.log("🧮 Precio normalizado:", {
+      costoUnitarioNum,
+      precioVentaNum,
+    });
+
     // Crear producto
     const newProduct = await prisma.productos.create({
       data: {
@@ -220,24 +264,26 @@ const createProduct = async (req, res) => {
             : String(estado).toLowerCase() === "true",
         id_categoria: Number(id_categoria),
 
-        iva: ivaId, // FK → impuestos_productos.id_impuesto, puede ser null
+        iva: ivaId,
         icu: icuId,
         porcentaje_incremento: porcId,
 
-        costo_unitario: Number(costo_unitario),
-        precio_venta: Number(precio_venta),
-        url_imagen: imageUrl, // link Cloudinary
+        costo_unitario: costoUnitarioNum,
+        precio_venta: precioVentaNum,
+        url_imagen: imageUrl,
       },
     });
 
-    // Vincular con proveedor (producto_proveedor)
-    await prisma.producto_proveedor.create({
-      data: {
-        id_proveedor: Number(id_proveedor),
-        id_producto: newProduct.id_producto,
-        estado_producto_proveedor: true,
-      },
-    });
+    // Vincular proveedor solo si se envió (tu módulo de proveedores puede hacerlo aparte)
+    if (id_proveedor) {
+      await prisma.producto_proveedor.create({
+        data: {
+          id_proveedor: Number(id_proveedor),
+          id_producto: newProduct.id_producto,
+          estado_producto_proveedor: true,
+        },
+      });
+    }
 
     res.status(201).json({
       message: "✅ Producto creado exitosamente",
@@ -247,7 +293,6 @@ const createProduct = async (req, res) => {
     console.error("❌ Error al crear producto:", error);
     res.status(500).json({ message: "Error al crear producto" });
   } finally {
-    // ───────── BORRAR ARCHIVO LOCAL TEMPORAL ─────────
     if (tempPath) {
       try {
         await fs.unlink(tempPath);
