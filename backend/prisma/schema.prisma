@@ -58,7 +58,7 @@ model detalle_compra {
   id_compra           Int
   cantidad            Int
   precio_unitario     Decimal            @db.Decimal(12, 2)
-  subtotal            Decimal?           @default(dbgenerated("((cantidad)::numeric * precio_unitario)")) @db.Decimal(12, 2)
+  subtotal            Decimal?           @db.Decimal(12, 2)
   id_detalle_producto Int?
   iva_aplicado        Decimal?           @db.Decimal
   icu_aplicado        Decimal?           @db.Decimal
@@ -118,7 +118,7 @@ model detalle_venta {
   id_venta                   Int
   cantidad                   Int
   precio_unitario            Decimal                      @db.Decimal(10, 2)
-  subtotal                   Decimal?                     @default(dbgenerated("((cantidad)::numeric * precio_unitario)")) @db.Decimal(10, 2)
+  subtotal                   Decimal?                     @db.Decimal(10, 2)
   id_detalle_producto        Int?
   iva_venta                  Decimal?                     @db.Decimal
   icu_venta                  Decimal?                     @db.Decimal
