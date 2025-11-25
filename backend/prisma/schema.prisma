@@ -148,6 +148,7 @@ model devolucion_producto {
   fecha_devolucion            DateTime?                     @db.Date
   cantidad_total              Int?
   nombre_responsable          String?                       @db.VarChar(20)
+  numero_factura              String?                       @db.VarChar(20)
   detalle_devolucion_producto detalle_devolucion_producto[]
   usuarios                    usuarios?                     @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
 }
