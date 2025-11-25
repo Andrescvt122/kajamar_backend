@@ -329,11 +329,11 @@ const updateProduct = async (req, res) => {
       porcentaje_incremento,
       costo_unitario,
       precio_venta,
-      id_proveedor, // si llega, re-enlazamos
-      url_imagen, // opcionalmente permitir link manual
+      id_proveedor,
+      url_imagen,
     } = req.body;
 
-    // Si llega id_categoria, validar existencia
+    // Validar categoría si llega
     if (id_categoria) {
       const cat = await prisma.categorias.findUnique({
         where: { id_categoria: Number(id_categoria) },
@@ -342,6 +342,24 @@ const updateProduct = async (req, res) => {
         return res.status(400).json({ message: "La categoría no existe" });
       }
     }
+
+    // ⭐ Validación de precios legible
+    if (
+      costo_unitario !== undefined &&
+      precio_venta !== undefined &&
+      !Number.isNaN(Number(costo_unitario)) &&
+      !Number.isNaN(Number(precio_venta))
+    ) {
+      const costoNum = Number(costo_unitario);
+      const precioNum = Number(precio_venta);
+
+      if (precioNum <= costoNum) {
+        return res.status(400).json({
+          message: "El precio de venta debe ser mayor al costo unitario.",
+        });
+      }
+    }
+
 
     // ───────── RESOLVER IMPUESTOS SOLO SI LLEGAN EN EL BODY ─────────
     let ivaId, icuId, porcId;
@@ -436,25 +454,68 @@ const updateProduct = async (req, res) => {
   }
 };
 
-// -------------------- DELETE --------------------
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
+  const productId = Number(id);
+
   try {
     const exists = await prisma.productos.findUnique({
-      where: { id_producto: Number(id) },
+      where: { id_producto: productId },
     });
-    if (!exists)
+
+    if (!exists) {
       return res.status(404).json({ message: "Producto no encontrado" });
+    }
 
-    await prisma.producto_proveedor.deleteMany({
-      where: { id_producto: Number(id) },
+    // 1️⃣ ¿Tiene movimientos de inventario?
+    const tieneMovimientos = await prisma.detalle_productos.findFirst({
+      where: {
+        id_producto: productId,
+        OR: [
+          { detalle_venta: { some: {} } },
+          { detalle_compra: { some: {} } },
+          { detalle_devolucion_cliente: { some: {} } },
+          { detalle_devolucion_producto: { some: {} } },
+          { detalle_productos_baja: { some: {} } },
+        ],
+      },
+      select: { id_detalle_producto: true },
     });
-    await prisma.productos.delete({ where: { id_producto: Number(id) } });
 
-    res.json({ message: "✅ Producto eliminado" });
+    if (tieneMovimientos) {
+      return res.status(400).json({
+        message:
+          "No se puede eliminar el producto porque tiene movimientos de inventario (compras, ventas, devoluciones o bajas) asociados.",
+      });
+    }
+
+    // 2️⃣ Sin movimientos → limpiar relaciones y borrar
+    await prisma.producto_proveedor.deleteMany({
+      where: { id_producto: productId },
+    });
+
+    // Si quieres asegurarte, puedes borrar detalle_productos explícitamente
+    await prisma.detalle_productos.deleteMany({
+      where: { id_producto: productId },
+    });
+
+    await prisma.productos.delete({
+      where: { id_producto: productId },
+    });
+
+    return res.json({ message: "✅ Producto eliminado correctamente." });
   } catch (error) {
     console.error("❌ Error al eliminar producto:", error);
-    res.status(500).json({ message: "Error al eliminar producto" });
+
+    // Extra: por si se escapó algún caso de FK
+    if (error.code === "P2003") {
+      return res.status(400).json({
+        message:
+          "No se puede eliminar el producto porque tiene información relacionada en el sistema (compras, ventas o devoluciones).",
+      });
+    }
+
+    return res.status(500).json({ message: "Error al eliminar producto" });
   }
 };
 
