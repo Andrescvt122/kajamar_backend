@@ -16,6 +16,7 @@ const permisosRoutes = require("./permisos.routes");
 const productsRoutes = require("./products.routes");
 const purchaseRoutes = require("./purchase.routes");
 
+router.use("/kajamart/api/clients", clientsRoutes);
 router.use("/kajamart/api/categories", categoriesRoutes);
 router.use("/kajamart/api/products", productsRoutes);
 router.use("/kajamart/api/lowProducts", lowProductsRoutes);
