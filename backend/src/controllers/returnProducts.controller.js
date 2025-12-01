@@ -1,11 +1,5 @@
 const prisma = require("../prisma/prismaClient");
 
-const buildSearchFilter = (q)=>{
-    const stringFileds=[
-        
-    ]
-}
-
 const getReturnProducts = async (req, res) => {
   try {
     const returnProducts = await prisma.devolucion_producto.findMany({
