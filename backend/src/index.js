@@ -7,6 +7,9 @@ const cors = require("cors");
 const routes = require("./routes/index");
 const app = express();
 require('dotenv').config();
+// Rutas
+const detailsProductsRoutes = require("./routes/detailsProducts.routes");
+app.use("/", detailsProductsRoutes);
 
 const port = process.env.PORT || 3000;
 
