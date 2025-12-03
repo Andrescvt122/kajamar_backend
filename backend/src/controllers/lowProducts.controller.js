@@ -173,6 +173,33 @@ const createLowProduct = async (req, res) => {
               },
             },
           });
+          if(p.motivo == "Venta unitaria" && p.id_producto_traslado != null){
+            // const productoTraslado = await tx.detalle_productos.findUnique({
+            //   where:{
+            //     id_detalle_producto: p.id_producto_traslado
+            //   }
+            // })
+            const productTraslado = await tx.detalle_productos.update({
+              where:{
+                id_detalle_producto:p.id_producto_traslado
+              },
+              data:{
+                stock_producto:{
+                  increment:p.cantidad
+                }
+              }
+            })
+            await tx.productos.update({
+              where:{
+                id_producto:productTraslado.id_producto
+              },
+              data:{
+                stock_actual:{
+                  increment:p.cantidad
+                }
+              }
+            })
+          }
         }
         // retornar todo
         return await tx.productos_baja.findUnique({
