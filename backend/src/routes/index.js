@@ -14,8 +14,8 @@ const clientsRoutes = require("./clients.routes");
 const detailsProductsRoutes = require("./detailsProducts.routes");
 const permisosRoutes = require("./permisos.routes");
 const productsRoutes = require("./products.routes");
+const purchaseRoutes = require("./purchase.routes");
 const salesRoutes = require("./sales.routes");
-
 
 router.use("/kajamart/api/clients", clientsRoutes);
 router.use("/kajamart/api/sales", salesRoutes);
@@ -34,6 +34,7 @@ router.use("/kajamart/api/detailsProducts", detailsProductsRoutes)
 router.use("/kajamart/api/products", productsRoutes)
 router.use("/kajamart/api/acceso", accessRoutes);
 router.use("/kajamart/api/permisos", permisosRoutes);
+router.use("/kajamart/api/purchase", purchaseRoutes);
 
 
 module.exports = router;
