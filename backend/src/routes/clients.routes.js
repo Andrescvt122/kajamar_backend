@@ -1,20 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const clientController = require("../controllers/clients.controller"); // ← Nombre exacto del archivo
+const clientsController = require("../controllers/clients.controller");
 
-// GET /api/clients → Obtener todos los clientes
-router.get("/", clientController.getClients);
+// GET /kajamart/api/clients
+router.get("/", clientsController.getClients);
 
-// GET /api/clients/:id → Obtener un cliente por ID
-router.get("/:id", clientController.getClientById);
+// GET /kajamart/api/clients/search/:q
+router.get("/search/:q", clientsController.searchClients);
 
-// POST /api/clients → Crear un nuevo cliente
-router.post("/", clientController.createClient);
+// GET /kajamart/api/clients/:id
+router.get("/:id", clientsController.getClientById);
 
-// PUT /api/clients/:id → Actualizar un cliente
-router.put("/:id", clientController.updateClient);
+// POST /kajamart/api/clients
+router.post("/", clientsController.createClient);
 
-// DELETE /api/clients/:id → Eliminar un cliente
-router.delete("/:id", clientController.deleteClient);
+// PUT /kajamart/api/clients/:id
+router.put("/:id", clientsController.updateClient);
+
+// DELETE /kajamart/api/clients/:id
+router.delete("/:id", clientsController.deleteClient);
 
 module.exports = router;

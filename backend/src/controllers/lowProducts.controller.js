@@ -173,6 +173,49 @@ const createLowProduct = async (req, res) => {
               },
             },
           });
+          if (
+            p.motivo == "venta unitaria" &&
+            p.id_producto_traslado != null &&
+            p.cantidad_traslado !== null
+          ) {
+            console.log(p.motivo);
+            // const productoTraslado = await tx.detalle_productos.findUnique({
+            //   where:{
+            //     id_detalle_producto: p.id_producto_traslado
+            //   }
+            // })
+            if (!detalle_producto) {
+              throw new Error(
+                `No existe detalle_productos con id ${p.id_detalle_productos}`
+              );
+            }
+            if (!product) {
+              throw new Error(
+                `No existe producto asociado al detalle ${p.id_detalle_productos}`
+              );
+            }
+
+            const productTraslado = await tx.detalle_productos.update({
+              where: {
+                id_detalle_producto: p.id_producto_traslado,
+              },
+              data: {
+                stock_producto: {
+                  increment: p.cantidad_traslado,
+                },
+              },
+            });
+            await tx.productos.update({
+              where: {
+                id_producto: productTraslado.id_producto,
+              },
+              data: {
+                stock_actual: {
+                  increment: p.cantidad_traslado,
+                },
+              },
+            });
+          }
         }
         // retornar todo
         return await tx.productos_baja.findUnique({
@@ -196,5 +239,5 @@ module.exports = {
   createLowProduct,
   searchLowProduct,
   getOneLowProduct,
-  getResponsable
+  getResponsable,
 };
