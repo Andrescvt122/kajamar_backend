@@ -9,7 +9,7 @@ const getClients = async (req, res) => {
     });
 
     const clienteCaja = {
-      id_cliente: 1,
+      id_cliente: 100,
       nombre_cliente: "Cliente de Caja",
       tipo_docume: "N/A",
       numero_doc: "N/A",
