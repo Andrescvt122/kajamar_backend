@@ -11,6 +11,7 @@ const {
   updateProduct,
   deleteProduct,
   getRandomProduct,
+  getProductsByCategory
 } = require("../controllers/products.controller");
 
 // Config multer (carpeta uploads/)
@@ -29,6 +30,7 @@ const upload = multer({ storage });
 router.get("/", getAllProducts);
 router.get("/supplier/:id", getProductsBySupplier);
 router.get("/random", getRandomProduct);
+router.get("/category", getProductsByCategory)
 
 // 👇 aquí usamos upload.single("imagen")
 router.post("/", upload.single("imagen"), createProduct);

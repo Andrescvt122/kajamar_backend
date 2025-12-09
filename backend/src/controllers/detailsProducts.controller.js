@@ -1,4 +1,3 @@
-// backend/src/controllers/detalle_productos.controller.js
 const prisma = require("../prisma/prismaClient");
 
 // 🟢 Crear detalle de producto
@@ -15,7 +14,7 @@ const createDetailProduct = async (req, res) => {
             : null,
           stock_producto: data.stock_producto,
           es_devolucion: data.es_devolucion ?? false,
-          estado: true,
+          estado: true
         },
       });
 
@@ -32,9 +31,7 @@ const createDetailProduct = async (req, res) => {
     return res.status(201).json(register);
   } catch (error) {
     console.error("❌ Error al crear el detalle del producto:", error);
-    return res
-      .status(500)
-      .json({ message: "Error al crear el detalle del producto" });
+    return res.status(500).json({ error: "Error al crear el detalle del producto" });
   }
 };
 
@@ -50,7 +47,7 @@ const getAllDetails = async (req, res) => {
       orderBy: { id_detalle_producto: "desc" },
       where: {
         estado: true,
-      },
+      }, 
     });
     res.json(detalles);
   } catch (error) {
@@ -64,23 +61,20 @@ const getDetailsByProduct = async (req, res) => {
   const { id_producto } = req.params;
   try {
     const detalles = await prisma.detalle_productos.findMany({
-      where: {
-        AND: [{ id_producto: Number(id_producto) }, { estado: true }],
-      },
-      orderBy: { id_detalle_producto: "desc" },
+      where: { AND:[
+        { id_producto: Number(id_producto) },
+        { estado: true },
+      ] },
+      orderBy: { id_detalle_producto: "desc" }, // ✅ corregido
     });
 
     if (!detalles.length)
-      return res
-        .status(404)
-        .json({ message: "No hay detalles para este producto" });
+      return res.status(404).json({ message: "No hay detalles para este producto" });
 
     res.json(detalles);
   } catch (error) {
     console.error("❌ Error al obtener detalles del producto:", error);
-    res
-      .status(500)
-      .json({ message: "Error al obtener detalles del producto" });
+    res.status(500).json({ message: "Error al obtener detalles del producto" });
   }
 };
 
@@ -121,7 +115,7 @@ const updateDetailProduct = async (req, res) => {
           : null,
         stock_producto: data.stock_producto,
         es_devolucion: data.es_devolucion ?? false,
-        estado: true,
+        estado:true
       },
     });
     res.json(updated);
@@ -131,43 +125,39 @@ const updateDetailProduct = async (req, res) => {
   }
 };
 
-// 🔴 Eliminar detalle (borrado lógico con mensajes claros)
+// 🔴 Eliminar detalle
 const deleteDetailProduct = async (req, res) => {
   const { id_detalle_producto } = req.params;
-
+  console.log(id_detalle_producto);
   try {
-    const existing = await prisma.detalle_productos.findUnique({
-      where: { id_detalle_producto: Number(id_detalle_producto) },
-    });
-
-    if (!existing) {
-      return res
-        .status(404)
-        .json({ message: "El detalle del producto no existe." });
-    }
-
-    if (existing.estado === false) {
-      return res
-        .status(400)
-        .json({ message: "El detalle ya estaba eliminado." });
-    }
-
     const deleted = await prisma.detalle_productos.update({
       where: { id_detalle_producto: Number(id_detalle_producto) },
       data: {
         estado: false,
       },
-    });
-
-    return res.json({
-      message: "Detalle eliminado correctamente",
-      deleted,
-    });
+    })
+    res.json({ message: "Detalle eliminado correctamente", deleted });
   } catch (error) {
     console.error("❌ Error al eliminar detalle:", error);
     res.status(500).json({ message: "Error al eliminar detalle" });
   }
 };
+
+const deleteOneDetailProduct = async (req, res)=>{
+  let {q} = req.query;
+  q = Number(q);
+  try{
+    const deleted = await prisma.detalle_productos.delete({
+      where:{
+        id_detalle_producto: q
+      }
+    })
+    res.json({message:"Detalle eliminado correctamente", deleted})
+  }catch(error){
+    console.error("❌ Error al eliminar detalle:", error);
+    res.status(500).json({ message: "Error al eliminar detalle" });
+  }
+}
 
 module.exports = {
   createDetailProduct,
@@ -176,4 +166,5 @@ module.exports = {
   getDetailById,
   updateDetailProduct,
   deleteDetailProduct,
+  deleteOneDetailProduct,
 };

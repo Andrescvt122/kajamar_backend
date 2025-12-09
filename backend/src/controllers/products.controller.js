@@ -541,7 +541,7 @@ const getRandomProduct = async (req, res) => {
     }
 
     while (true) {
-      const idx = Math.floor(Math.random() * ids.length);
+      const idx= Math.floor(Math.random() * ids.length);
       const product = await prisma.productos.findUnique({
         where: {
           id_producto: ids[idx].id_producto,
@@ -559,6 +559,29 @@ const getRandomProduct = async (req, res) => {
   }
 };
 
+const getProductsByCategory = async (req,res)=>{
+  const q = req.query.q;
+  console.log(q);
+  try{
+    const produts = await prisma.productos.findMany({
+      where:{
+        id_categoria:{equals:Number(q)}
+      },
+      include:{
+        detalle_productos: true,
+        categorias: true
+      }
+    }
+  )
+  return res.status(200).json(produts);
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({
+      message: "Error al obtener los productos",
+    });
+  }
+}
+
 module.exports = {
   getAllProducts,
   getProductsBySupplier,
@@ -566,4 +589,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getRandomProduct,
+  getProductsByCategory
 };
