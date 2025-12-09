@@ -1,3 +1,4 @@
+// backend/controllers/clients.controller.js
 const prisma = require("../prisma/prismaClient");
 
 // ✅ Obtener todos los clientes
@@ -7,9 +8,8 @@ const getClients = async (req, res) => {
       orderBy: { id_cliente: "asc" },
     });
 
-    // Cliente de Caja (fijo, NO en BD)
     const clienteCaja = {
-      id_cliente: 1, // ID especial para el cliente de caja
+      id_cliente: 100,
       nombre_cliente: "Cliente de Caja",
       tipo_docume: "N/A",
       numero_doc: "N/A",
@@ -18,7 +18,6 @@ const getClients = async (req, res) => {
       estado_cliente: true,
     };
 
-    // Devolver Cliente de Caja + clientes reales
     return res.status(200).json([clienteCaja, ...clients]);
   } catch (error) {
     console.error("❌ Error al obtener los clientes:", error);
@@ -28,9 +27,8 @@ const getClients = async (req, res) => {
 
 // ✅ Obtener un cliente por ID
 const getClientById = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
-  // Cliente de Caja especial
   if (id === 0) {
     const clienteCaja = {
       id_cliente: 0,
@@ -60,6 +58,67 @@ const getClientById = async (req, res) => {
   }
 };
 
+// ✅ Buscar clientes por nombre o ID
+// ✅ Buscar clientes por nombre, documento o ID (versión robusta)
+const searchClients = async (req, res) => {
+  const qRaw = String(req.params.q || "").trim();
+
+  if (!qRaw) {
+    return res.status(400).json({ error: "Falta parámetro de búsqueda" });
+  }
+
+  const q = qRaw.toLowerCase();
+  const idNumber = Number(qRaw);
+  const isNumeric = !Number.isNaN(idNumber);
+
+  // Cliente de Caja especial por ID = 0
+  if (isNumeric && idNumber === 0) {
+    const clienteCaja = {
+      id_cliente: 0,
+      nombre_cliente: "Cliente de Caja",
+      tipo_docume: "N/A",
+      numero_doc: "N/A",
+      correo_cliente: "caja@correo.com",
+      telefono_cliente: "N/A",
+      estado_cliente: true,
+    };
+    return res.status(200).json([clienteCaja]);
+  }
+
+  try {
+    // 1) Traemos todos los clientes ordenados
+    const allClients = await prisma.clientes.findMany({
+      orderBy: { id_cliente: "asc" },
+    });
+
+    // 2) Filtramos en JS (no dependemos de collation/case de la BD)
+    const filtered = allClients.filter((c) => {
+      const nombre = (c.nombre_cliente || "").toLowerCase();
+      const doc = (c.numero_doc || "").toString().toLowerCase();
+      const correo = (c.correo_cliente || "").toLowerCase();
+      const id = String(c.id_cliente);
+
+      return (
+        nombre.includes(q) ||
+        doc.includes(q) ||
+        correo.includes(q) ||
+        (isNumeric && id === String(idNumber))
+      );
+    });
+
+    if (!filtered || filtered.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No se encontró ningún cliente" });
+    }
+
+    return res.status(200).json(filtered);
+  } catch (error) {
+    console.error("❌ Error al buscar clientes:", error);
+    return res.status(500).json({ error: "Error al buscar los clientes" });
+  }
+};
+
 // ✅ Crear un nuevo cliente
 const createClient = async (req, res) => {
   let {
@@ -71,7 +130,6 @@ const createClient = async (req, res) => {
     estado_cliente,
   } = req.body;
 
-  // Normalizar opcionales: si vienen vacíos, dejarlos en null
   correo_cliente =
     correo_cliente && correo_cliente.toString().trim() !== ""
       ? correo_cliente.toString().trim()
@@ -82,7 +140,6 @@ const createClient = async (req, res) => {
       ? telefono_cliente.toString().trim()
       : null;
 
-  // Solo campos realmente obligatorios
   if (!nombre_cliente || !tipo_docume || !numero_doc || estado_cliente == null) {
     return res.status(400).json({
       error:
@@ -91,7 +148,6 @@ const createClient = async (req, res) => {
   }
 
   try {
-    // Validar correo duplicado SOLO si viene
     if (correo_cliente) {
       const existingEmail = await prisma.clientes.findUnique({
         where: { correo_cliente },
@@ -107,8 +163,8 @@ const createClient = async (req, res) => {
         nombre_cliente,
         tipo_docume,
         numero_doc,
-        correo_cliente,   // puede ser null
-        telefono_cliente, // puede ser null
+        correo_cliente,
+        telefono_cliente,
         estado_cliente,
       },
     });
@@ -123,11 +179,10 @@ const createClient = async (req, res) => {
   }
 };
 
-// ✅ Actualizar un cliente existente
+// ✅ Actualizar un cliente
 const updateClient = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
-  // No permitir editar el Cliente de Caja
   if (id === 0) {
     return res
       .status(400)
@@ -143,7 +198,6 @@ const updateClient = async (req, res) => {
     estado_cliente,
   } = req.body;
 
-  // Normalizar opcionales aquí también
   correo_cliente =
     correo_cliente && correo_cliente.toString().trim() !== ""
       ? correo_cliente.toString().trim()
@@ -163,7 +217,6 @@ const updateClient = async (req, res) => {
       return res.status(404).json({ error: "Cliente no encontrado" });
     }
 
-    // Si viene un correo nuevo, validar que no esté usado por otro cliente
     if (correo_cliente && correo_cliente !== existing.correo_cliente) {
       const emailUsed = await prisma.clientes.findUnique({
         where: { correo_cliente },
@@ -211,9 +264,8 @@ const updateClient = async (req, res) => {
 
 // ✅ Eliminar un cliente
 const deleteClient = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
-  // No permitir eliminar el Cliente de Caja
   if (id === 0) {
     return res
       .status(400)
@@ -245,6 +297,7 @@ const deleteClient = async (req, res) => {
 module.exports = {
   getClients,
   getClientById,
+  searchClients,
   createClient,
   updateClient,
   deleteClient,
