@@ -1,44 +1,43 @@
 // backend/controllers/clients.controller.js
 const prisma = require("../prisma/prismaClient");
 
-// ✅ Obtener todos los clientes
+// ======================
+// Constante: Cliente de Caja FIJO
+// ======================
+const CAJA_ID = 0;
+
+const clienteCaja = {
+  id_cliente: CAJA_ID,
+  nombre_cliente: "Cliente de Caja",
+  tipo_docume: "N/A",
+  numero_doc: "N/A",
+  correo_cliente: "caja@correo.com",
+  telefono_cliente: "N/A",
+  estado_cliente: true,
+};
+
+// ✅ Obtener todos los clientes (Cliente de Caja SIEMPRE primero)
 const getClients = async (req, res) => {
   try {
     const clients = await prisma.clientes.findMany({
       orderBy: { id_cliente: "asc" },
     });
 
-    const clienteCaja = {
-      id_cliente: 100,
-      nombre_cliente: "Cliente de Caja",
-      tipo_docume: "N/A",
-      numero_doc: "N/A",
-      correo_cliente: "caja@correo.com",
-      telefono_cliente: "N/A",
-      estado_cliente: true,
-    };
+    // Evita duplicado si algún día alguien creó un cliente con id 0 (raro, pero por si acaso)
+    const filtered = clients.filter((c) => c.id_cliente !== CAJA_ID);
 
-    return res.status(200).json([clienteCaja, ...clients]);
+    return res.status(200).json([clienteCaja, ...filtered]);
   } catch (error) {
     console.error("❌ Error al obtener los clientes:", error);
     return res.status(500).json({ error: "Error al obtener los clientes" });
   }
 };
 
-// ✅ Obtener un cliente por ID
+// ✅ Obtener un cliente por ID (incluye Cliente de Caja)
 const getClientById = async (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-  if (id === 0) {
-    const clienteCaja = {
-      id_cliente: 0,
-      nombre_cliente: "Cliente de Caja",
-      tipo_docume: "N/A",
-      numero_doc: "N/A",
-      correo_cliente: "caja@correo.com",
-      telefono_cliente: "N/A",
-      estado_cliente: true,
-    };
+  if (id === CAJA_ID) {
     return res.status(200).json(clienteCaja);
   }
 
@@ -58,8 +57,7 @@ const getClientById = async (req, res) => {
   }
 };
 
-// ✅ Buscar clientes por nombre o ID
-// ✅ Buscar clientes por nombre, documento o ID (versión robusta)
+// ✅ Buscar clientes por nombre/documento/correo/id (incluye Cliente de Caja)
 const searchClients = async (req, res) => {
   const qRaw = String(req.params.q || "").trim();
 
@@ -71,27 +69,21 @@ const searchClients = async (req, res) => {
   const idNumber = Number(qRaw);
   const isNumeric = !Number.isNaN(idNumber);
 
-  // Cliente de Caja especial por ID = 0
-  if (isNumeric && idNumber === 0) {
-    const clienteCaja = {
-      id_cliente: 0,
-      nombre_cliente: "Cliente de Caja",
-      tipo_docume: "N/A",
-      numero_doc: "N/A",
-      correo_cliente: "caja@correo.com",
-      telefono_cliente: "N/A",
-      estado_cliente: true,
-    };
+  // Si buscan 0 => Cliente de Caja
+  if (isNumeric && idNumber === CAJA_ID) {
+    return res.status(200).json([clienteCaja]);
+  }
+
+  // Si buscan por "cliente de caja" => también lo devolvemos
+  if (q.includes("cliente de caja") || q.includes("caja")) {
     return res.status(200).json([clienteCaja]);
   }
 
   try {
-    // 1) Traemos todos los clientes ordenados
     const allClients = await prisma.clientes.findMany({
       orderBy: { id_cliente: "asc" },
     });
 
-    // 2) Filtramos en JS (no dependemos de collation/case de la BD)
     const filtered = allClients.filter((c) => {
       const nombre = (c.nombre_cliente || "").toLowerCase();
       const doc = (c.numero_doc || "").toString().toLowerCase();
@@ -107,9 +99,7 @@ const searchClients = async (req, res) => {
     });
 
     if (!filtered || filtered.length === 0) {
-      return res
-        .status(404)
-        .json({ error: "No se encontró ningún cliente" });
+      return res.status(404).json({ error: "No se encontró ningún cliente" });
     }
 
     return res.status(200).json(filtered);
@@ -179,11 +169,11 @@ const createClient = async (req, res) => {
   }
 };
 
-// ✅ Actualizar un cliente
+// ✅ Actualizar un cliente (NO permitir Caja)
 const updateClient = async (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-  if (id === 0) {
+  if (id === CAJA_ID) {
     return res
       .status(400)
       .json({ error: "No se puede editar el Cliente de Caja" });
@@ -262,11 +252,11 @@ const updateClient = async (req, res) => {
   }
 };
 
-// ✅ Eliminar un cliente
+// ✅ Eliminar un cliente (NO permitir Caja)
 const deleteClient = async (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-  if (id === 0) {
+  if (id === CAJA_ID) {
     return res
       .status(400)
       .json({ error: "No se puede eliminar el Cliente de Caja" });
