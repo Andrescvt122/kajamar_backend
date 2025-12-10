@@ -51428,3 +51428,51 @@ Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombr
 Params: [1,0]
 Duration: 79 ms
 ----------------------------------------------
+
+[2025-12-10T23:11:44.824Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 209 ms
+----------------------------------------------
+
+[2025-12-10T23:11:45.815Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-12-10T23:14:32.835Z]
+Query: SELECT 1
+Params: []
+Duration: 80 ms
+----------------------------------------------
+
+[2025-12-10T23:14:32.918Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 78 ms
+----------------------------------------------
+
+[2025-12-10T23:16:30.402Z]
+Query: SELECT 1
+Params: []
+Duration: 79 ms
+----------------------------------------------
+
+[2025-12-10T23:16:30.687Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 223 ms
+----------------------------------------------
+
+[2025-12-10T23:16:30.870Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 164 ms
+----------------------------------------------
+
+[2025-12-10T23:16:31.017Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 163 ms
+----------------------------------------------
