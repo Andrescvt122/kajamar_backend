@@ -51230,3 +51230,93 @@ Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_clie
 Params: [0]
 Duration: 87 ms
 ----------------------------------------------
+
+[2025-12-09T15:27:08.844Z]
+Query: SELECT 1
+Params: []
+Duration: 87 ms
+----------------------------------------------
+
+[2025-12-09T15:27:09.029Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_producto" = $1 AND "public"."detalle_productos"."estado" = $2) ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $3
+Params: [3,true,0]
+Duration: 184 ms
+----------------------------------------------
+
+[2025-12-09T15:27:14.381Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_producto" = $1 AND "public"."detalle_productos"."estado" = $2) ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $3
+Params: [3,true,0]
+Duration: 90 ms
+----------------------------------------------
+
+[2025-12-09T15:27:16.834Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_producto" = $1 AND "public"."detalle_productos"."estado" = $2) ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $3
+Params: [3,true,0]
+Duration: 440 ms
+----------------------------------------------
+
+[2025-12-09T15:27:18.392Z]
+Query: SELECT "public"."ventas"."id_venta", "public"."ventas"."fecha_venta", "public"."ventas"."id_cliente", "public"."ventas"."metodo_pago", "public"."ventas"."total", "public"."ventas"."estado_venta" FROM "public"."ventas" WHERE 1=1 ORDER BY "public"."ventas"."id_venta" DESC OFFSET $1
+Params: [0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-12-09T15:27:18.534Z]
+Query: SELECT "public"."ventas"."id_venta", "public"."ventas"."fecha_venta", "public"."ventas"."id_cliente", "public"."ventas"."metodo_pago", "public"."ventas"."total", "public"."ventas"."estado_venta" FROM "public"."ventas" WHERE 1=1 ORDER BY "public"."ventas"."id_venta" DESC OFFSET $1
+Params: [0]
+Duration: 101 ms
+----------------------------------------------
+
+[2025-12-10T13:41:31.578Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 331 ms
+----------------------------------------------
+
+[2025-12-10T13:41:31.727Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 106 ms
+----------------------------------------------
+
+[2025-12-10T15:05:44.020Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 221 ms
+----------------------------------------------
+
+[2025-12-10T15:05:44.197Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 182 ms
+----------------------------------------------
+
+[2025-12-10T15:05:44.384Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 180 ms
+----------------------------------------------
+
+[2025-12-10T15:05:54.197Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."max_porcentaje_de_devolucion", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 87 ms
+----------------------------------------------
+
+[2025-12-10T15:05:54.316Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 85 ms
+----------------------------------------------
+
+[2025-12-10T15:05:54.437Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 86 ms
+----------------------------------------------
+
+[2025-12-10T15:12:11.241Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE 1=1 ORDER BY "public"."clientes"."id_cliente" ASC OFFSET $1
+Params: [0]
+Duration: 302 ms
+----------------------------------------------
