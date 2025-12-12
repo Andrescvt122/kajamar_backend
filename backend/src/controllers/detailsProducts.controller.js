@@ -131,6 +131,25 @@ const deleteDetailProduct = async (req, res) => {
   const { id_detalle_producto } = req.params;
   console.log(id_detalle_producto);
   try {
+    const details = await prisma.detalle_productos.findUnique({
+      where: { id_detalle_producto: Number(id_detalle_producto) },
+      include:{
+        detalle_ventas:true
+      },
+      include:{
+        detalle_compras:true
+      },
+      include:{
+        detalle_productos_baja:true
+      },
+      include:{
+        detalle_devolucion_producto:true
+      },
+      include:{
+        detalle_devolucion_cliente:true
+      }
+    });
+    const 
     const deleted = await prisma.detalle_productos.update({
       where: { id_detalle_producto: Number(id_detalle_producto) },
       data: {
