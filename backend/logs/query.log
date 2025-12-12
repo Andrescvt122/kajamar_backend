@@ -1,0 +1,144 @@
+
+[2025-12-12T02:19:05.259Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."estado" = $1 ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $2
+Params: [true,0]
+Duration: 243 ms
+----------------------------------------------
+
+[2025-12-12T02:19:05.428Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9) OFFSET $10
+Params: [35,34,33,28,27,5,1,4,3,0]
+Duration: 159 ms
+----------------------------------------------
+
+[2025-12-12T02:30:18.501Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [3,1,0]
+Duration: 231 ms
+----------------------------------------------
+
+[2025-12-12T02:30:18.650Z]
+Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_detalle_producto", "public"."detalle_devolucion_cliente"."id_detalle_venta", "public"."detalle_devolucion_cliente"."cantidad_cliente_devuelta", "public"."detalle_devolucion_cliente"."cantidad_devuelta_a_cliente", "public"."detalle_devolucion_cliente"."precio_unitario_devolucion", "public"."detalle_devolucion_cliente"."monto_clientes_productos_devueltos", "public"."detalle_devolucion_cliente"."estado_condicion_producto", "public"."detalle_devolucion_cliente"."estado_devolucion_proveedor", "public"."detalle_devolucion_cliente"."nombre_producto" FROM "public"."detalle_devolucion_cliente" WHERE "public"."detalle_devolucion_cliente"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-12-12T02:31:31.406Z]
+Query: SELECT 1
+Params: []
+Duration: 71 ms
+----------------------------------------------
+
+[2025-12-12T02:31:31.480Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [3,1,0]
+Duration: 71 ms
+----------------------------------------------
+
+[2025-12-12T02:31:31.549Z]
+Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_detalle_producto", "public"."detalle_devolucion_cliente"."id_detalle_venta", "public"."detalle_devolucion_cliente"."cantidad_cliente_devuelta", "public"."detalle_devolucion_cliente"."cantidad_devuelta_a_cliente", "public"."detalle_devolucion_cliente"."precio_unitario_devolucion", "public"."detalle_devolucion_cliente"."monto_clientes_productos_devueltos", "public"."detalle_devolucion_cliente"."estado_condicion_producto", "public"."detalle_devolucion_cliente"."estado_devolucion_proveedor", "public"."detalle_devolucion_cliente"."nombre_producto" FROM "public"."detalle_devolucion_cliente" WHERE "public"."detalle_devolucion_cliente"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 68 ms
+----------------------------------------------
+
+[2025-12-12T02:33:09.220Z]
+Query: SELECT 1
+Params: []
+Duration: 84 ms
+----------------------------------------------
+
+[2025-12-12T02:33:09.296Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [3,1,0]
+Duration: 75 ms
+----------------------------------------------
+
+[2025-12-12T02:33:09.379Z]
+Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_detalle_producto", "public"."detalle_devolucion_cliente"."id_detalle_venta", "public"."detalle_devolucion_cliente"."cantidad_cliente_devuelta", "public"."detalle_devolucion_cliente"."cantidad_devuelta_a_cliente", "public"."detalle_devolucion_cliente"."precio_unitario_devolucion", "public"."detalle_devolucion_cliente"."monto_clientes_productos_devueltos", "public"."detalle_devolucion_cliente"."estado_condicion_producto", "public"."detalle_devolucion_cliente"."estado_devolucion_proveedor", "public"."detalle_devolucion_cliente"."nombre_producto" FROM "public"."detalle_devolucion_cliente" WHERE "public"."detalle_devolucion_cliente"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 82 ms
+----------------------------------------------
+
+[2025-12-12T02:35:18.587Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [3,1,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-12-12T02:35:18.735Z]
+Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_detalle_producto", "public"."detalle_devolucion_cliente"."id_detalle_venta", "public"."detalle_devolucion_cliente"."cantidad_cliente_devuelta", "public"."detalle_devolucion_cliente"."cantidad_devuelta_a_cliente", "public"."detalle_devolucion_cliente"."precio_unitario_devolucion", "public"."detalle_devolucion_cliente"."monto_clientes_productos_devueltos", "public"."detalle_devolucion_cliente"."estado_condicion_producto", "public"."detalle_devolucion_cliente"."estado_devolucion_proveedor", "public"."detalle_devolucion_cliente"."nombre_producto" FROM "public"."detalle_devolucion_cliente" WHERE "public"."detalle_devolucion_cliente"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2025-12-12T02:44:10.863Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [3,1,0]
+Duration: 228 ms
+----------------------------------------------
+
+[2025-12-12T02:44:11.055Z]
+Query: SELECT "public"."detalle_venta"."id_detalle", "public"."detalle_venta"."id_venta", "public"."detalle_venta"."cantidad", "public"."detalle_venta"."precio_unitario", "public"."detalle_venta"."subtotal", "public"."detalle_venta"."id_detalle_producto", "public"."detalle_venta"."iva_venta", "public"."detalle_venta"."icu_venta" FROM "public"."detalle_venta" WHERE "public"."detalle_venta"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 164 ms
+----------------------------------------------
+
+[2025-12-12T02:44:11.216Z]
+Query: SELECT "public"."detalle_compra"."id_detalle", "public"."detalle_compra"."id_compra", "public"."detalle_compra"."cantidad", "public"."detalle_compra"."precio_unitario", "public"."detalle_compra"."subtotal", "public"."detalle_compra"."id_detalle_producto", "public"."detalle_compra"."iva_aplicado", "public"."detalle_compra"."icu_aplicado" FROM "public"."detalle_compra" WHERE "public"."detalle_compra"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 160 ms
+----------------------------------------------
+
+[2025-12-12T02:44:11.372Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja", "public"."detalle_productos_baja"."nombre_producto" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_detalle_productos" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2025-12-12T02:44:11.529Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 156 ms
+----------------------------------------------
+
+[2025-12-12T02:44:11.684Z]
+Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_detalle_producto", "public"."detalle_devolucion_cliente"."id_detalle_venta", "public"."detalle_devolucion_cliente"."cantidad_cliente_devuelta", "public"."detalle_devolucion_cliente"."cantidad_devuelta_a_cliente", "public"."detalle_devolucion_cliente"."precio_unitario_devolucion", "public"."detalle_devolucion_cliente"."monto_clientes_productos_devueltos", "public"."detalle_devolucion_cliente"."estado_condicion_producto", "public"."detalle_devolucion_cliente"."estado_devolucion_proveedor", "public"."detalle_devolucion_cliente"."nombre_producto" FROM "public"."detalle_devolucion_cliente" WHERE "public"."detalle_devolucion_cliente"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 155 ms
+----------------------------------------------
+
+[2025-12-12T02:47:51.187Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE ("public"."detalle_productos"."id_detalle_producto" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [3,1,0]
+Duration: 144 ms
+----------------------------------------------
+
+[2025-12-12T02:47:51.335Z]
+Query: SELECT "public"."detalle_venta"."id_detalle", "public"."detalle_venta"."id_venta", "public"."detalle_venta"."cantidad", "public"."detalle_venta"."precio_unitario", "public"."detalle_venta"."subtotal", "public"."detalle_venta"."id_detalle_producto", "public"."detalle_venta"."iva_venta", "public"."detalle_venta"."icu_venta" FROM "public"."detalle_venta" WHERE "public"."detalle_venta"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2025-12-12T02:47:51.480Z]
+Query: SELECT "public"."detalle_compra"."id_detalle", "public"."detalle_compra"."id_compra", "public"."detalle_compra"."cantidad", "public"."detalle_compra"."precio_unitario", "public"."detalle_compra"."subtotal", "public"."detalle_compra"."id_detalle_producto", "public"."detalle_compra"."iva_aplicado", "public"."detalle_compra"."icu_aplicado" FROM "public"."detalle_compra" WHERE "public"."detalle_compra"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 145 ms
+----------------------------------------------
+
+[2025-12-12T02:47:51.624Z]
+Query: SELECT "public"."detalle_productos_baja"."id_detalle_productos_baja", "public"."detalle_productos_baja"."id_baja_productos", "public"."detalle_productos_baja"."id_detalle_productos", "public"."detalle_productos_baja"."cantidad", "public"."detalle_productos_baja"."motivo", "public"."detalle_productos_baja"."total_producto_baja", "public"."detalle_productos_baja"."nombre_producto" FROM "public"."detalle_productos_baja" WHERE "public"."detalle_productos_baja"."id_detalle_productos" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-12-12T02:47:51.768Z]
+Query: SELECT "public"."detalle_devolucion_producto"."id_detalle_devolucion_productos", "public"."detalle_devolucion_producto"."id_devolucion_producto", "public"."detalle_devolucion_producto"."id_detalle_producto", "public"."detalle_devolucion_producto"."motivo", "public"."detalle_devolucion_producto"."cantidad_devuelta", "public"."detalle_devolucion_producto"."es_descuento", "public"."detalle_devolucion_producto"."nombre_producto" FROM "public"."detalle_devolucion_producto" WHERE "public"."detalle_devolucion_producto"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 143 ms
+----------------------------------------------
+
+[2025-12-12T02:47:51.916Z]
+Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_devolucion_cliente", "public"."detalle_devolucion_cliente"."id_detalle_producto", "public"."detalle_devolucion_cliente"."id_detalle_venta", "public"."detalle_devolucion_cliente"."cantidad_cliente_devuelta", "public"."detalle_devolucion_cliente"."cantidad_devuelta_a_cliente", "public"."detalle_devolucion_cliente"."precio_unitario_devolucion", "public"."detalle_devolucion_cliente"."monto_clientes_productos_devueltos", "public"."detalle_devolucion_cliente"."estado_condicion_producto", "public"."detalle_devolucion_cliente"."estado_devolucion_proveedor", "public"."detalle_devolucion_cliente"."nombre_producto" FROM "public"."detalle_devolucion_cliente" WHERE "public"."detalle_devolucion_cliente"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [3,0]
+Duration: 147 ms
+----------------------------------------------

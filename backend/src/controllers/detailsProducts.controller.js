@@ -134,22 +134,22 @@ const deleteDetailProduct = async (req, res) => {
     const details = await prisma.detalle_productos.findUnique({
       where: { id_detalle_producto: Number(id_detalle_producto) },
       include:{
-        detalle_ventas:true
-      },
-      include:{
-        detalle_compras:true
-      },
-      include:{
-        detalle_productos_baja:true
-      },
-      include:{
-        detalle_devolucion_producto:true
-      },
-      include:{
-        detalle_devolucion_cliente:true
+        detalle_venta: true,
+        detalle_compra: true,
+        detalle_productos_baja: true,
+        detalle_devolucion_producto: true,
+        detalle_devolucion_cliente: true,
       }
     });
-    const 
+    console.log(details);
+    const isAssociated = details.detalle_venta.length > 0 ||
+      details.detalle_compra.length > 0 ||
+      details.detalle_productos_baja.length > 0 ||
+      details.detalle_devolucion_producto.length > 0 ||
+      details.detalle_devolucion_cliente.length > 0;
+      if (isAssociated){
+        return res.status(409).json({ message: "No se puede eliminar el detalle porque está asociado a otras entidades." });
+      }
     const deleted = await prisma.detalle_productos.update({
       where: { id_detalle_producto: Number(id_detalle_producto) },
       data: {
