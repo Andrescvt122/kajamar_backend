@@ -259,7 +259,7 @@ const deleteClient = async (req, res) => {
   if (id === CAJA_ID) {
     return res
       .status(400)
-      .json({ error: "No se puede eliminar el Cliente de Caja" });
+      .json({ message: "No se puede eliminar el Cliente de Caja" });
   }
 
   try {
@@ -268,21 +268,32 @@ const deleteClient = async (req, res) => {
     });
 
     if (!existing) {
-      return res.status(404).json({ error: "Cliente no encontrado" });
+      return res.status(404).json({ message: "Cliente no encontrado" });
     }
 
     await prisma.clientes.delete({
       where: { id_cliente: id },
     });
 
-    return res
-      .status(200)
-      .json({ message: "✅ Cliente eliminado correctamente" });
+    return res.status(200).json({ message: "Cliente eliminado correctamente" });
   } catch (error) {
     console.error("❌ Error al eliminar el cliente:", error);
-    return res.status(500).json({ error: "Error al eliminar el cliente" });
+
+    // ✅ Si tiene ventas asociadas (FK RESTRICT)
+    // Prisma: P2003 => Foreign key constraint failed
+    if (error?.code === "P2003") {
+      return res.status(409).json({
+        message:
+          "No se puede eliminar el cliente porque hay una venta asociada con el cliente",
+      });
+    }
+
+    return res.status(500).json({
+      message: "No se pudo eliminar el cliente",
+    });
   }
 };
+
 
 module.exports = {
   getClients,

@@ -88,151 +88,105 @@ const searchLowProduct = async (req, res) => {
     return res.status(500).json({ error: "Error al buscar los productos" });
   }
 };
-
-const getResponsable = async (id) => {
-  try {
+const getResponsable = async (id)=>{
+  try{
     const responsable = await prisma.usuarios.findUnique({
-      where: {
-        usuario_id: id,
-      },
-    });
+      where:{
+        usuario_id:id
+      }
+    })
     return responsable;
-  } catch (error) {
-    console.log("No se encontro responsable");
+  }catch(error){
+    console.log("No se encontro responsable")
   }
-};
-
+}
 const createLowProduct = async (req, res) => {
   const data = req.body;
   const responsable = await getResponsable(data.id_responsable);
-  const cantidad_total_baja = data.products.reduce(
-    (acc, p) => acc + p.cantidad,
-    0
-  );
-  const total_precio_baja = data.products.reduce(
-    (acc, p) => acc + p.total_producto_baja,
-    0
-  );
-  if (responsable) {
-    try {
-      // cabecera
-      const result = await prisma.$transaction(async (tx) => {
-        const lowProduct = await tx.productos_baja.create({
-          data: {
-            id_responsable: responsable.usuario_id,
-            fecha_baja: new Date(),
-            cantida_baja: cantidad_total_baja,
-            total_precio_baja: total_precio_baja,
-            nombre_responsable: responsable.nombre,
-          },
-        });
-        // detalle
-        for (const p of data.products) {
-          const detalle_producto = await tx.detalle_productos.findUnique({
-            where: {
-              id_detalle_producto: p.id_detalle_productos,
-            },
-          });
-          const product = await tx.productos.findUnique({
-            where: {
-              id_producto: detalle_producto.id_producto,
-            },
-          });
-          const detalle = await tx.detalle_productos_baja.create({
-            data: {
-              id_baja_productos: lowProduct.id_baja_productos,
-              id_detalle_productos: p.id_detalle_productos,
-              cantidad: p.cantidad,
-              motivo: p.motivo,
-              total_producto_baja: p.total_producto_baja,
-              nombre_producto: product.nombre,
-            },
-          });
-          await tx.detalle_productos.update({
-            where: {
-              id_detalle_producto: p.id_detalle_productos,
-            },
-            data: {
-              stock_producto: {
-                decrement: p.cantidad,
-              },
-            },
-          });
-          const detalleProduct = await tx.detalle_productos.findUnique({
-            where: {
-              id_detalle_producto: p.id_detalle_productos,
-            },
-          });
-          await tx.productos.update({
-            where: {
-              id_producto: detalleProduct.id_producto,
-            },
-            data: {
-              stock_actual: {
-                decrement: p.cantidad,
-              },
-            },
-          });
-          if (
-            p.motivo == "venta unitaria" &&
-            p.id_producto_traslado != null &&
-            p.cantidad_traslado !== null
-          ) {
-            console.log(p.motivo);
-            // const productoTraslado = await tx.detalle_productos.findUnique({
-            //   where:{
-            //     id_detalle_producto: p.id_producto_traslado
-            //   }
-            // })
-            if (!detalle_producto) {
-              throw new Error(
-                `No existe detalle_productos con id ${p.id_detalle_productos}`
-              );
-            }
-            if (!product) {
-              throw new Error(
-                `No existe producto asociado al detalle ${p.id_detalle_productos}`
-              );
-            }
 
-            const productTraslado = await tx.detalle_productos.update({
-              where: {
-                id_detalle_producto: p.id_producto_traslado,
-              },
-              data: {
-                stock_producto: {
-                  increment: p.cantidad_traslado,
-                },
-              },
-            });
-            await tx.productos.update({
-              where: {
-                id_producto: productTraslado.id_producto,
-              },
-              data: {
-                stock_actual: {
-                  increment: p.cantidad_traslado,
-                },
-              },
-            });
-          }
+  const cantidad_total_baja = data.products.reduce((acc, p) => acc + p.cantidad, 0);
+  const total_precio_baja = data.products.reduce((acc, p) => acc + p.total_producto_baja, 0);
+
+  if (!responsable) return res.status(400).json({ error: "Responsable inválido" });
+
+  try {
+    const result = await prisma.$transaction(async (tx) => {
+      const lowProduct = await tx.productos_baja.create({
+        data: {
+          id_responsable: responsable.usuario_id,
+          fecha_baja: new Date(),
+          cantida_baja: cantidad_total_baja,
+          total_precio_baja,
+          nombre_responsable: responsable.nombre,
+        },
+      });
+
+      for (const p of data.products) {
+        const detalle_producto = await tx.detalle_productos.findUnique({
+          where: { id_detalle_producto: p.id_detalle_productos },
+          include: { productos: { select: { id_producto: true, nombre: true } } },
+        });
+
+        if (!detalle_producto) {
+          throw new Error(`No existe detalle_productos con id ${p.id_detalle_productos}`);
         }
-        // retornar todo
-        return await tx.productos_baja.findUnique({
-          where: {
+        if (!detalle_producto.productos) {
+          throw new Error(`No existe producto asociado al detalle ${p.id_detalle_productos}`);
+        }
+
+        await tx.detalle_productos_baja.create({
+          data: {
             id_baja_productos: lowProduct.id_baja_productos,
-          },
-          include: {
-            detalle_productos_baja: true,
+            id_detalle_productos: p.id_detalle_productos,
+            cantidad: p.cantidad,
+            motivo: p.motivo,
+            total_producto_baja: p.total_producto_baja,
+            nombre_producto: detalle_producto.productos.nombre,
           },
         });
+
+        await tx.detalle_productos.update({
+          where: { id_detalle_producto: p.id_detalle_productos },
+          data: { stock_producto: { decrement: p.cantidad } },
+        });
+
+        // ✅ ya tenemos el id_producto desde detalle_producto
+        await tx.productos.update({
+          where: { id_producto: detalle_producto.productos.id_producto },
+          data: { stock_actual: { decrement: p.cantidad } },
+        });
+
+        if (
+          p.motivo === "venta unitaria" &&
+          p.id_producto_traslado != null &&
+          p.cantidad_traslado != null
+        ) {
+          const productTraslado = await tx.detalle_productos.update({
+            where: { id_detalle_producto: p.id_producto_traslado },
+            data: { stock_producto: { increment: p.cantidad_traslado } },
+            select: { id_producto: true },
+          });
+
+          await tx.productos.update({
+            where: { id_producto: productTraslado.id_producto },
+            data: { stock_actual: { increment: p.cantidad_traslado } },
+          });
+        }
+      }
+
+      return tx.productos_baja.findUnique({
+        where: { id_baja_productos: lowProduct.id_baja_productos },
+        include: { detalle_productos_baja: true },
       });
-      return res.status(201).json(result);
-    } catch (error) {
-      return res.status(500).json({ error: "Error al crear el producto" });
-    }
+    }, { timeout: 20000 }); // opcional pero recomendado
+
+    return res.status(201).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error al crear el producto" });
   }
 };
+
 
 module.exports = {
   getLowProducts,
