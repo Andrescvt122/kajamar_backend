@@ -4,6 +4,8 @@ const prisma = require("../prisma/prismaClient");
 const createDetailProduct = async (req, res) => {
   const data = req.body;
   try {
+    console.log("comenzo la creacion del detalle de producto")
+    console.log(data)
     const register = await prisma.$transaction(async (tx) => {
       const detailProduct = await tx.detalle_productos.create({
         data: {
@@ -17,7 +19,6 @@ const createDetailProduct = async (req, res) => {
           estado: true
         },
       });
-
       // Actualiza el stock total del producto
       await tx.productos.update({
         where: { id_producto: data.id_producto },
@@ -25,7 +26,7 @@ const createDetailProduct = async (req, res) => {
           stock_actual: { increment: data.stock_producto },
         },
       });
-
+      console.log("termino")
       return detailProduct;
     });
     return res.status(201).json(register);
