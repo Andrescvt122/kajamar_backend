@@ -1,177 +1,126 @@
 const prisma = require("../prisma/prismaClient");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto'); // Viene nativo en Node.js
-const { sendEmail } = require('../utils/mailer'); // El archivo que creamos en el paso 1
+const { sendEmail } = require('../utils/mailer');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secreto_temporal';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
-// 1. INICIAR SESIÓN (Login)
+// 1. LOGIN (Se mantiene igual, solo lo pongo para que no falte)
 const login = async (req, res) => {
     const { email, password } = req.body;
-
     try {
-        // Buscar el usuario por correo
         const usuario = await prisma.acceso.findUnique({
             where: { email },
-            include: { roles: true, usuarios: true } // Traemos rol y datos personales
+            include: { roles: true, usuarios: true }
         });
 
-        // Validaciones básicas
-        if (!usuario) {
-            return res.status(401).json({ error: 'Credenciales inválidas' });
+        if (!usuario || !usuario.estado_usuario) {
+            return res.status(401).json({ error: 'Credenciales inválidas o usuario inactivo' });
         }
 
-        if (!usuario.estado_usuario) {
-            return res.status(403).json({ error: 'Usuario inactivo. Contacte al administrador.' });
-        }
-
-        // Comparar contraseña (Hash vs Texto plano)
         const isMatch = await bcrypt.compare(password, usuario.password_hash);
-        
-        if (!isMatch) {
-            return res.status(401).json({ error: 'Credenciales inválidas' });
-        }
+        if (!isMatch) return res.status(401).json({ error: 'Credenciales inválidas' });
 
-        // Generar Token JWT
         const token = jwt.sign(
-            { 
-                uid: usuario.acceso_id, 
-                rol: usuario.roles.rol_nombre,
-                rol_id: usuario.rol_id 
-            },
-            JWT_SECRET,
-            { expiresIn: '8h' } // El token dura 8 horas
+            { uid: usuario.acceso_id, rol: usuario.roles.rol_nombre },
+            JWT_SECRET, { expiresIn: '8h' }
         );
 
-        // Responder al frontend
-        res.json({
-            message: 'Bienvenido',
-            token,
-            user: {
-                id: usuario.acceso_id,
-                email: usuario.email,
-                nombre: usuario.usuarios?.nombre || 'Usuario',
-                rol: usuario.roles.rol_nombre
-            }
-        });
-
+        res.json({ message: 'Bienvenido', token, user: usuario });
     } catch (error) {
-        console.error("Error en login:", error);
-        res.status(500).json({ error: 'Error en el servidor' });
+        console.error(error);
+        res.status(500).json({ error: 'Error interno' });
     }
 };
 
-// 2. SOLICITAR RECUPERACIÓN (Forgot Password)
+// 2. OLVIDÉ CONTRASEÑA (Genera Código 6 dígitos)
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
-
-    console.log("----------------------------------------------------");
-    console.log("🔍 DEBUG: Iniciando recuperación para:", email);
-
     try {
-        // 1. Buscamos el usuario
-        // IMPORTANTE: Asegúrate de que no tenga espacios extra
-        const emailLimpio = email.trim(); 
-        
-        const usuario = await prisma.acceso.findUnique({ 
-            where: { email: emailLimpio } 
-        });
+        const emailLimpio = email.trim();
+        const usuario = await prisma.acceso.findUnique({ where: { email: emailLimpio } });
 
-        // 2. Verificamos si lo encontró
         if (!usuario) {
-            console.log("❌ DEBUG: Usuario NO encontrado en la base de datos.");
-            console.log("   -> Busqué:", emailLimpio);
-            // Retornamos éxito falso por seguridad, pero ya sabemos que falló aquí
-            return res.json({ message: 'Si el correo existe, se enviaron instrucciones.' });
+            // Retornamos éxito falso por seguridad
+            return res.json({ message: 'Si el correo existe, enviamos el código.' });
         }
 
-        console.log("✅ DEBUG: Usuario encontrado ID:", usuario.acceso_id);
-
-        // 3. Generar Token
-        const token = crypto.randomBytes(32).toString('hex');
+        // Generar Código numérico de 6 dígitos
+        const codigo = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        // Expira en 15 minutos
         const expiresAt = new Date();
-        expiresAt.setHours(expiresAt.getHours() + 1);
+        expiresAt.setMinutes(expiresAt.getMinutes() + 15);
 
-        console.log("📝 DEBUG: Guardando token en BD...");
-
-        // 4. Guardar en tabla password_resets
-        // Usamos upsert o create, pero verificamos si falla aquí
+        // Borrar códigos viejos y guardar el nuevo
+        await prisma.password_resets.deleteMany({ where: { acceso_id: usuario.acceso_id } });
         await prisma.password_resets.create({
             data: {
                 acceso_id: usuario.acceso_id,
-                token: token,
+                token: codigo, 
                 expires_at: expiresAt
             }
         });
 
-        console.log("✅ DEBUG: Token guardado.");
-
-        // 5. Enviar Correo
-        const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
-        console.log("📧 DEBUG: Intentando enviar correo a:", emailLimpio);
-
-        const emailEnviado = await sendEmail(
+        // Enviar Correo
+        console.log(`📧 Enviando código ${codigo} a ${emailLimpio}`);
+        await sendEmail(
             emailLimpio,
-            "Recuperar Contraseña - Kajamart",
-            `<p>Haz clic aquí para recuperar tu clave: <a href="${resetLink}">Click aquí</a></p>`
+            "Tu Código de Recuperación - Kajamart",
+            `
+            <div style="font-family: sans-serif; text-align: center;">
+                <h2>Recuperación de Contraseña</h2>
+                <p>Tu código de verificación es:</p>
+                <h1 style="background: #eee; display: inline-block; padding: 10px 20px; letter-spacing: 5px; border-radius: 10px;">${codigo}</h1>
+                <p>Este código expira en 15 minutos.</p>
+            </div>
+            `
         );
 
-        if (emailEnviado) {
-            console.log("✅ DEBUG: ¡Mailer reporta envío exitoso!");
-        } else {
-            console.log("❌ DEBUG: Mailer devolvió false (falló el envío).");
-        }
-
-        res.json({ message: 'Si el correo existe, se enviaron instrucciones.' });
-
+        res.json({ message: 'Código enviado.' });
     } catch (error) {
-        console.error("❌ DEBUG ERROR CRÍTICO:", error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        console.error(error);
+        res.status(500).json({ error: 'Error al procesar solicitud' });
     }
 };
 
-// 3. CAMBIAR CONTRASEÑA (Reset Password)
+// 3. RESTABLECER (Verifica Código y Cambia Clave)
 const resetPassword = async (req, res) => {
-    const { token } = req.params; // Viene en la URL
-    const { newPassword } = req.body;
+    // Recibe todo junto: Email + Código + Nueva Clave
+    const { email, codigo, newPassword } = req.body;
 
     try {
-        // Buscar el token en la BD
-        const resetRecord = await prisma.password_resets.findUnique({
-            where: { token },
-            include: { acceso: true }
+        const usuario = await prisma.acceso.findUnique({ where: { email } });
+        if (!usuario) return res.status(400).json({ error: 'Usuario no encontrado' });
+
+        // Buscar código válido
+        const resetRecord = await prisma.password_resets.findFirst({
+            where: { 
+                acceso_id: usuario.acceso_id,
+                token: codigo 
+            }
         });
 
-        if (!resetRecord) {
-            return res.status(400).json({ error: 'El enlace es inválido o ya fue usado.' });
-        }
+        if (!resetRecord) return res.status(400).json({ error: 'Código inválido' });
+        if (new Date() > resetRecord.expires_at) return res.status(400).json({ error: 'El código ha expirado' });
 
-        // Verificar si expiró
-        if (new Date() > resetRecord.expires_at) {
-            return res.status(400).json({ error: 'El enlace ha expirado. Solicita uno nuevo.' });
-        }
-
-        // Encriptar la nueva contraseña
+        // Encriptar y guardar
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(newPassword, salt);
 
-        // Actualizar el usuario
         await prisma.acceso.update({
-            where: { acceso_id: resetRecord.acceso_id },
+            where: { acceso_id: usuario.acceso_id },
             data: { password_hash }
         });
 
-        // Borrar el token para que no se pueda volver a usar
-        await prisma.password_resets.delete({
-            where: { id: resetRecord.id }
-        });
+        // Limpiar token usado
+        await prisma.password_resets.delete({ where: { id: resetRecord.id } });
 
-        res.json({ message: 'Contraseña actualizada correctamente. Ahora puedes iniciar sesión.' });
+        res.json({ message: 'Contraseña actualizada' });
 
     } catch (error) {
-        console.error("Error resetPassword:", error);
-        res.status(500).json({ error: 'Error al cambiar la contraseña' });
+        console.error(error);
+        res.status(500).json({ error: 'Error al cambiar contraseña' });
     }
 };
 

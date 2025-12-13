@@ -142,3 +142,63 @@ Query: SELECT "public"."detalle_devolucion_cliente"."id_detalle_devolucion_clien
 Params: [3,0]
 Duration: 147 ms
 ----------------------------------------------
+
+[2025-12-11T23:45:39.315Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."password_hash", "public"."acceso"."rol_id", "public"."acceso"."estado_usuario", "public"."acceso"."created_at", "public"."acceso"."updated_at" FROM "public"."acceso" WHERE ("public"."acceso"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["alejandromadrid0901@gmail.com",1,0]
+Duration: 324 ms
+----------------------------------------------
+
+[2025-12-11T23:45:39.585Z]
+Query: INSERT INTO "public"."password_resets" ("acceso_id","token","expires_at") VALUES ($1,$2,$3) RETURNING "public"."password_resets"."id", "public"."password_resets"."acceso_id", "public"."password_resets"."token", "public"."password_resets"."expires_at"
+Params: [1,"eb94ce2366f32984ccfe0e54ca74193d8e50775a88518384fe0b881fe3601652","2025-12-12 00:45:39.324 UTC"]
+Duration: 251 ms
+----------------------------------------------
+
+[2025-12-12T12:12:11.993Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."password_hash", "public"."acceso"."rol_id", "public"."acceso"."estado_usuario", "public"."acceso"."created_at", "public"."acceso"."updated_at" FROM "public"."acceso" WHERE ("public"."acceso"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["alejandromadrid0901@gmail.com",1,0]
+Duration: 256 ms
+----------------------------------------------
+
+[2025-12-12T12:12:12.214Z]
+Query: INSERT INTO "public"."password_resets" ("acceso_id","token","expires_at") VALUES ($1,$2,$3) RETURNING "public"."password_resets"."id", "public"."password_resets"."acceso_id", "public"."password_resets"."token", "public"."password_resets"."expires_at"
+Params: [1,"d16f2eeea031c7574de7614b4aa0c9c82405c5cd7d8893272948d92082986a87","2025-12-12 13:12:11.999 UTC"]
+Duration: 203 ms
+----------------------------------------------
+
+[2025-12-13T00:01:09.601Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."password_hash", "public"."acceso"."rol_id", "public"."acceso"."estado_usuario", "public"."acceso"."created_at", "public"."acceso"."updated_at" FROM "public"."acceso" WHERE ("public"."acceso"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["alejandromadrid0901@gmail.com",1,0]
+Duration: 371 ms
+----------------------------------------------
+
+[2025-12-13T00:01:09.795Z]
+Query: DELETE FROM "public"."password_resets" WHERE "public"."password_resets"."acceso_id" = $1
+Params: [1]
+Duration: 187 ms
+----------------------------------------------
+
+[2025-12-13T00:01:10.103Z]
+Query: INSERT INTO "public"."password_resets" ("acceso_id","token","expires_at") VALUES ($1,$2,$3) RETURNING "public"."password_resets"."id", "public"."password_resets"."acceso_id", "public"."password_resets"."token", "public"."password_resets"."expires_at"
+Params: [1,"483844","2025-12-13 00:16:09.604 UTC"]
+Duration: 302 ms
+----------------------------------------------
+
+[2025-12-13T00:05:30.406Z]
+Query: SELECT "public"."acceso"."acceso_id", "public"."acceso"."email", "public"."acceso"."password_hash", "public"."acceso"."rol_id", "public"."acceso"."estado_usuario", "public"."acceso"."created_at", "public"."acceso"."updated_at" FROM "public"."acceso" WHERE ("public"."acceso"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: ["alejandromadrid0901@gmail.com",1,0]
+Duration: 193 ms
+----------------------------------------------
+
+[2025-12-13T00:05:30.591Z]
+Query: DELETE FROM "public"."password_resets" WHERE "public"."password_resets"."acceso_id" = $1
+Params: [1]
+Duration: 178 ms
+----------------------------------------------
+
+[2025-12-13T00:05:30.776Z]
+Query: INSERT INTO "public"."password_resets" ("acceso_id","token","expires_at") VALUES ($1,$2,$3) RETURNING "public"."password_resets"."id", "public"."password_resets"."acceso_id", "public"."password_resets"."token", "public"."password_resets"."expires_at"
+Params: [1,"320525","2025-12-13 00:20:30.410 UTC"]
+Duration: 181 ms
+----------------------------------------------
