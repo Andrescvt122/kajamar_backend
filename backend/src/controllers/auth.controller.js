@@ -1,11 +1,12 @@
+// src/controllers/auth.controller.js
 const prisma = require("../prisma/prismaClient");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { sendEmail } = require('../utils/mailer');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'secreto_super_seguro';
 
-// 1. LOGIN (Se mantiene igual, solo lo pongo para que no falte)
+// 1. LOGIN (Para entrar después del cambio)
 const login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -15,11 +16,15 @@ const login = async (req, res) => {
         });
 
         if (!usuario || !usuario.estado_usuario) {
-            return res.status(401).json({ error: 'Credenciales inválidas o usuario inactivo' });
+            return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
+        // Aquí comparamos la contraseña que acabas de cambiar
         const isMatch = await bcrypt.compare(password, usuario.password_hash);
-        if (!isMatch) return res.status(401).json({ error: 'Credenciales inválidas' });
+        
+        if (!isMatch) {
+            return res.status(401).json({ error: 'Contraseña incorrecta' });
+        }
 
         const token = jwt.sign(
             { uid: usuario.acceso_id, rol: usuario.roles.rol_nombre },
@@ -29,30 +34,25 @@ const login = async (req, res) => {
         res.json({ message: 'Bienvenido', token, user: usuario });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error interno' });
+        res.status(500).json({ error: 'Error en el servidor' });
     }
 };
 
-// 2. OLVIDÉ CONTRASEÑA (Genera Código 6 dígitos)
+// 2. GENERAR CÓDIGO (Forgot Password)
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
     try {
         const emailLimpio = email.trim();
         const usuario = await prisma.acceso.findUnique({ where: { email: emailLimpio } });
 
-        if (!usuario) {
-            // Retornamos éxito falso por seguridad
-            return res.json({ message: 'Si el correo existe, enviamos el código.' });
-        }
+        if (!usuario) return res.json({ message: 'Enviado.' });
 
-        // Generar Código numérico de 6 dígitos
+        // Generar código de 6 dígitos
         const codigo = Math.floor(100000 + Math.random() * 900000).toString();
-        
-        // Expira en 15 minutos
         const expiresAt = new Date();
-        expiresAt.setMinutes(expiresAt.getMinutes() + 15);
+        expiresAt.setMinutes(expiresAt.getMinutes() + 15); // 15 min validez
 
-        // Borrar códigos viejos y guardar el nuevo
+        // Guardar código en BD
         await prisma.password_resets.deleteMany({ where: { acceso_id: usuario.acceso_id } });
         await prisma.password_resets.create({
             data: {
@@ -63,48 +63,45 @@ const forgotPassword = async (req, res) => {
         });
 
         // Enviar Correo
-        console.log(`📧 Enviando código ${codigo} a ${emailLimpio}`);
-        await sendEmail(
-            emailLimpio,
-            "Tu Código de Recuperación - Kajamart",
-            `
-            <div style="font-family: sans-serif; text-align: center;">
-                <h2>Recuperación de Contraseña</h2>
-                <p>Tu código de verificación es:</p>
-                <h1 style="background: #eee; display: inline-block; padding: 10px 20px; letter-spacing: 5px; border-radius: 10px;">${codigo}</h1>
-                <p>Este código expira en 15 minutos.</p>
-            </div>
-            `
-        );
+        console.log(`📧 Código para ${emailLimpio}: ${codigo}`);
+        await sendEmail(emailLimpio, "Código de Recuperación", `<h1>Tu código es: ${codigo}</h1>`);
 
         res.json({ message: 'Código enviado.' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al procesar solicitud' });
+        res.status(500).json({ error: 'Error al enviar correo' });
     }
 };
 
-// 3. RESTABLECER (Verifica Código y Cambia Clave)
+// 3. VERIFICAR CÓDIGO Y CAMBIAR PASS (Reset Password)
 const resetPassword = async (req, res) => {
-    // Recibe todo junto: Email + Código + Nueva Clave
     const { email, codigo, newPassword } = req.body;
 
     try {
+        // A. Buscar usuario
         const usuario = await prisma.acceso.findUnique({ where: { email } });
-        if (!usuario) return res.status(400).json({ error: 'Usuario no encontrado' });
+        if (!usuario) return res.status(400).json({ error: 'Usuario no encontrado.' });
 
-        // Buscar código válido
+        // B. VERIFICAR EL CÓDIGO
+        // Buscamos en la tabla de resets si este usuario tiene ese código exacto
         const resetRecord = await prisma.password_resets.findFirst({
             where: { 
                 acceso_id: usuario.acceso_id,
-                token: codigo 
+                token: codigo // Aquí comparamos el número que introdujo el usuario
             }
         });
 
-        if (!resetRecord) return res.status(400).json({ error: 'Código inválido' });
-        if (new Date() > resetRecord.expires_at) return res.status(400).json({ error: 'El código ha expirado' });
+        if (!resetRecord) {
+            return res.status(400).json({ error: 'El código es incorrecto.' });
+        }
 
-        // Encriptar y guardar
+        // C. Verificar tiempo
+        if (new Date() > resetRecord.expires_at) {
+            return res.status(400).json({ error: 'El código ha expirado.' });
+        }
+
+        // D. ACTUALIZAR CONTRASEÑA
+        // Encriptamos la nueva clave para que funcione en el Login
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(newPassword, salt);
 
@@ -113,10 +110,10 @@ const resetPassword = async (req, res) => {
             data: { password_hash }
         });
 
-        // Limpiar token usado
+        // E. Limpiar (Borramos el código usado para que no se use 2 veces)
         await prisma.password_resets.delete({ where: { id: resetRecord.id } });
 
-        res.json({ message: 'Contraseña actualizada' });
+        res.json({ message: 'Contraseña actualizada correctamente.' });
 
     } catch (error) {
         console.error(error);

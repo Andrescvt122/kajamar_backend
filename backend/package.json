@@ -30,8 +30,11 @@
     "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "multer": "^2.0.2"
+    "express": "^5.2.1",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.11"
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
