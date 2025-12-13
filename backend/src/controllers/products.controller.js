@@ -224,7 +224,7 @@ const createProduct = async (req, res) => {
     if (!hasCosto && !hasPrecio) {
       // Nada viene desde el frontend → ponemos valores "seguros"
       costoUnitarioNum = 1000;
-      precioVentaNum = 2000;
+      precioVentaNum = precioVentaNum ?? 2000;
     } else if (hasCosto && !hasPrecio) {
       // Solo costo → precio a partir del costo
       if (costoUnitarioNum <= 0) costoUnitarioNum = 1000;
