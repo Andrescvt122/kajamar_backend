@@ -233,8 +233,7 @@ model proveedores {
   direccion                    String?               @db.VarChar(250)
   estado                       Boolean
   descripcion                  String?               @db.VarChar(225)
-  nit                          String?                   @unique(map: "uq_proveedores_nit")
-  max_porcentaje_de_devolucion Decimal?              @db.Decimal
+  nit                          String?               @unique(map: "uq_proveedores_nit")
   tipo_persona                 String?               @db.VarChar(50)
   contacto                     String?               @db.VarChar(100)
   correo                       String?               @unique @db.VarChar(120)
