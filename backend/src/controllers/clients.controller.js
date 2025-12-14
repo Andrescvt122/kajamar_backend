@@ -81,7 +81,7 @@ const searchClients = async (req, res) => {
 
   try {
     const allClients = await prisma.clientes.findMany({
-      orderBy: { id_cliente: "asc" },
+      orderBy: { id_cliente: "asc" }
     });
 
     const filtered = allClients.filter((c) => {
