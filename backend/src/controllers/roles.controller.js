@@ -213,19 +213,27 @@ const deleteRole = async (req, res) => {
     }
 
     try {
-        // La eliminación en cascada de Prisma debería eliminar los registros de rol_permisos
+        // 1. Verificar si el rol está siendo usado por algún registro de acceso.
+        const accesosConRol = await prisma.acceso.count({
+            where: { rol_id },
+        });
+
+        if (accesosConRol > 0) {
+            return res.status(409).json({
+                error: `No se puede eliminar el rol porque está asignado a ${accesosConRol} usuario(s).`,
+            });
+        }
+
+        // 2. Si no está en uso, proceder con la eliminación.
+        // La eliminación en cascada (configurada en el schema de Prisma) se encargará de los `rol_permisos`.
         await prisma.roles.delete({ where: { rol_id } }); 
         return res.status(200).json({ message: "🗑️ Rol eliminado correctamente." });
     } catch (error) {
         console.error("❌ ERROR al eliminar rol:", error);
 
-        if (error.code === "P2025")
+        if (error.code === "P2025") {
             return res.status(404).json({ error: "Rol no encontrado para eliminar." });
-
-        if (error.code === "P2003")
-            return res.status(400).json({
-                error: "No se puede eliminar el rol porque está asociado a registros de acceso (Clave Foránea).",
-            });
+        }
 
         return res.status(500).json({ error: "Error al eliminar el rol." });
     }

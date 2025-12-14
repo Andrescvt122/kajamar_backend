@@ -1,7 +1,8 @@
 // controllers/usersController.js
 const prisma = require("../prisma/prismaClient");
-
-// 🟢 Obtener todos los usuarios
+const bcrypt = require("bcryptjs");
+// 🟢 Obtener todos los usuarios\
+const saltRounds = 10;
 const getUsers = async (req, res) => {
   try {
     const users = await prisma.usuarios.findMany({
@@ -82,14 +83,16 @@ const createUser = async (req, res) => {
     email,
     rol_id,
     estado_usuario = true, // por defecto activo
+    password_hash,
   } = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(password_hash, saltRounds);
     // 1️⃣ Crear acceso vinculado a un rol
     const nuevoAcceso = await prisma.acceso.create({
       data: {
         email,
-        password_hash: "temporal_password", 
+        password_hash: hashedPassword, 
         estado_usuario,
         rol_id,
       },

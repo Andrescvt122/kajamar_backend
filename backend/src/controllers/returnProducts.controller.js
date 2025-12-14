@@ -1,6 +1,5 @@
 const prisma = require("../prisma/prismaClient");
 
-
 const getResponsable = async (id) => {
   try {
     const responsable = await prisma.usuarios.findUnique({
@@ -17,7 +16,25 @@ const getResponsable = async (id) => {
 const getReturnProducts = async (req, res) => {
   try {
     const returnProducts = await prisma.devolucion_producto.findMany({
-      include: { detalle_devolucion_producto: true },
+      include: {
+        detalle_devolucion_producto: {
+          include:{
+            detalle_productos:{
+              include:{
+                productos:{
+                  include:{
+                    producto_proveedor:{
+                      include:{
+                        proveedores:true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+      },
     });
     return res.status(200).json({ returnProducts });
   } catch (error) {
@@ -30,39 +47,49 @@ const searchReturnProdcts = async (req, res) => {
   const isNumber = !isNaN(q);
   console.log(q);
   const filter = isNumber
-  ?{
-    OR:[
-    {id_devolucion_product: {equals: Number(q)}},
-    {fecha_devolucion: {contains: q}},
-    {cantidad_total:{equals: Number(q)}},
-    {detalle_devolucion_producto:{
-      some:{
-        OR:[{
-          cantidad_devuelta:{equals: Number(q)}
-        }]
+    ? {
+        OR: [
+          { id_devolucion_product: { equals: Number(q) } },
+          { fecha_devolucion: { contains: q } },
+          { cantidad_total: { equals: Number(q) } },
+          {
+            detalle_devolucion_producto: {
+              some: {
+                OR: [
+                  {
+                    cantidad_devuelta: { equals: Number(q) },
+                  },
+                ],
+              },
+            },
+          },
+        ],
       }
-    }}
-    ]
-  }
-  :{
-    OR:[{
-      nombre_responsable:{contains: q, mode: "insensitive"}
-    },
-    {OR:[{
-      detalle_devolucion_producto:{
-        some:{
-          OR:[{
-            nombre_producto:{contains: q, mode: "insensitive"},
+    : {
+        OR: [
+          {
+            nombre_responsable: { contains: q, mode: "insensitive" },
           },
           {
-            motivo:{contains: q, mode: "insensitive"}
-          }
-        ]
-        }
-      }
-    }]}
-  ]
-  }
+            OR: [
+              {
+                detalle_devolucion_producto: {
+                  some: {
+                    OR: [
+                      {
+                        nombre_producto: { contains: q, mode: "insensitive" },
+                      },
+                      {
+                        motivo: { contains: q, mode: "insensitive" },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      };
   try {
     const returnProducts = await prisma.devolucion_producto.findMany({
       where: filter,
@@ -74,78 +101,81 @@ const searchReturnProdcts = async (req, res) => {
   }
 };
 
-const createReturnProduct = async (req,res)=>{
+const createReturnProduct = async (req, res) => {
   const data = req.body;
-  const responsable = await getResponsable(data.id_responsable);
-  const cantidadTotal = data.products.reduce((acc,p)=> acc + p.cantidad, 0);
-  if(responsable){
-    try{
-      const result = await prisma.$transaction(async(tx)=>{
+  console.log("comienza la busqueda deel responsable");
+  const responsable = await getResponsable(Number(data.id_responsable));
+  console.log("responsable encontrado", responsable);
+  const cantidadTotal = data.products.reduce((acc, p) => acc + p.cantidad, 0);
+  if (responsable) {
+    try {
+      const result = await prisma.$transaction(async (tx) => {
         const returnProduct = await tx.devolucion_producto.create({
-          data:{
+          data: {
             id_responsable: responsable.usuario_id,
+            numero_factura: data.numero_factura,
             fecha_devolucion: new Date(),
             cantidad_total: cantidadTotal,
             nombre_responsable: responsable.nombre,
-          }
-        })
-        for(const p of data.products){
-          const detailReturnProduct = await tx.detalle_devolucion_producto.create({
-            data:{
-              id_devolucion_producto: returnProduct.id_devolucion_product,
-              id_detalle_producto: p.id_detalle_producto,
-              cantidad_devuelta: p.cantidad,
-              motivo: p.motivo,
-              nombre_producto: p.nombre_producto,
-              es_descuento: p.es_descuento
-            }
-          })
+          },
+        });
+        for (const p of data.products) {
+          const detailReturnProduct =
+            await tx.detalle_devolucion_producto.create({
+              data: {
+                id_devolucion_producto: returnProduct.id_devolucion_product,
+                id_detalle_producto: p.id_detalle_producto,
+                cantidad_devuelta: p.cantidad,
+                motivo: p.motivo,
+                nombre_producto: p.nombre_producto,
+                es_descuento: p.es_descuento,
+              },
+            });
           await tx.detalle_productos.update({
-            where:{
+            where: {
               id_detalle_producto: p.id_detalle_producto,
             },
-            data:{
-              stock_producto:{
+            data: {
+              stock_producto: {
                 decrement: p.cantidad,
-              }
-            }
-          })
+              },
+            },
+          });
           const detalleProduct = await tx.detalle_productos.findUnique({
-            where:{
+            where: {
               id_detalle_producto: p.id_detalle_producto,
-            }
-          })
+            },
+          });
           await tx.productos.update({
-            where:{
+            where: {
               id_producto: detalleProduct.id_producto,
             },
-            data:{
-              stock_actual:{
+            data: {
+              stock_actual: {
                 decrement: p.cantidad,
-              }
-            }
-          })
+              },
+            },
+          });
         }
         return await tx.devolucion_producto.findUnique({
-          where:{
+          where: {
             id_devolucion_product: returnProduct.id_devolucion_product,
           },
-          include:{
+          include: {
             detalle_devolucion_producto: true,
-          }
-        })
-      })
+          },
+        });
+      });
+      console.log("se hizo el post");
       return res.status(201).json(result);
-    }catch(error){
-      return res.status(500).json({error:"Error al crear el producto"})
+    } catch (error) {
+      return res.status(500).json({ error: "Error al crear el producto" });
     }
   }
-}
-
-
+};
 
 module.exports = {
   getReturnProducts,
   searchReturnProdcts,
-  createReturnProduct
+  createReturnProduct,
 };

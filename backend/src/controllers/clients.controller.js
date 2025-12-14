@@ -1,46 +1,43 @@
+// backend/controllers/clients.controller.js
 const prisma = require("../prisma/prismaClient");
 
-// ✅ Obtener todos los clientes
+// ======================
+// Constante: Cliente de Caja FIJO
+// ======================
+const CAJA_ID = 0;
+
+const clienteCaja = {
+  id_cliente: CAJA_ID,
+  nombre_cliente: "Cliente de Caja",
+  tipo_docume: "N/A",
+  numero_doc: "N/A",
+  correo_cliente: "caja@correo.com",
+  telefono_cliente: "N/A",
+  estado_cliente: true,
+};
+
+// ✅ Obtener todos los clientes (Cliente de Caja SIEMPRE primero)
 const getClients = async (req, res) => {
   try {
     const clients = await prisma.clientes.findMany({
       orderBy: { id_cliente: "asc" },
     });
 
-    // Cliente de Caja (fijo, NO en BD)
-    const clienteCaja = {
-      id_cliente: 1, // ID especial para el cliente de caja
-      nombre_cliente: "Cliente de Caja",
-      tipo_docume: "N/A",
-      numero_doc: "N/A",
-      correo_cliente: "caja@correo.com",
-      telefono_cliente: "N/A",
-      estado_cliente: true,
-    };
+    // Evita duplicado si algún día alguien creó un cliente con id 0 (raro, pero por si acaso)
+    const filtered = clients.filter((c) => c.id_cliente !== CAJA_ID);
 
-    // Devolver Cliente de Caja + clientes reales
-    return res.status(200).json([clienteCaja, ...clients]);
+    return res.status(200).json([clienteCaja, ...filtered]);
   } catch (error) {
     console.error("❌ Error al obtener los clientes:", error);
     return res.status(500).json({ error: "Error al obtener los clientes" });
   }
 };
 
-// ✅ Obtener un cliente por ID
+// ✅ Obtener un cliente por ID (incluye Cliente de Caja)
 const getClientById = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
-  // Cliente de Caja especial
-  if (id === 0) {
-    const clienteCaja = {
-      id_cliente: 0,
-      nombre_cliente: "Cliente de Caja",
-      tipo_docume: "N/A",
-      numero_doc: "N/A",
-      correo_cliente: "caja@correo.com",
-      telefono_cliente: "N/A",
-      estado_cliente: true,
-    };
+  if (id === CAJA_ID) {
     return res.status(200).json(clienteCaja);
   }
 
@@ -60,6 +57,58 @@ const getClientById = async (req, res) => {
   }
 };
 
+// ✅ Buscar clientes por nombre/documento/correo/id (incluye Cliente de Caja)
+const searchClients = async (req, res) => {
+  const qRaw = String(req.params.q || "").trim();
+
+  if (!qRaw) {
+    return res.status(400).json({ error: "Falta parámetro de búsqueda" });
+  }
+
+  const q = qRaw.toLowerCase();
+  const idNumber = Number(qRaw);
+  const isNumeric = !Number.isNaN(idNumber);
+
+  // Si buscan 0 => Cliente de Caja
+  if (isNumeric && idNumber === CAJA_ID) {
+    return res.status(200).json([clienteCaja]);
+  }
+
+  // Si buscan por "cliente de caja" => también lo devolvemos
+  if (q.includes("cliente de caja") || q.includes("caja")) {
+    return res.status(200).json([clienteCaja]);
+  }
+
+  try {
+    const allClients = await prisma.clientes.findMany({
+      orderBy: { id_cliente: "asc" }
+    });
+
+    const filtered = allClients.filter((c) => {
+      const nombre = (c.nombre_cliente || "").toLowerCase();
+      const doc = (c.numero_doc || "").toString().toLowerCase();
+      const correo = (c.correo_cliente || "").toLowerCase();
+      const id = String(c.id_cliente);
+
+      return (
+        nombre.includes(q) ||
+        doc.includes(q) ||
+        correo.includes(q) ||
+        (isNumeric && id === String(idNumber))
+      );
+    });
+
+    if (!filtered || filtered.length === 0) {
+      return res.status(404).json({ error: "No se encontró ningún cliente" });
+    }
+
+    return res.status(200).json(filtered);
+  } catch (error) {
+    console.error("❌ Error al buscar clientes:", error);
+    return res.status(500).json({ error: "Error al buscar los clientes" });
+  }
+};
+
 // ✅ Crear un nuevo cliente
 const createClient = async (req, res) => {
   let {
@@ -71,7 +120,6 @@ const createClient = async (req, res) => {
     estado_cliente,
   } = req.body;
 
-  // Normalizar opcionales: si vienen vacíos, dejarlos en null
   correo_cliente =
     correo_cliente && correo_cliente.toString().trim() !== ""
       ? correo_cliente.toString().trim()
@@ -82,7 +130,6 @@ const createClient = async (req, res) => {
       ? telefono_cliente.toString().trim()
       : null;
 
-  // Solo campos realmente obligatorios
   if (!nombre_cliente || !tipo_docume || !numero_doc || estado_cliente == null) {
     return res.status(400).json({
       error:
@@ -91,7 +138,6 @@ const createClient = async (req, res) => {
   }
 
   try {
-    // Validar correo duplicado SOLO si viene
     if (correo_cliente) {
       const existingEmail = await prisma.clientes.findUnique({
         where: { correo_cliente },
@@ -107,8 +153,8 @@ const createClient = async (req, res) => {
         nombre_cliente,
         tipo_docume,
         numero_doc,
-        correo_cliente,   // puede ser null
-        telefono_cliente, // puede ser null
+        correo_cliente,
+        telefono_cliente,
         estado_cliente,
       },
     });
@@ -123,12 +169,11 @@ const createClient = async (req, res) => {
   }
 };
 
-// ✅ Actualizar un cliente existente
+// ✅ Actualizar un cliente (NO permitir Caja)
 const updateClient = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
-  // No permitir editar el Cliente de Caja
-  if (id === 0) {
+  if (id === CAJA_ID) {
     return res
       .status(400)
       .json({ error: "No se puede editar el Cliente de Caja" });
@@ -143,7 +188,6 @@ const updateClient = async (req, res) => {
     estado_cliente,
   } = req.body;
 
-  // Normalizar opcionales aquí también
   correo_cliente =
     correo_cliente && correo_cliente.toString().trim() !== ""
       ? correo_cliente.toString().trim()
@@ -163,7 +207,6 @@ const updateClient = async (req, res) => {
       return res.status(404).json({ error: "Cliente no encontrado" });
     }
 
-    // Si viene un correo nuevo, validar que no esté usado por otro cliente
     if (correo_cliente && correo_cliente !== existing.correo_cliente) {
       const emailUsed = await prisma.clientes.findUnique({
         where: { correo_cliente },
@@ -209,15 +252,14 @@ const updateClient = async (req, res) => {
   }
 };
 
-// ✅ Eliminar un cliente
+// ✅ Eliminar un cliente (NO permitir Caja)
 const deleteClient = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
-  // No permitir eliminar el Cliente de Caja
-  if (id === 0) {
+  if (id === CAJA_ID) {
     return res
       .status(400)
-      .json({ error: "No se puede eliminar el Cliente de Caja" });
+      .json({ message: "No se puede eliminar el Cliente de Caja" });
   }
 
   try {
@@ -226,25 +268,36 @@ const deleteClient = async (req, res) => {
     });
 
     if (!existing) {
-      return res.status(404).json({ error: "Cliente no encontrado" });
+      return res.status(404).json({ message: "Cliente no encontrado" });
     }
 
     await prisma.clientes.delete({
       where: { id_cliente: id },
     });
 
-    return res
-      .status(200)
-      .json({ message: "✅ Cliente eliminado correctamente" });
+    return res.status(200).json({ message: "Cliente eliminado correctamente" });
   } catch (error) {
     console.error("❌ Error al eliminar el cliente:", error);
-    return res.status(500).json({ error: "Error al eliminar el cliente" });
+
+    // ✅ Si tiene ventas asociadas (FK RESTRICT)
+    // Prisma: P2003 => Foreign key constraint failed
+    if (error?.code === "P2003") {
+      return res.status(409).json({
+        message:
+          "No se puede eliminar el cliente porque hay una venta asociada con el cliente",
+      });
+    }
+
+    return res.status(500).json({
+      message: "No se pudo eliminar el cliente",
+    });
   }
 };
 
 module.exports = {
   getClients,
   getClientById,
+  searchClients,
   createClient,
   updateClient,
   deleteClient,
