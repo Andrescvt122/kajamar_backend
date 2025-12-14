@@ -11,7 +11,7 @@ const searchDetailsProducts = async (req,res)=>{
                 ]
             },
             include:{productos:true}
-        })
+        }) 
         return res.status(200).json(detailsProducts ? detailsProducts : 'no se encontro ningun producto');
     }catch(error){
         return res.status(500).json({error:"Error al buscar los productos"});

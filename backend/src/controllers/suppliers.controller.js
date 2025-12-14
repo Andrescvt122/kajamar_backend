@@ -165,6 +165,13 @@ exports.createSupplier = async (req, res) => {
   } = req.body;
 
   try {
+    const nitNumber = Number(nit);
+    if (!Number.isInteger(nitNumber) || nitNumber <= 0) {
+      return res
+        .status(400)
+        .json({ message: "El NIT debe ser un número válido mayor que 0." });
+    }
+
     // Verificar categorías válidas
     const existingCats = await prisma.categorias.findMany({
       where: { id_categoria: { in: categorias } },
@@ -181,7 +188,7 @@ exports.createSupplier = async (req, res) => {
     const newSupplier = await prisma.proveedores.create({
       data: {
         nombre,
-        nit: parseInt(nit),
+        nit: nitNumber,
         telefono,
         direccion,
         estado: estado ?? true,
@@ -215,6 +222,30 @@ exports.createSupplier = async (req, res) => {
     res.status(201).json(formatted);
   } catch (error) {
     console.error("❌ Error al crear proveedor:", error);
+
+    // ⚠️ Campos únicos: NIT / correo
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target || "";
+      if (String(target).includes("nit")) {
+        return res
+          .status(400)
+          .json({ message: "Ya existe un proveedor con ese NIT." });
+      }
+      if (String(target).includes("correo")) {
+        return res
+          .status(400)
+          .json({ message: "Ya existe un proveedor con ese correo." });
+      }
+
+      return res.status(400).json({
+        message:
+          "Ya existe un proveedor con los datos indicados (campo único duplicado).",
+      });
+    }
+
     res.status(500).json({ message: "Error al crear el proveedor." });
   }
 };
@@ -236,20 +267,34 @@ exports.updateSupplier = async (req, res) => {
     categorias = [],
   } = req.body;
 
+  const supplierId = Number(id);
+
+  if (Number.isNaN(supplierId)) {
+    return res.status(400).json({ message: "ID de proveedor inválido." });
+  }
+
   try {
     const existing = await prisma.proveedores.findUnique({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: supplierId },
     });
 
-    if (!existing)
+    if (!existing) {
       return res.status(404).json({ message: "Proveedor no encontrado." });
+    }
+
+    const nitNumber = Number(nit);
+    if (!Number.isInteger(nitNumber) || nitNumber <= 0) {
+      return res
+        .status(400)
+        .json({ message: "El NIT debe ser un número válido mayor que 0." });
+    }
 
     // Actualiza proveedor
     await prisma.proveedores.update({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: supplierId },
       data: {
         nombre,
-        nit: parseInt(nit),
+        nit: nitNumber,
         telefono,
         direccion,
         estado,
@@ -265,7 +310,7 @@ exports.updateSupplier = async (req, res) => {
 
     // Actualiza categorías
     await prisma.proveedor_categoria.deleteMany({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: supplierId },
     });
 
     if (categorias.length > 0) {
@@ -276,7 +321,7 @@ exports.updateSupplier = async (req, res) => {
 
       await prisma.proveedor_categoria.createMany({
         data: existingCats.map((cat) => ({
-          id_proveedor: parseInt(id),
+          id_proveedor: supplierId,
           id_categoria: cat.id_categoria,
         })),
       });
@@ -284,7 +329,7 @@ exports.updateSupplier = async (req, res) => {
 
     // Retornar con categorías actualizadas
     const supplierWithCats = await prisma.proveedores.findUnique({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: supplierId },
       include: {
         proveedor_categoria: {
           include: { categorias: true },
@@ -294,38 +339,103 @@ exports.updateSupplier = async (req, res) => {
 
     const formatted = {
       ...supplierWithCats,
-      categorias: supplierWithCats.proveedor_categoria.map((pc) => pc.categorias),
+      categorias: supplierWithCats.proveedor_categoria.map(
+        (pc) => pc.categorias
+      ),
     };
 
     res.status(200).json(formatted);
   } catch (error) {
     console.error("❌ Error al actualizar proveedor:", error);
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target || "";
+      if (String(target).includes("nit")) {
+        return res
+          .status(400)
+          .json({ message: "Ya existe un proveedor con ese NIT." });
+      }
+      if (String(target).includes("correo")) {
+        return res
+          .status(400)
+          .json({ message: "Ya existe un proveedor con ese correo." });
+      }
+
+      return res.status(400).json({
+        message:
+          "Ya existe un proveedor con los datos indicados (campo único duplicado).",
+      });
+    }
+
     res.status(500).json({ message: "Error al actualizar el proveedor." });
   }
 };
 
-// ✅ Eliminar proveedor
+// ✅ Eliminar proveedor con mensajes específicos
 exports.deleteSupplier = async (req, res) => {
-  const { id } = req.params;
+  const id = Number(req.params.id);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ message: "ID de proveedor inválido." });
+  }
+
   try {
     const existing = await prisma.proveedores.findUnique({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: id },
     });
 
-    if (!existing)
+    if (!existing) {
       return res.status(404).json({ message: "Proveedor no encontrado." });
+    }
 
+    // 👉 Revisamos si tiene COMPRAS o PRODUCTOS asociados
+    const [comprasCount, productosProveedorCount] = await Promise.all([
+      prisma.compras.count({ where: { id_proveedor: id } }),
+      prisma.producto_proveedor.count({ where: { id_proveedor: id } }),
+    ]);
+
+    if (comprasCount > 0 || productosProveedorCount > 0) {
+      return res.status(400).json({
+        message:
+          comprasCount > 0 && productosProveedorCount > 0
+            ? "No se puede eliminar el proveedor porque tiene compras registradas y productos asociados."
+            : comprasCount > 0
+            ? "No se puede eliminar el proveedor porque tiene compras registradas."
+            : "No se puede eliminar el proveedor porque tiene productos asociados.",
+      });
+    }
+
+    // Estas relaciones tienen onDelete: Cascade, pero igual las borras a mano
     await prisma.proveedor_categoria.deleteMany({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: id },
     });
 
     await prisma.proveedores.delete({
-      where: { id_proveedor: parseInt(id) },
+      where: { id_proveedor: id },
     });
 
-    res.status(200).json({ message: "✅ Proveedor eliminado correctamente." });
+    return res
+      .status(200)
+      .json({ message: "Proveedor eliminado correctamente." });
   } catch (error) {
     console.error("❌ Error al eliminar proveedor:", error);
-    res.status(500).json({ message: "Error al eliminar el proveedor." });
+
+    // Por si algo se escapa y pega contra una FK
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2003"
+    ) {
+      return res.status(400).json({
+        message:
+          "No se puede eliminar el proveedor porque tiene información relacionada (compras o productos).",
+      });
+    }
+
+    return res
+      .status(500)
+      .json({ message: "Error al eliminar el proveedor." });
   }
 };
