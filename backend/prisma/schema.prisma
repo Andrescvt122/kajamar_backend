@@ -227,20 +227,19 @@ model productos_baja {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model proveedores {
-  id_proveedor                 Int                   @id @default(autoincrement())
-  nombre                       String                @db.VarChar(100)
-  telefono                     String?               @db.VarChar(15)
-  direccion                    String?               @db.VarChar(250)
-  estado                       Boolean
-  descripcion                  String?               @db.VarChar(225)
-  nit                          Int                   @unique(map: "uq_proveedores_nit")
-  max_porcentaje_de_devolucion Decimal?              @db.Decimal
-  tipo_persona                 String?               @db.VarChar(50)
-  contacto                     String?               @db.VarChar(100)
-  correo                       String?               @unique @db.VarChar(120)
-  compras                      compras[]
-  producto_proveedor           producto_proveedor[]
-  proveedor_categoria          proveedor_categoria[]
+  id_proveedor        Int                   @id @default(autoincrement())
+  nombre              String                @db.VarChar(100)
+  telefono            String?               @db.VarChar(15)
+  direccion           String?               @db.VarChar(250)
+  estado              Boolean
+  descripcion         String?               @db.VarChar(225)
+  nit                 String?               @unique(map: "uq_proveedores_nit")
+  tipo_persona        String?               @db.VarChar(50)
+  contacto            String?               @db.VarChar(100)
+  correo              String?               @unique @db.VarChar(120)
+  compras             compras[]
+  producto_proveedor  producto_proveedor[]
+  proveedor_categoria proveedor_categoria[]
 }
 
 model rol_permisos {
