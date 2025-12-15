@@ -103,7 +103,9 @@ const searchReturnProdcts = async (req, res) => {
 
 const createReturnProduct = async (req, res) => {
   const data = req.body;
-  const responsable = await getResponsable(data.id_responsable);
+  console.log("comienza la busqueda deel responsable");
+  const responsable = await getResponsable(Number(data.id_responsable));
+  console.log("responsable encontrado", responsable);
   const cantidadTotal = data.products.reduce((acc, p) => acc + p.cantidad, 0);
   if (responsable) {
     try {
