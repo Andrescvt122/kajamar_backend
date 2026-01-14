@@ -113,6 +113,7 @@ const createReturnProduct = async (req, res) => {
         const returnProduct = await tx.devolucion_producto.create({
           data: {
             id_responsable: responsable.usuario_id,
+            id_compras:data.id_compras,
             numero_factura: data.numero_factura,
             fecha_devolucion: new Date(),
             cantidad_total: cantidadTotal,
