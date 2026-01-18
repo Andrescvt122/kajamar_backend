@@ -126,7 +126,7 @@ const createReturnProduct = async (req, res) => {
       .filter(Boolean)
   );
 
-  // si tu payload puede traer id_producto, mejor:
+  // si tu m, ,n,jghbvhoad puede traer id_producto, mejor:
   const isValidReturn = data.products.every((p) =>
     purchaseProductIds.has(p.id_producto)
   );
@@ -209,4 +209,5 @@ module.exports = {
   getReturnProducts,
   searchReturnProdcts,
   createReturnProduct,
+  getResponsable
 };
