@@ -676,3 +676,33 @@ Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nom
 Params: [1,0]
 Duration: 72 ms
 ----------------------------------------------
+
+[2026-01-27T01:38:17.831Z]
+Query: SELECT "public"."ventas"."id_venta", "public"."ventas"."fecha_venta", "public"."ventas"."id_cliente", "public"."ventas"."metodo_pago", "public"."ventas"."total", "public"."ventas"."estado_venta" FROM "public"."ventas" LEFT JOIN "public"."clientes" AS "j0" ON ("j0"."id_cliente") = ("public"."ventas"."id_cliente") WHERE (("j0"."nombre_cliente" ILIKE $1 AND ("j0"."id_cliente" IS NOT NULL)) OR EXISTS(SELECT "t1"."id_venta" FROM "public"."detalle_venta" AS "t1" LEFT JOIN "public"."detalle_productos" AS "j2" ON ("j2"."id_detalle_producto") = ("t1"."id_detalle_producto") LEFT JOIN "public"."productos" AS "j3" ON ("j3"."id_producto") = ("j2"."id_producto") WHERE ("j3"."nombre" ILIKE $2 AND ("j3"."id_producto" IS NOT NULL) AND ("j2"."id_detalle_producto" IS NOT NULL) AND ("public"."ventas"."id_venta") = ("t1"."id_venta") AND "t1"."id_venta" IS NOT NULL))) OFFSET $3
+Params: ["%andres%","%andres%",0]
+Duration: 241 ms
+----------------------------------------------
+
+[2026-01-27T01:38:17.990Z]
+Query: SELECT "public"."clientes"."id_cliente", "public"."clientes"."nombre_cliente", "public"."clientes"."tipo_docume", "public"."clientes"."numero_doc", "public"."clientes"."correo_cliente", "public"."clientes"."telefono_cliente", "public"."clientes"."estado_cliente" FROM "public"."clientes" WHERE "public"."clientes"."id_cliente" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 147 ms
+----------------------------------------------
+
+[2026-01-27T01:38:18.140Z]
+Query: SELECT "public"."detalle_venta"."id_detalle", "public"."detalle_venta"."id_venta", "public"."detalle_venta"."cantidad", "public"."detalle_venta"."precio_unitario", "public"."detalle_venta"."subtotal", "public"."detalle_venta"."id_detalle_producto", "public"."detalle_venta"."iva_venta", "public"."detalle_venta"."icu_venta" FROM "public"."detalle_venta" WHERE "public"."detalle_venta"."id_venta" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2026-01-27T01:38:18.289Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."id_detalle_producto" IN ($1) OFFSET $2
+Params: [2,0]
+Duration: 148 ms
+----------------------------------------------
+
+[2026-01-27T01:38:18.438Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen", "public"."productos"."created_at", "public"."productos"."updated_at", "public"."productos"."cantidad_unitaria" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [4,0]
+Duration: 148 ms
+----------------------------------------------
