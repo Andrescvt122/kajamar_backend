@@ -126,7 +126,7 @@ const createReturnProduct = async (req, res) => {
       .filter(Boolean)
   );
 
-  // si tu m, ,n,jghbvhoad puede traer id_producto, mejor:
+  
   const isValidReturn = data.products.every((p) =>
     purchaseProductIds.has(p.id_producto)
   );

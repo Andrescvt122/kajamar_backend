@@ -1,0 +1,33 @@
+{
+    "id_responsable":1,
+    "id_venta":1,
+    "valor_devolucion_total":4000,
+    "productosVentas":[
+        {
+            "id_detalle_venta":1,
+            "cantidad":2,
+            "motivo":"Producto dañado",
+            "valor_unitario":5000,
+            "condicion": "dañado"
+        },
+        {
+            "id_detalle_venta":2,
+            "cantidad":1,
+            "motivo":"Cambio de opinión",
+            "valor_unitario":3000,
+            "condicion": "bueno"
+        },
+        {
+            "id_detalle_venta":3,
+            "cantidad":1,
+            "motivo":"Cambio de opinión",
+            "valor_unitario":2000,
+            "condicion": "vencido"
+        }
+    ],
+    "productosEntrega":[{
+        "id_detalle_producto":4,
+        "cantidad":2,
+        "valor_unitario":4000
+    }]
+}
