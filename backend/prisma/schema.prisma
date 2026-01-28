@@ -43,13 +43,14 @@ model clientes {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model compras {
-  id_compra      Int              @id @default(autoincrement())
-  fecha_compra   DateTime         @default(now()) @db.Timestamp(6)
-  id_proveedor   Int
-  total          Decimal          @db.Decimal(12, 2)
-  estado_compra  String?          @db.VarChar(25)
-  proveedores    proveedores      @relation(fields: [id_proveedor], references: [id_proveedor], onUpdate: NoAction, map: "fk_compras_proveedor")
-  detalle_compra detalle_compra[]
+  id_compra           Int                   @id @default(autoincrement())
+  fecha_compra        DateTime              @default(now()) @db.Timestamp(6)
+  id_proveedor        Int
+  total               Decimal               @db.Decimal(12, 2)
+  estado_compra       String?               @db.VarChar(25)
+  proveedores         proveedores           @relation(fields: [id_proveedor], references: [id_proveedor], onUpdate: NoAction, map: "fk_compras_proveedor")
+  detalle_compra      detalle_compra[]
+  devolucion_producto devolucion_producto[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -66,21 +67,26 @@ model detalle_compra {
   detalle_productos   detalle_productos? @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
 }
 
-model detalle_devolucion_cliente {
-  id_detalle_devolucion_cliente      Int                 @id @default(autoincrement())
+model devolucion_cliente_devuelto {
+  id_devolucion_cliente_devuelto     Int                 @id @default(autoincrement())
   id_devolucion_cliente              Int?
-  id_detalle_producto                Int?
   id_detalle_venta                   Int?
-  cantidad_cliente_devuelta          Int?
-  cantidad_devuelta_a_cliente        Int?
-  precio_unitario_devolucion         Decimal?            @db.Decimal
-  monto_clientes_productos_devueltos Decimal?            @db.Decimal
-  estado_condicion_producto          String?             @db.VarChar(10)
-  estado_devolucion_proveedor        String?             @db.VarChar(20)
-  nombre_producto                    String?             @db.VarChar(20)
-  detalle_productos                  detalle_productos?  @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+  cantidad_cliente_devuelto          Int?
+  valor_unitario                     Decimal?            @db.Decimal
+  motivo                             String?            @db.VarChar(30)
+  condicion_producto                 String?             @db.VarChar(10)
   detalle_venta                      detalle_venta?      @relation(fields: [id_detalle_venta], references: [id_detalle], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_venta")
   devolucion_cliente                 devolucion_cliente? @relation(fields: [id_devolucion_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_cliente")
+}
+
+model devolucion_cliente_entregado {
+  id_devolucion_cliente_entregado Int                 @id @default(autoincrement())
+  id_devolucion_cliente           Int?
+  id_detalle_producto             Int?
+  cantidad_entregada              Int?
+  valor_unitario                  Decimal?            @db.Decimal
+  detalle_producto                detalle_productos?   @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+  devolucion_cliente              devolucion_cliente?  @relation(fields: [id_devolucion_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_cliente")
 }
 
 model detalle_devolucion_producto {
@@ -105,11 +111,11 @@ model detalle_productos {
   es_devolucion                 Boolean?                      @default(false)
   estado                        Boolean?
   detalle_compra                detalle_compra[]
-  detalle_devolucion_cliente    detalle_devolucion_cliente[]
   detalle_devolucion_producto   detalle_devolucion_producto[]
   productos                     productos                     @relation(fields: [id_producto], references: [id_producto], onDelete: Cascade, onUpdate: NoAction)
   detalle_productos_baja        detalle_productos_baja[]
   detalle_venta                 detalle_venta[]
+  devolucion_cliente_entregado  devolucion_cliente_entregado[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -122,9 +128,9 @@ model detalle_venta {
   id_detalle_producto        Int?
   iva_venta                  Decimal?                     @db.Decimal
   icu_venta                  Decimal?                     @db.Decimal
-  detalle_devolucion_cliente detalle_devolucion_cliente[]
   detalle_productos          detalle_productos?           @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_venta")
   ventas                     ventas                       @relation(fields: [id_venta], references: [id_venta], onDelete: Cascade, onUpdate: NoAction, map: "fk_detalle_venta_venta")
+  devolucion_cliente_devuelto devolucion_cliente_devuelto[]
 }
 
 model devolucion_cliente {
@@ -132,25 +138,27 @@ model devolucion_cliente {
   id_venta                                 Int?
   id_responsable                           Int?
   fecha_devolucion                         DateTime?                    @db.Date
-  total_devolucion                         Decimal?                     @db.Decimal
-  tipo                                     String?                      @db.VarChar(50)
-  fecha_cambio_estado_devolucion_proveedor DateTime?                    @db.Date
-  nombre_responsable                       String?                      @db.VarChar(20)
-  nombre_cliente                           String?                      @db.VarChar(20)
-  detalle_devolucion_cliente               detalle_devolucion_cliente[]
+  total_devolucion_cliente                 Decimal?                     @db.Decimal
+  total_devolucion_producto                Decimal?                     @db.Decimal
+  cantidad_devuelta_cliente                Int?
+  cantidad_devuelta_a_cliente              Int?
   usuarios                                 usuarios?                    @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
   ventas                                   ventas?                      @relation(fields: [id_venta], references: [id_venta], onDelete: NoAction, onUpdate: NoAction, map: "fk_venta")
+  devolucion_cliente_entregado             devolucion_cliente_entregado[]
+  devolucion_cliente_devuelto              devolucion_cliente_devuelto[]
 }
 
 model devolucion_producto {
   id_devolucion_product       Int                           @id @default(autoincrement())
   id_responsable              Int?
+  id_compras                  Int?
   fecha_devolucion            DateTime?                     @db.Date
   cantidad_total              Int?
   nombre_responsable          String?                       @db.VarChar(20)
   numero_factura              String?                       @db.VarChar(20)
   detalle_devolucion_producto detalle_devolucion_producto[]
   usuarios                    usuarios?                     @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
+  compras                     compras?                      @relation(fields: [id_compras], references: [id_compra], onDelete: NoAction, onUpdate: NoAction, map: "fk_compra")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

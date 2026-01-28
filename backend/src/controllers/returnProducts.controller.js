@@ -18,21 +18,21 @@ const getReturnProducts = async (req, res) => {
     const returnProducts = await prisma.devolucion_producto.findMany({
       include: {
         detalle_devolucion_producto: {
-          include:{
-            detalle_productos:{
-              include:{
-                productos:{
-                  include:{
-                    producto_proveedor:{
-                      include:{
-                        proveedores:true
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  include: {
+                    producto_proveedor: {
+                      include: {
+                        proveedores: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     });
@@ -107,12 +107,43 @@ const createReturnProduct = async (req, res) => {
   const responsable = await getResponsable(Number(data.id_responsable));
   console.log("responsable encontrado", responsable);
   const cantidadTotal = data.products.reduce((acc, p) => acc + p.cantidad, 0);
-  if (responsable) {
+  const compra = await prisma.compras.findUnique({
+    where: { id_compra: data.id_compra },
+    include: {
+      detalle_compra: {
+        include: { detalle_productos: true }, // para obtener id_producto
+      },
+    },
+  });
+
+  if (!compra) {
+    return res.status(404).json({ error: "La compra especificada no existe" });
+  }
+
+  const purchaseProductIds = new Set(
+    compra.detalle_compra
+      .map((dc) => dc?.detalle_productos?.id_producto)
+      .filter(Boolean)
+  );
+
+  
+  const isValidReturn = data.products.every((p) =>
+    purchaseProductIds.has(p.id_producto)
+  );
+
+  if (!isValidReturn) {
+    return res.status(400).json({
+      error: "Uno o más productos no pertenecen a la compra especificada",
+    });
+  }
+
+  if (responsable && isValidReturn) {
     try {
       const result = await prisma.$transaction(async (tx) => {
         const returnProduct = await tx.devolucion_producto.create({
           data: {
             id_responsable: responsable.usuario_id,
+            id_compras: data.id_compra,
             numero_factura: data.numero_factura,
             fecha_devolucion: new Date(),
             cantidad_total: cantidadTotal,
@@ -178,4 +209,5 @@ module.exports = {
   getReturnProducts,
   searchReturnProdcts,
   createReturnProduct,
+  getResponsable
 };
