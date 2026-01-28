@@ -4,7 +4,6 @@ const prisma = require("../prisma/prismaClient");
 exports.getAllSuppliers = async (req, res) => {
   try {
     const suppliers = await prisma.proveedores.findMany({
-      orderBy: { nombre: "asc" },
       include: {
         proveedor_categoria: {
           include: { categorias: true },
@@ -160,7 +159,6 @@ exports.createSupplier = async (req, res) => {
     tipo_persona,
     contacto,
     correo,
-    max_porcentaje_de_devolucion,
     categorias = [],
   } = req.body;
 
@@ -190,9 +188,6 @@ exports.createSupplier = async (req, res) => {
         tipo_persona,
         contacto,
         correo,
-        max_porcentaje_de_devolucion: max_porcentaje_de_devolucion
-          ? parseFloat(max_porcentaje_de_devolucion)
-          : null,
         proveedor_categoria: {
           createMany: {
             data: existingCats.map((cat) => ({
