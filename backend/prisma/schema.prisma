@@ -139,7 +139,7 @@ model devolucion_cliente {
   id_responsable                           Int?
   fecha_devolucion                         DateTime?                    @db.Date
   total_devolucion_cliente                 Decimal?                     @db.Decimal
-  valor_devolucion_total                   Decimal?                     @db.Decimal
+  total_devolucion_producto                Decimal?                     @db.Decimal
   cantidad_devuelta_cliente                Int?
   cantidad_devuelta_a_cliente              Int?
   usuarios                                 usuarios?                    @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
