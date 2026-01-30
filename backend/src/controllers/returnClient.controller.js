@@ -88,7 +88,8 @@ const createReturnClients = async (req, res) => {
             id_venta: Number(data.id_venta),
             id_responsable: responsable.usuario_id,
             fecha_devolucion: new Date(),
-            valor_devolucion_total: data.valor_devolucion_total,
+            total_devolucion_producto: data.total_devolucion_producto,
+            total_devolucion_cliente: data.total_devolucion_cliente,
             cantidad_devuelta_a_cliente: cantidadTotalAEntregar,
             cantidad_devuelta_cliente: cantidadTotalDeCliente,
           },
@@ -217,4 +218,5 @@ const createReturnClients = async (req, res) => {
 
 module.exports = {
   getReturnClients,
+  createReturnClients
 };

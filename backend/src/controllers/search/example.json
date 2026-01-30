@@ -1,7 +1,8 @@
 {
   "id_responsable": 1,
   "id_venta": 1,
-  "valor_devolucion_total": 4000,
+  "total_devolucion_cliente": 4000,
+  "total_devolucion_producto": 8000,
   "productosVenta": [
     {
       "id_detalle_venta": 1,
