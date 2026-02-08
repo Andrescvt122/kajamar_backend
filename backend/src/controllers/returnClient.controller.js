@@ -218,5 +218,5 @@ const createReturnClients = async (req, res) => {
 
 module.exports = {
   getReturnClients,
-  createReturnClients
+  createReturnClients,
 };
