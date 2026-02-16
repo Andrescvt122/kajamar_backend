@@ -1,19 +1,17 @@
-// accessController.js
-
 const prisma = require("../prisma/prismaClient");
-// const bcrypt = require('bcrypt'); // Needed for hashing in production
+const bcrypt = require('bcryptjs'); // <--- IMPORTANTE: Usamos bcryptjs
 
-// GET /access - Gets all access records
+// GET /access - Gets all access records (IGUAL)
 const getAccesses = async (req, res) => {
     try {
         const accesses = await prisma.acceso.findMany({
             select: {
-                acceso_id: true, // access_id
+                acceso_id: true,
                 email: true,
-                estado_usuario: true, // user_status
+                estado_usuario: true,
                 roles: {
                     select: {
-                        rol_nombre: true // role_name
+                        rol_nombre: true
                     }
                 }
             },
@@ -25,20 +23,19 @@ const getAccesses = async (req, res) => {
     }
 };
 
-// GET /access/:id - Gets an access record by ID
+// GET /access/:id - Gets an access record by ID (IGUAL)
 const getAccessById = async (req, res) => {
-    const acceso_id = Number(req.params.id); // access_id
+    const acceso_id = Number(req.params.id);
     try {
         const access = await prisma.acceso.findUnique({
-            where: { acceso_id }, // access_id
-            include: { roles: true, usuarios: true }, // roles, users
+            where: { acceso_id },
+            include: { roles: true, usuarios: true },
         });
 
         if (!access) {
             return res.status(404).json({ error: 'Access not found' });
         }
 
-        // Removes the password hash to avoid exposure
         const { password_hash, ...accessWithoutHash } = access;
 
         return res.status(200).json(accessWithoutHash);
@@ -48,18 +45,19 @@ const getAccessById = async (req, res) => {
     }
 };
 
-// POST /access - Creates a new access record
+// POST /access - Creates a new access record (MODIFICADO)
 const createAccess = async (req, res) => {
-    const { email, password, rol_id } = req.body; // role_id
+    const { email, password, rol_id } = req.body;
     try {
-        // ⚠️ Replace with actual hashing: const password_hash = await bcrypt.hash(password, 10);
-        const password_hash = password; 
+        // ENCRIPTACIÓN DE CONTRASEÑA
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = await bcrypt.hash(password, salt);
 
         const newAccess = await prisma.acceso.create({
             data: {
                 email,
-                password_hash,
-                rol_id: Number(rol_id), // role_id
+                password_hash, // Guardamos la versión encriptada
+                rol_id: Number(rol_id),
             },
         });
 
@@ -73,20 +71,26 @@ const createAccess = async (req, res) => {
     }
 };
 
-// PUT /access/:id - Updates an access record
+// PUT /access/:id - Updates an access record (MODIFICADO)
 const updateAccess = async (req, res) => {
-    const acceso_id = Number(req.params.id); // access_id
-    const { email, password, rol_id, estado_usuario } = req.body; // role_id, user_status
-    let updateData = { email, rol_id: rol_id ? Number(rol_id) : undefined, estado_usuario }; // role_id, user_status
+    const acceso_id = Number(req.params.id);
+    const { email, password, rol_id, estado_usuario } = req.body;
+    
+    let updateData = { 
+        email, 
+        rol_id: rol_id ? Number(rol_id) : undefined, 
+        estado_usuario 
+    };
 
     try {
         if (password) {
-            // ⚠️ Replace with actual hashing
-            updateData.password_hash = password; 
+            // Si envían password nuevo, lo encriptamos también
+            const salt = await bcrypt.genSalt(10);
+            updateData.password_hash = await bcrypt.hash(password, salt);
         }
 
         const updatedAccess = await prisma.acceso.update({
-            where: { acceso_id }, // access_id
+            where: { acceso_id },
             data: { ...updateData, updated_at: new Date() },
         });
 
@@ -103,12 +107,12 @@ const updateAccess = async (req, res) => {
     }
 };
 
-// DELETE /access/:id - Deletes an access record
+// DELETE /access/:id - Deletes an access record (IGUAL)
 const deleteAccess = async (req, res) => {
-    const acceso_id = Number(req.params.id); // access_id
+    const acceso_id = Number(req.params.id);
     try {
         await prisma.acceso.delete({
-            where: { acceso_id }, // access_id
+            where: { acceso_id },
         });
 
         return res.status(200).json({ message: 'Access deleted successfully' });
@@ -120,7 +124,6 @@ const deleteAccess = async (req, res) => {
         return res.status(500).json({ error: "Error deleting the access record" });
     }
 };
-
 
 module.exports = {
     getAccesses,
