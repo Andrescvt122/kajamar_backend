@@ -84,6 +84,7 @@ model detalle_devolucion_producto {
   cantidad_devuelta               Int?
   es_descuento                    Boolean?
   nombre_producto                 String?              @db.VarChar(50)
+  estado                          Boolean?             @default(true)
   detalle_productos               detalle_productos?   @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
   devolucion_producto             devolucion_producto? @relation(fields: [id_devolucion_producto], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_producto")
 }
@@ -133,10 +134,12 @@ model devolucion_cliente {
   cantidad_devuelta_cliente    Int?
   total_devolucion_cliente     Decimal?                       @db.Decimal
   total_devolucion_producto    Decimal?                       @db.Decimal
+  estado                       Boolean?                       @default(true)
   usuarios                     usuarios?                      @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
   ventas                       ventas?                        @relation(fields: [id_venta], references: [id_venta], onDelete: NoAction, onUpdate: NoAction, map: "fk_venta")
   devolucion_cliente_devuelto  devolucion_cliente_devuelto[]
   devolucion_cliente_entregado devolucion_cliente_entregado[]
+  productosBajas               productos_baja[]
 }
 
 model devolucion_producto {
@@ -147,6 +150,7 @@ model devolucion_producto {
   nombre_responsable          String?                       @db.VarChar(20)
   numero_factura              String?                       @db.VarChar(20)
   id_compras                  Int?
+  estado                      Boolean?                      @default(true)
   detalle_devolucion_producto detalle_devolucion_producto[]
   detalle_productos           detalle_productos[]
   compras                     compras?                      @relation(fields: [id_compras], references: [id_compra], onDelete: NoAction, onUpdate: NoAction, map: "fk_compra")
@@ -225,10 +229,13 @@ model productos_baja {
   cantida_baja           Int?
   total_precio_baja      Decimal?                 @db.Decimal
   nombre_responsable     String?                  @db.VarChar(50)
+  estado                 Boolean?                 @default(true)
+  desde_dev_cliente      Int?
   detalle_productos      detalle_productos[]
   detalle_productos_baja detalle_productos_baja[]
   productos              productos[]
   usuarios               usuarios?                @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
+  devolucion_cliente     devolucion_cliente?      @relation(fields: [desde_dev_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model proveedores {
@@ -236,7 +243,7 @@ model proveedores {
   nombre              String                @db.VarChar(100)
   telefono            String?               @db.VarChar(15)
   direccion           String?               @db.VarChar(250)
-  estado              Boolean
+  estado              Boolean               @default(true)
   descripcion         String?               @db.VarChar(225)
   nit                 String?               @unique(map: "uq_proveedores_nit")
   tipo_persona        String?               @db.VarChar(50)
@@ -300,6 +307,7 @@ model detalle_productos_baja {
   motivo                    String?            @db.VarChar(50)
   total_producto_baja       Decimal?           @db.Decimal(10, 2)
   nombre_producto           String?            @db.VarChar(50)
+  estado                    Boolean?           @default(true)
   productos_baja            productos_baja?    @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
   detalle_productos         detalle_productos? @relation(fields: [id_detalle_productos], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -324,6 +332,7 @@ model devolucion_cliente_devuelto {
   valor_unitario                 Decimal?            @db.Decimal
   condicion_producto             String?             @db.VarChar(10)
   motivo                         String?             @db.VarChar(30)
+  estado                         Boolean?            @default(true)
   detalle_venta                  detalle_venta?      @relation(fields: [id_detalle_venta], references: [id_detalle], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_venta")
   devolucion_cliente             devolucion_cliente? @relation(fields: [id_devolucion_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_cliente")
 }
@@ -334,6 +343,7 @@ model devolucion_cliente_entregado {
   id_detalle_producto             Int?
   cantidad_entregada              Int?
   valor_unitario                  Decimal?            @db.Decimal
+  estado                          Boolean?            @default(true)
   detalle_productos               detalle_productos?  @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
   devolucion_cliente              devolucion_cliente? @relation(fields: [id_devolucion_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_cliente")
 }
