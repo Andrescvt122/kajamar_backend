@@ -87,12 +87,14 @@ exports.getSales = async (_req, res) => {
 // ======================
 // POST /sales
 // Body:
-// { fecha:"YYYY-MM-DD", clienteId?, medioPago, estado, productos:[...] }
+// { fecha:"YYYY-MM-DD", clienteId?, medioPago, estado, productos:[...], pagoMixto? }
+// pagoMixto: { efectivo, transferencia } (solo si medioPago="Mixto")
 // productos[].productoId = id_detalle_producto (lote)
 // ======================
 exports.createSale = async (req, res) => {
   try {
-    const { fecha, clienteId, medioPago, estado, productos } = req.body;
+    const { fecha, clienteId, medioPago, estado, productos, pagoMixto } =
+      req.body;
 
     // Validaciones
     if (!isValidDateYYYYMMDD(fecha)) {
@@ -150,12 +152,61 @@ exports.createSale = async (req, res) => {
 
     const total = items.reduce((acc, it) => acc + it.subtotal, 0);
 
+    // =====================================================
+    // ✅ NUEVO: normalizar montos por método de pago
+    // =====================================================
+    const metodo = String(medioPago); // "Efectivo" | "Transferencia" | "Mixto"
+
+    let monto_efectivo = 0;
+    let monto_transferencia = 0;
+
+    if (metodo === "Mixto") {
+      const ef = Number(pagoMixto?.efectivo ?? 0);
+      const tr = Number(pagoMixto?.transferencia ?? 0);
+
+      if (!Number.isFinite(ef) || !Number.isFinite(tr)) {
+        return res.status(400).json({
+          message: "pagoMixto inválido: efectivo/transferencia deben ser números",
+        });
+      }
+
+      if (ef <= 0 || tr <= 0) {
+        return res.status(400).json({
+          message: "En pago Mixto debes enviar efectivo y transferencia > 0.",
+        });
+      }
+
+      if (ef + tr !== total) {
+        return res.status(400).json({
+          message: `Pago mixto no cuadra: efectivo(${ef}) + transferencia(${tr}) != total(${total})`,
+        });
+      }
+
+      monto_efectivo = ef;
+      monto_transferencia = tr;
+    } else if (metodo === "Efectivo") {
+      monto_efectivo = total;
+      monto_transferencia = 0;
+    } else if (metodo === "Transferencia") {
+      monto_transferencia = total;
+      monto_efectivo = 0;
+    } else {
+      // Por si mandan algo raro
+      return res.status(400).json({
+        message: "medioPago inválido. Usa: Efectivo | Transferencia | Mixto",
+      });
+    }
+
     const dataVenta = {
       fecha_venta: new Date(), // ✅ hora real de creación
-      metodo_pago: String(medioPago),
+      metodo_pago: metodo,
       estado_venta: String(estado),
       total,
       id_cliente: toIntOrNull(clienteId),
+
+      // ✅ IMPORTANTÍSIMO para el CHECK
+      monto_efectivo,
+      monto_transferencia,
     };
 
     // 2) Transacción ATÓMICA (interactiva, pero rápida: SOLO updates + create)
@@ -229,9 +280,7 @@ exports.createSale = async (req, res) => {
 
 // ======================
 // PUT /sales/:id/status
-// Body: { estado: "Anulada" }
-// - Solo permite anular en 30 min
-// - Si pasa a "Anulada" => devuelve stock
+// (sin cambios)
 // ======================
 exports.updateSaleStatus = async (req, res) => {
   try {
@@ -259,7 +308,6 @@ exports.updateSaleStatus = async (req, res) => {
 
     const estadoActual = String(sale.estado_venta || "");
 
-    // Si ya está anulada y la vuelven a anular => devuelvo la venta completa (no doble stock)
     if (estadoActual === "Anulada" && nuevoEstado === "Anulada") {
       const same = await prisma.ventas.findUnique({
         where: { id_venta: id },
@@ -273,7 +321,6 @@ exports.updateSaleStatus = async (req, res) => {
       return res.json(same);
     }
 
-    // ✅ Regla: solo anular dentro de 30 min
     if (nuevoEstado === "Anulada") {
       const LIMIT_MINUTES = 30;
       const fechaVenta = sale.fecha_venta ? new Date(sale.fecha_venta) : null;
@@ -297,9 +344,7 @@ exports.updateSaleStatus = async (req, res) => {
         });
       }
 
-      // ✅ Anular y devolver stock
       await prisma.$transaction(async (tx) => {
-        // agrupar por lote
         const qtyByLote = new Map();
         for (const d of sale.detalle_venta || []) {
           const loteId = Number(d.id_detalle_producto);
@@ -311,7 +356,6 @@ exports.updateSaleStatus = async (req, res) => {
           );
         }
 
-        // sumar stock a cada lote
         for (const [loteId, qty] of qtyByLote.entries()) {
           if (qty > 0) {
             await tx.detalle_productos.update({
@@ -321,7 +365,6 @@ exports.updateSaleStatus = async (req, res) => {
           }
         }
 
-        // actualizar estado
         await tx.ventas.update({
           where: { id_venta: id },
           data: { estado_venta: "Anulada" },
@@ -341,7 +384,6 @@ exports.updateSaleStatus = async (req, res) => {
       return res.json(updated);
     }
 
-    // ✅ Si NO es anulada => solo cambiar estado
     const updated = await prisma.ventas.update({
       where: { id_venta: id },
       data: { estado_venta: nuevoEstado },
