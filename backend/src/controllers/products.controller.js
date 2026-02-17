@@ -63,8 +63,7 @@ const getAllProducts = async (_req, res) => {
         // Opcional: incluir info de impuestos
         impuestos_productos_productos_ivaToimpuestos_productos: true,
         impuestos_productos_productos_icuToimpuestos_productos: true,
-        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos:
-          true,
+        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
       },
     });
 
@@ -101,8 +100,7 @@ const getProductsBySupplier = async (req, res) => {
             },
             impuestos_productos_productos_ivaToimpuestos_productos: true,
             impuestos_productos_productos_icuToimpuestos_productos: true,
-            impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos:
-              true,
+            impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
           },
         },
       },
@@ -139,6 +137,8 @@ const createProduct = async (req, res) => {
   try {
     const {
       nombre,
+      dev_producto = null,
+      baja_producto = null,
       descripcion,
       stock_actual,
       stock_minimo,
@@ -183,7 +183,7 @@ const createProduct = async (req, res) => {
     const icuId = await resolveImpuestoId(icu, "ICU");
     const porcId = await resolveImpuestoId(
       porcentaje_incremento,
-      "INC" // incremento
+      "INC", // incremento
     );
 
     // ───────── SUBIR IMAGEN (SI VIENE) ─────────
@@ -255,6 +255,8 @@ const createProduct = async (req, res) => {
       data: {
         nombre,
         descripcion: descripcion || null,
+        desde_baja_productos: dev_producto,
+        desde_dev_productos: baja_producto,
         stock_actual: Number(stock_actual) || 0,
         stock_minimo: Number(stock_minimo) || 0,
         stock_maximo: Number(stock_maximo) || 0,
@@ -360,7 +362,6 @@ const updateProduct = async (req, res) => {
       }
     }
 
-
     // ───────── RESOLVER IMPUESTOS SOLO SI LLEGAN EN EL BODY ─────────
     let ivaId, icuId, porcId;
 
@@ -408,10 +409,8 @@ const updateProduct = async (req, res) => {
     if (porcId !== undefined) data.porcentaje_incremento = porcId;
     if (costo_unitario !== undefined)
       data.costo_unitario = Number(costo_unitario);
-    if (precio_venta !== undefined)
-      data.precio_venta = Number(precio_venta);
-    if (finalImageUrl !== undefined)
-      data.url_imagen = finalImageUrl || null;
+    if (precio_venta !== undefined) data.precio_venta = Number(precio_venta);
+    if (finalImageUrl !== undefined) data.url_imagen = finalImageUrl || null;
 
     const updated = await prisma.productos.update({
       where: { id_producto: Number(id) },
@@ -541,7 +540,7 @@ const getRandomProduct = async (req, res) => {
     }
 
     while (true) {
-      const idx= Math.floor(Math.random() * ids.length);
+      const idx = Math.floor(Math.random() * ids.length);
       const product = await prisma.productos.findUnique({
         where: {
           id_producto: ids[idx].id_producto,
@@ -559,28 +558,27 @@ const getRandomProduct = async (req, res) => {
   }
 };
 
-const getProductsByCategory = async (req,res)=>{
+const getProductsByCategory = async (req, res) => {
   const q = req.query.q;
   console.log(q);
-  try{
+  try {
     const produts = await prisma.productos.findMany({
-      where:{
-        id_categoria:{equals:Number(q)}
+      where: {
+        id_categoria: { equals: Number(q) },
       },
-      include:{
+      include: {
         detalle_productos: true,
-        categorias: true
-      }
-    }
-  )
-  return res.status(200).json(produts);
-  }catch(error){
+        categorias: true,
+      },
+    });
+    return res.status(200).json(produts);
+  } catch (error) {
     console.log(error);
     return res.status(500).json({
       message: "Error al obtener los productos",
     });
   }
-}
+};
 
 module.exports = {
   getAllProducts,
@@ -589,5 +587,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getRandomProduct,
-  getProductsByCategory
+  getProductsByCategory,
 };

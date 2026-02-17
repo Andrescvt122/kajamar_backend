@@ -4,7 +4,6 @@ const prisma = require("../prisma/prismaClient");
 exports.getAllSuppliers = async (req, res) => {
   try {
     const suppliers = await prisma.proveedores.findMany({
-      orderBy: { nombre: "asc" },
       include: {
         proveedor_categoria: {
           include: { categorias: true },
@@ -160,17 +159,10 @@ exports.createSupplier = async (req, res) => {
     tipo_persona,
     contacto,
     correo,
-    max_porcentaje_de_devolucion,
     categorias = [],
   } = req.body;
 
   try {
-    const nitNumber = Number(nit);
-    if (!Number.isInteger(nitNumber) || nitNumber <= 0) {
-      return res
-        .status(400)
-        .json({ message: "El NIT debe ser un número válido mayor que 0." });
-    }
 
     // Verificar categorías válidas
     const existingCats = await prisma.categorias.findMany({
@@ -188,7 +180,7 @@ exports.createSupplier = async (req, res) => {
     const newSupplier = await prisma.proveedores.create({
       data: {
         nombre,
-        nit: nitNumber,
+        nit: nit,
         telefono,
         direccion,
         estado: estado ?? true,
@@ -196,9 +188,6 @@ exports.createSupplier = async (req, res) => {
         tipo_persona,
         contacto,
         correo,
-        max_porcentaje_de_devolucion: max_porcentaje_de_devolucion
-          ? parseFloat(max_porcentaje_de_devolucion)
-          : null,
         proveedor_categoria: {
           createMany: {
             data: existingCats.map((cat) => ({

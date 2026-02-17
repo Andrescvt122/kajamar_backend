@@ -27,7 +27,7 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { uid: usuario.acceso_id, rol: usuario.roles.rol_nombre, nombre: usuario.usuarios.nombre, rol_id: usuario.roles.rol_id },
+            { uid: usuario.usuarios.usuario_id, rol: usuario.roles.rol_nombre, nombre: usuario.usuarios.nombre, rol_id: usuario.roles.rol_id },
             JWT_SECRET, { expiresIn: '8h' }
         );
         res.json({ message: 'Bienvenido', token, user: usuario });
