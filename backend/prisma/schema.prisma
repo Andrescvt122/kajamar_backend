@@ -29,7 +29,6 @@ model categorias {
   proveedor_categoria   proveedor_categoria[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model clientes {
   id_cliente       Int      @id @default(autoincrement())
   nombre_cliente   String   @db.VarChar(100)
@@ -41,7 +40,6 @@ model clientes {
   ventas           ventas[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model compras {
   id_compra           Int                   @id @default(autoincrement())
   fecha_compra        DateTime              @default(now()) @db.Timestamp(6)
@@ -60,23 +58,23 @@ model compras {
   facturas            facturas[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model detalle_compra {
-  id_detalle              Int                @id @default(autoincrement())
-  id_compra               Int
-  cantidad                Int
-  precio_unitario         Decimal            @db.Decimal(12, 2)
-  subtotal                Decimal?           @db.Decimal(12, 2)
-  id_detalle_producto     Int?
-  iva_porcentaje          Decimal?           @db.Decimal
-  icu_porcentaje          Decimal?           @db.Decimal
-  precio_venta            Decimal?           @default(0) @db.Decimal(12, 2)
-  cantidad_paquetes       Int                @default(0)
-  unidades_por_paquete    Int                @default(0)
-  cantidad_total_unidades Int                @default(0)
-  compras                 compras            @relation(fields: [id_compra], references: [id_compra], onDelete: Cascade, onUpdate: NoAction, map: "fk_detalle_compra_compra")
-  detalle_productos       detalle_productos? @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
+  id_detalle               Int                @id @default(autoincrement())
+  id_compra                Int
+  cantidad                 Int
+  cantidad_paquetes        Int                @default(0)
+  unidades_por_paquete     Int                @default(0)
+  cantidad_total_unidades  Int                @default(0)
+  precio_unitario          Decimal            @db.Decimal(12, 2)
+  subtotal                 Decimal?           @db.Decimal(12, 2)
+  id_detalle_producto      Int?
+  iva_porcentaje           Decimal?           @db.Decimal
+  icu_porcentaje           Decimal?           @db.Decimal
+  precio_venta             Decimal?           @default(0) @db.Decimal(12, 2)
+  compras                  compras            @relation(fields: [id_compra], references: [id_compra], onDelete: Cascade, onUpdate: NoAction, map: "fk_detalle_compra_compra")
+  detalle_productos        detalle_productos? @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
 }
+
 
 model detalle_devolucion_producto {
   id_detalle_devolucion_productos Int                  @id @default(autoincrement())
@@ -91,7 +89,6 @@ model detalle_devolucion_producto {
   devolucion_producto             devolucion_producto? @relation(fields: [id_devolucion_producto], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction, map: "fk_devolucion_producto")
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model detalle_productos {
   id_detalle_producto           Int                            @id @default(autoincrement())
   id_producto                   Int
@@ -114,7 +111,6 @@ model detalle_productos {
   facturas                      facturas[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model detalle_venta {
   id_detalle                  Int                           @id @default(autoincrement())
   id_venta                    Int
@@ -162,7 +158,6 @@ model devolucion_producto {
   productos                   productos[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model impuestos_productos {
   id_impuesto                                                    Int         @id @default(autoincrement())
   nombre_impuesto                                                String      @db.VarChar(30)
@@ -196,7 +191,6 @@ model producto_proveedor {
   proveedores               proveedores @relation(fields: [id_proveedor], references: [id_proveedor], onDelete: NoAction, onUpdate: NoAction)
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model productos {
   id_producto                                                              Int                  @id @default(autoincrement())
   nombre                                                                   String               @db.VarChar(100)
@@ -244,7 +238,6 @@ model productos_baja {
   devolucion_cliente     devolucion_cliente?      @relation(fields: [desde_dev_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction)
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model proveedores {
   id_proveedor        Int                   @id @default(autoincrement())
   nombre              String                @db.VarChar(100)
@@ -292,7 +285,6 @@ model usuarios {
   acceso              acceso                @relation(fields: [acceso_id], references: [acceso_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model ventas {
   id_venta            Int                  @id @default(autoincrement())
   fecha_venta         DateTime             @default(now()) @db.Timestamp(6)
