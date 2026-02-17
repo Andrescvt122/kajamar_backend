@@ -25,7 +25,7 @@ const getReturnClients = async (req, res) => {
         },
         devolucion_cliente_entregado: {
           include: {
-            detalle_producto: {
+            detalle_productos: {
               include: {
                 productos: true,
               },
@@ -126,6 +126,7 @@ const createReturnClients = async (req, res) => {
               const bajaProducto = await tx.productos_baja.create({
                 data: {
                   id_responsable: responsable.usuario_id,
+                  desde_dev_cliente: devolucionCliente.id_devoluciones_cliente,
                   fecha_baja: new Date(),
                   cantida_baja: pv.cantidad,
                   total_precio_baja: pv.valor_unitario * pv.cantidad,
@@ -216,7 +217,88 @@ const createReturnClients = async (req, res) => {
   }
 };
 
+const cancelReturnClient = async (req, res) => {
+  const data = req.body;
+  const { id_devolucion_cliente } = data;
+  const responsable = await getResponsable(Number(data.id_responsable));
+  if (!responsable) {
+    return res.status(404).json({ error: "Responsable no encontrado" });
+  }
+  try {
+    const cancelReturnClient = await prisma.$transaction(async (tx) => {
+      tx.devolucion_cliente.update({
+        where: { id_devoluciones_cliente: Number(id_devolucion_cliente) },
+        data: {
+          estado: false,
+          id_responsable: responsable.usuario_id,
+          fecha_anulacion: new Date(),
+        },
+      });
+      tx.devolucion_cliente_devuelto.update({
+        where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
+        data: { estado: false },
+      });
+      tx.devolucion_cliente_entregado.update({
+        where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
+        data: { estado: false },
+      });
+      for (const p of data.productosDevueltos) {
+        if (
+          p.motivo === "Producto incorrecto" ||
+          p.motivo === "Producto no requerido" ||
+          p.motivo === "Producto vencido"
+        ) {
+          tx.detalle_productos.update({
+            where: {
+              id_detalle_producto:
+                p.detalle_venta.detalle_productos.id_detalle_producto,
+            },
+            data: {
+              stock_producto: { decrement: p.cantidad_cliente_devuelto },
+            },
+          });
+          tx.productos.update({
+            where: {
+              id_producto:
+                p.detalle_venta.detalle_productos.productos.id_productos,
+            },
+            data: { stock_actual: { decrement: p.cantidad_cliente_devuelto } },
+          });
+        }
+        if (p.motivo === "Producto dañado") {
+          const baja = tx.productos_baja.delete({
+            where: { desde_dev_cliente: Number(id_devolucion_cliente) },
+          });
+          tx.detalle_productos_baja.delete({
+            where: { id_baja_productos: baja.id_baja_productos },
+          });
+        }
+      }
+      for (const p of data.productosEntregados) {
+        tx.detalle_productos.update({
+          where: {
+            id_detalle_producto: p.detalle_productos.id_detalle_producto,
+          },
+          data: { stock_producto: { increment: p.cantidad_entregada } },
+        });
+        tx.productos.update({
+          where: { id_producto: p.detalle_productos.productos.id_productos },
+          data: { stock_actual: { increment: p.cantidad_entregada } },
+        });
+      }
+    });
+    return res
+      .status(200)
+      .json({ message: "Devolucion al cliente anulada con exito" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Error al anular la devolucion al cliente" });
+  }
+};
+
 module.exports = {
   getReturnClients,
   createReturnClients,
+  cancelReturnClient,
 };
