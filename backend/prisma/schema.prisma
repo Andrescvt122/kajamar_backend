@@ -75,7 +75,6 @@ model detalle_compra {
   detalle_productos        detalle_productos? @relation(fields: [id_detalle_producto], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_producto")
 }
 
-
 model detalle_devolucion_producto {
   id_detalle_devolucion_productos Int                  @id @default(autoincrement())
   id_devolucion_producto          Int?
