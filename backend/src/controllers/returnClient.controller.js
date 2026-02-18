@@ -219,7 +219,10 @@ const createReturnClients = async (req, res) => {
 
 const cancelReturnClient = async (req, res) => {
   const data = req.body;
-  const { id_devolucion_cliente } = data;
+  const id_devolucion_cliente = Number(req.params.id ?? data.id_devolucion_cliente);
+  if (!Number.isFinite(id_devolucion_cliente)) {
+    return res.status(400).json({ error: "ID de devolucion invalido" });
+  }
   const responsable = await getResponsable(Number(data.id_responsable));
   if (!responsable) {
     return res.status(404).json({ error: "Responsable no encontrado" });
@@ -227,7 +230,7 @@ const cancelReturnClient = async (req, res) => {
   try {
     const cancelReturnClient = await prisma.$transaction(async (tx) => {
       tx.devolucion_cliente.update({
-        where: { id_devoluciones_cliente: Number(id_devolucion_cliente) },
+        where: { id_devoluciones_cliente: id_devolucion_cliente },
         data: {
           estado: false,
           id_responsable: responsable.usuario_id,
@@ -267,7 +270,7 @@ const cancelReturnClient = async (req, res) => {
         }
         if (p.motivo === "Producto dañado") {
           const baja = tx.productos_baja.delete({
-            where: { desde_dev_cliente: Number(id_devolucion_cliente) },
+            where: { desde_dev_cliente: id_devolucion_cliente },
           });
           tx.detalle_productos_baja.delete({
             where: { id_baja_productos: baja.id_baja_productos },
@@ -297,8 +300,11 @@ const cancelReturnClient = async (req, res) => {
   }
 };
 
+const anularReturnClient = cancelReturnClient;
+
 module.exports = {
   getReturnClients,
   createReturnClients,
   cancelReturnClient,
+  anularReturnClient,
 };

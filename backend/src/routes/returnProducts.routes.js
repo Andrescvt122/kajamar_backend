@@ -5,5 +5,6 @@ const returnProductsController = require("../controllers/returnProducts.controll
 router.get("/", returnProductsController.getReturnProducts);
 router.get("/search", returnProductsController.searchReturnProdcts);
 router.post("/", returnProductsController.createReturnProduct);
+router.patch("/:id/anular", returnProductsController.anularReturnProduct);
 
 module.exports = router;

@@ -650,6 +650,8 @@ const cancelLowProduct = async (req, res) => {
   }
 };
 
+const anularLowProduct = cancelLowProduct;
+
 module.exports = {
   getLowProducts,
   createLowProduct,
@@ -657,4 +659,5 @@ module.exports = {
   getOneLowProduct,
   getResponsable,
   cancelLowProduct,
+  anularLowProduct,
 };
