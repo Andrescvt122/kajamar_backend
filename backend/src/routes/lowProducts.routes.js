@@ -5,6 +5,7 @@ const lowProductsController = require('../controllers/lowProducts.controller');
 router.get('/', lowProductsController.getLowProducts);
 router.post('/', lowProductsController.createLowProduct);
 router.get('/search', lowProductsController.searchLowProduct);
+router.patch('/:id/anular', lowProductsController.anularLowProduct);
 router.get('/:id', lowProductsController.getOneLowProduct);
 
 module.exports = router;

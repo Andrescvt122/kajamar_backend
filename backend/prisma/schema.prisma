@@ -112,6 +112,8 @@ model detalle_productos {
   detalle_venta                 detalle_venta[]
   devolucion_cliente_entregado  devolucion_cliente_entregado[]
   facturas                      facturas[]
+  conversionesOrigen            detalle_conversion_productos[] @relation("detalle_origen_conversion")
+  conversionesDestino           detalle_conversion_productos[] @relation("detalle_destino_conversion")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -198,9 +200,9 @@ model producto_proveedor {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model productos {
-  id_producto                                                              Int                  @id @default(autoincrement())
-  nombre                                                                   String               @db.VarChar(100)
-  descripcion                                                              String?              @db.VarChar(100)
+  id_producto                                                              Int                    @id @default(autoincrement())
+  nombre                                                                   String                 @db.VarChar(100)
+  descripcion                                                              String?                @db.VarChar(100)
   stock_actual                                                             Int
   stock_minimo                                                             Int
   stock_maximo                                                             Int
@@ -211,21 +213,22 @@ model productos {
   porcentaje_incremento                                                    Int?
   costo_unitario                                                           Int
   precio_venta                                                             Int
-  url_imagen                                                               String?              @db.VarChar(255)
-  created_at                                                               DateTime?            @default(now()) @db.Timestamptz(6)
-  updated_at                                                               DateTime?            @default(now()) @db.Timestamptz(6)
+  url_imagen                                                               String?                @db.VarChar(255)
+  created_at                                                               DateTime?              @default(now()) @db.Timestamptz(6)
+  updated_at                                                               DateTime?              @default(now()) @db.Timestamptz(6)
   cantidad_unitaria                                                        Int?
-  codigo_barras                                                            String?              @db.VarChar(64)
   desde_dev_productos                                                      Int?
   desde_baja_productos                                                     Int?
   detalle_productos                                                        detalle_productos[]
   producto_proveedor                                                       producto_proveedor[]
-  productos_baja                                                           productos_baja?      @relation(fields: [desde_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
-  devolucion_producto                                                      devolucion_producto? @relation(fields: [desde_dev_productos], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction)
-  impuestos_productos_productos_icuToimpuestos_productos                   impuestos_productos? @relation("productos_icuToimpuestos_productos", fields: [icu], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
-  categorias                                                               categorias           @relation(fields: [id_categoria], references: [id_categoria], onDelete: NoAction, onUpdate: NoAction)
-  impuestos_productos_productos_ivaToimpuestos_productos                   impuestos_productos? @relation("productos_ivaToimpuestos_productos", fields: [iva], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
-  impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos impuestos_productos? @relation("productos_porcentaje_incrementoToimpuestos_productos", fields: [porcentaje_incremento], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+  productos_baja                                                           productos_baja?        @relation(fields: [desde_baja_productos], references: [id_baja_productos], onDelete: NoAction, onUpdate: NoAction)
+  devolucion_producto                                                      devolucion_producto?   @relation(fields: [desde_dev_productos], references: [id_devolucion_product], onDelete: NoAction, onUpdate: NoAction)
+  impuestos_productos_productos_icuToimpuestos_productos                   impuestos_productos?   @relation("productos_icuToimpuestos_productos", fields: [icu], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+  categorias                                                               categorias             @relation(fields: [id_categoria], references: [id_categoria], onDelete: NoAction, onUpdate: NoAction)
+  impuestos_productos_productos_ivaToimpuestos_productos                   impuestos_productos?   @relation("productos_ivaToimpuestos_productos", fields: [iva], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+  impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos impuestos_productos?   @relation("productos_porcentaje_incrementoToimpuestos_productos", fields: [porcentaje_incremento], references: [id_impuesto], onDelete: NoAction, onUpdate: NoAction)
+  conversionProductos                                                      conversion_productos[] @relation("producto_creado_por_conversion")
+  conversionProductosOrigen                                                conversion_productos[]
 }
 
 model productos_baja {
@@ -242,6 +245,7 @@ model productos_baja {
   productos              productos[]
   usuarios               usuarios?                @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
   devolucion_cliente     devolucion_cliente?      @relation(fields: [desde_dev_cliente], references: [id_devoluciones_cliente], onDelete: NoAction, onUpdate: NoAction)
+  conversionProductos    conversion_productos[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -280,16 +284,17 @@ model roles {
 }
 
 model usuarios {
-  usuario_id          Int                   @id @default(autoincrement())
-  acceso_id           Int                   @unique
-  nombre              String                @db.VarChar(50)
-  apellido            String?               @db.VarChar(50)
-  telefono            String?               @db.VarChar(20)
-  documento           String?               @unique @db.VarChar(50)
+  usuario_id          Int                    @id @default(autoincrement())
+  acceso_id           Int                    @unique
+  nombre              String                 @db.VarChar(50)
+  apellido            String?                @db.VarChar(50)
+  telefono            String?                @db.VarChar(20)
+  documento           String?                @unique @db.VarChar(50)
   devolucion_cliente  devolucion_cliente[]
   devolucion_producto devolucion_producto[]
   productos_baja      productos_baja[]
-  acceso              acceso                @relation(fields: [acceso_id], references: [acceso_id], onDelete: Cascade, onUpdate: NoAction)
+  acceso              acceso                 @relation(fields: [acceso_id], references: [acceso_id], onDelete: Cascade, onUpdate: NoAction)
+  conversionProductos conversion_productos[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -371,4 +376,48 @@ model facturas {
 
   @@index([id_compra], map: "idx_facturas_id_compra")
   @@index([id_detalle_producto], map: "idx_facturas_id_detalle_producto")
+}
+
+model conversion_productos {
+  id_conversion_productos Int      @id @default(autoincrement())
+  fecha_conversion        DateTime @default(now()) @db.Timestamp(6)
+  id_responsable          Int?
+  nombre_responsable      String?  @db.VarChar(50)
+  estado                  Boolean  @default(true) // para anular
+  observacion             String?  @db.VarChar(150)
+
+  // Si esta conversión se hizo desde una baja (tu formulario actual)
+  id_baja_productos Int?
+  productos_baja    productos_baja? @relation(fields: [id_baja_productos], references: [id_baja_productos], onDelete: SetNull, onUpdate: NoAction)
+
+  // Si en esta conversión se CREÓ el producto destino (SKU nuevo)
+  id_producto_creado Int?
+  producto_creado    productos? @relation("producto_creado_por_conversion", fields: [id_producto_creado], references: [id_producto], onDelete: SetNull, onUpdate: NoAction)
+
+  usuarios usuarios? @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction)
+
+  detalle_conversion   detalle_conversion_productos[]
+  productos            productos?                     @relation(fields: [productosId_producto], references: [id_producto])
+  productosId_producto Int?
+}
+
+model detalle_conversion_productos {
+  id_detalle_conversion Int @id @default(autoincrement())
+
+  id_conversion_productos Int
+  conversion              conversion_productos @relation(fields: [id_conversion_productos], references: [id_conversion_productos], onDelete: Cascade, onUpdate: NoAction)
+
+  // De cuál detalle_productos sale stock (ej: caja)
+  id_detalle_origen Int
+  detalle_origen    detalle_productos @relation("detalle_origen_conversion", fields: [id_detalle_origen], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
+
+  // A cuál detalle_productos entra stock (ej: unidad)
+  id_detalle_destino Int
+  detalle_destino    detalle_productos @relation("detalle_destino_conversion", fields: [id_detalle_destino], references: [id_detalle_producto], onDelete: NoAction, onUpdate: NoAction)
+
+  cantidad_origen   Int
+  cantidad_destino  Int
+  factor_conversion Int // ej: 1 caja = 20 unidades
+
+  estado Boolean @default(true)
 }
