@@ -3,14 +3,11 @@ const prisma = require("../prisma/prismaClient");
 // 🟢 Crear detalle de producto
 const createDetailProduct = async (req, res) => {
   const data = req.body;
-  const { desde_dev_productos = null, desde_baja_productos = null } = data;
   try {
     const register = await prisma.$transaction(async (tx) => {
       const detailProduct = await tx.detalle_productos.create({
         data: {
           id_producto: data.id_producto,
-          desde_dev_productos: desde_dev_productos,
-          desde_baja_productos: desde_baja_productos,
           codigo_barras_producto_compra: data.codigo_barras,
           fecha_vencimiento: data.fecha_vencimiento
             ? new Date(data.fecha_vencimiento)

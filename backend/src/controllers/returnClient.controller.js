@@ -87,7 +87,7 @@ const createReturnClients = async (req, res) => {
           data: {
             id_venta: Number(data.id_venta),
             id_responsable: responsable.usuario_id,
-            fecha_devolucion: new Date(),
+            fecha_devolucion: new Date(Date.now()),
             total_devolucion_producto: data.total_devolucion_producto,
             total_devolucion_cliente: data.total_devolucion_cliente,
             cantidad_devuelta_a_cliente: cantidadTotalAEntregar,

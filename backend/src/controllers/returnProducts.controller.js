@@ -1,4 +1,4 @@
-const prisma = require("../prisma/prismaClient");
+﻿const prisma = require("../prisma/prismaClient");
 
 const getResponsable = async (id) => {
   try {
@@ -18,7 +18,7 @@ const getReturnProducts = async (req, res) => {
     const returnProducts = await prisma.devolucion_producto.findMany({
       orderBy: { id_devolucion_product: "desc" },
       include: {
-        // ✅ proveedor real, por compra
+        // âœ… proveedor real, por compra
         compras: {
           include: {
             proveedores: true,
@@ -44,7 +44,6 @@ const getReturnProducts = async (req, res) => {
     return res.status(500).json({ error: "Error al obtener los productos" });
   }
 };
-
 
 const searchReturnProdcts = async (req, res) => {
   const { q } = req.query;
@@ -110,7 +109,7 @@ const createReturnProduct = async (req, res) => {
 
   const responsable = await getResponsable(Number(data.id_responsable));
   if (!responsable)
-    return res.status(400).json({ error: "Responsable inválido" });
+    return res.status(400).json({ error: "Responsable invÃ¡lido" });
 
   const cantidadTotal = data.products.reduce(
     (acc, p) => acc + Number(p.cantidad || 0),
@@ -133,22 +132,38 @@ const createReturnProduct = async (req, res) => {
       .map((dc) => dc?.detalle_productos?.id_producto)
       .filter(Boolean),
   );
+  const purchaseDetailIds = new Set(
+    compra.detalle_compra
+      .map((dc) =>
+        Number(
+          dc?.id_detalle_producto ?? dc?.detalle_productos?.id_detalle_producto,
+        ),
+      )
+      .filter(Number.isFinite),
+  );
 
   const isValidReturn = data.products.every((p) =>
     purchaseProductIds.has(Number(p.id_producto)),
   );
   if (!isValidReturn) {
-    return res
-      .status(400)
-      .json({
-        error: "Uno o más productos no pertenecen a la compra especificada",
-      });
+    return res.status(400).json({
+      error: "Uno o mÃ¡s productos no pertenecen a la compra especificada",
+    });
+  }
+  const isValidReturnDetail = data.products.every((p) =>
+    purchaseDetailIds.has(Number(p.id_detalle_producto)),
+  );
+  if (!isValidReturnDetail) {
+    return res.status(400).json({
+      error:
+        "Uno o mÃ¡s id_detalle_producto no pertenecen a la compra especificada",
+    });
   }
 
   try {
     const result = await prisma.$transaction(
       async (tx) => {
-        // 2) Crear cabecera devolución
+        // 2) Crear cabecera devoluciÃ³n
         const returnProduct = await tx.devolucion_producto.create({
           data: {
             id_responsable: responsable.usuario_id,
@@ -159,12 +174,12 @@ const createReturnProduct = async (req, res) => {
             nombre_responsable: responsable.nombre,
             estado: true,
 
-            // ✅ por defecto reemplazo
+            // âœ… por defecto reemplazo
             tipo_devolucion: "reemplazo",
           },
         });
 
-        // 3) Procesar líneas
+        // 3) Procesar lÃ­neas
         for (const p of data.products) {
           const origenId = Number(p.id_detalle_producto);
           const cantidad = Number(p.cantidad);
@@ -175,7 +190,7 @@ const createReturnProduct = async (req, res) => {
             cantidad <= 0
           ) {
             throw new Error(
-              "Datos inválidos en productos: id_detalle_producto/cantidad",
+              "Datos invÃ¡lidos en productos: id_detalle_producto/cantidad",
             );
           }
 
@@ -186,12 +201,8 @@ const createReturnProduct = async (req, res) => {
               id_detalle_producto: true,
               id_producto: true,
               stock_producto: true,
-              fecha_vencimiento: true,
-              lote: true,
-              codigo_barras_producto_compra: true,
             },
           });
-
           if (!detalleOrigen)
             throw new Error(`No existe detalle_productos origen: ${origenId}`);
 
@@ -202,32 +213,42 @@ const createReturnProduct = async (req, res) => {
             );
           }
 
-          // 3.3) Crear detalle nuevo (reemplazo recibido)
-          // Si no mandas código nuevo, se genera uno. (Mejor que el front mande uno consistente)
-          const codigoNuevo =
-            p.codigo_barras_producto_compra_nuevo ??
-            `REP-${returnProduct.id_devolucion_product}-${origenId}-${Date.now()}`;
+          // ✅ 3.3) USAR detalle creado desde el front
+          const creadoId = Number(p.id_detalle_producto_creado);
+          if (!Number.isFinite(creadoId) || creadoId <= 0) {
+            throw new Error(
+              "Debe enviar id_detalle_producto_creado (detalle nuevo creado desde el front)",
+            );
+          }
 
-          const detalleNuevo = await tx.detalle_productos.create({
-            data: {
-              id_producto: detalleOrigen.id_producto,
-              codigo_barras_producto_compra: codigoNuevo,
-              fecha_vencimiento: p.fecha_vencimiento_nueva
-                ? new Date(p.fecha_vencimiento_nueva)
-                : detalleOrigen.fecha_vencimiento,
-              stock_producto: 0, // arranca en 0 y luego incrementa
-              es_devolucion: true, // marca para trazabilidad
+          const detalleCreado = await tx.detalle_productos.findUnique({
+            where: { id_detalle_producto: creadoId },
+            select: {
+              id_detalle_producto: true,
+              id_producto: true,
+              stock_producto: true,
               estado: true,
-              lote: p.lote_nuevo ?? "REEMPLAZO",
             },
           });
+
+          if (!detalleCreado)
+            throw new Error(`No existe detalle_productos creado: ${creadoId}`);
+          if (detalleCreado.estado === false)
+            throw new Error(`El detalle creado #${creadoId} está inactivo`);
+
+          // ✅ Validación de coherencia: mismo producto
+          if (detalleCreado.id_producto !== detalleOrigen.id_producto) {
+            throw new Error(
+              `El detalle creado #${creadoId} no pertenece al mismo producto del origen #${origenId}`,
+            );
+          }
 
           // 3.4) Crear registro detalle_devolucion (origen + detalle creado)
           await tx.detalle_devolucion_producto.create({
             data: {
               id_devolucion_producto: returnProduct.id_devolucion_product,
-              id_detalle_producto: detalleOrigen.id_detalle_producto, // origen sale
-              id_detalle_producto_creado: detalleNuevo.id_detalle_producto, // destino entra
+              id_detalle_producto: detalleOrigen.id_detalle_producto,
+              id_detalle_producto_creado: detalleCreado.id_detalle_producto,
               cantidad_devuelta: cantidad,
               motivo: p.motivo ?? null,
               nombre_producto: p.nombre_producto ?? null,
@@ -237,21 +258,19 @@ const createReturnProduct = async (req, res) => {
           });
 
           // 3.5) Movimiento stock mano a mano:
-          // Origen decrementa
           await tx.detalle_productos.update({
             where: { id_detalle_producto: detalleOrigen.id_detalle_producto },
             data: { stock_producto: { decrement: cantidad } },
           });
 
-          // Destino incrementa
           await tx.detalle_productos.update({
-            where: { id_detalle_producto: detalleNuevo.id_detalle_producto },
+            where: { id_detalle_producto: detalleCreado.id_detalle_producto },
             data: { stock_producto: { increment: cantidad } },
           });
 
-          // ✅ IMPORTANTE:
+          // âœ… IMPORTANTE:
           // Como es reemplazo, el stock global NO cambia (neto 0).
-          // Si algún día haces tipo_devolucion="definitiva", ahí sí decrementas productos.stock_actual.
+          // Si algÃºn dÃ­a haces tipo_devolucion="definitiva", ahÃ­ sÃ­ decrementas productos.stock_actual.
         }
 
         // 4) Respuesta
@@ -270,7 +289,7 @@ const createReturnProduct = async (req, res) => {
     console.error(error);
     return res
       .status(500)
-      .json({ error: error.message ?? "Error al crear la devolución" });
+      .json({ error: error.message ?? "Error al crear la devoluciÃ³n" });
   }
 };
 
@@ -279,13 +298,13 @@ const anularReturnProduct = async (req, res) => {
   const devolucionId = Number(id);
 
   if (!Number.isFinite(devolucionId)) {
-    return res.status(400).json({ error: "ID inválido" });
+    return res.status(400).json({ error: "ID invÃ¡lido" });
   }
 
   try {
     const result = await prisma.$transaction(
       async (tx) => {
-        // 1) Traer devolución + líneas
+        // 1) Traer devoluciÃ³n + lÃ­neas
         const devolucion = await tx.devolucion_producto.findUnique({
           where: { id_devolucion_product: devolucionId },
           include: { detalle_devolucion_producto: true },
@@ -295,7 +314,7 @@ const anularReturnProduct = async (req, res) => {
           return {
             ok: false,
             status: 404,
-            payload: { error: "Devolución no encontrada" },
+            payload: { error: "DevoluciÃ³n no encontrada" },
           };
         }
 
@@ -303,11 +322,11 @@ const anularReturnProduct = async (req, res) => {
           return {
             ok: false,
             status: 400,
-            payload: { error: "La devolución ya está anulada" },
+            payload: { error: "La devoluciÃ³n ya estÃ¡ anulada" },
           };
         }
 
-        // 2) Validar que todas las líneas tengan origen y detalle creado (reemplazo)
+        // 2) Validar que todas las lÃ­neas tengan origen y detalle creado (reemplazo)
         const lineas = devolucion.detalle_devolucion_producto.filter(
           (l) => l.estado !== false,
         );
@@ -323,7 +342,7 @@ const anularReturnProduct = async (req, res) => {
               status: 409,
               payload: {
                 error:
-                  "No se puede anular: faltan referencias de origen/detalle creado o cantidad_devuelta en alguna línea.",
+                  "No se puede anular: faltan referencias de origen/detalle creado o cantidad_devuelta en alguna lÃ­nea.",
               },
             };
           }
@@ -369,7 +388,7 @@ const anularReturnProduct = async (req, res) => {
           addTo(deltaDetalleDec, creadoId, cant);
         }
 
-        // 5) Validación anti-stock-negativo: el detalle creado debe tener stock suficiente para decrementar
+        // 5) ValidaciÃ³n anti-stock-negativo: el detalle creado debe tener stock suficiente para decrementar
         for (const [detalleCreadoId, dec] of deltaDetalleDec.entries()) {
           const det = detalleMap.get(detalleCreadoId);
           if (!det) {
@@ -389,13 +408,13 @@ const anularReturnProduct = async (req, res) => {
                 error:
                   `No se puede anular: el detalle creado #${detalleCreadoId} no tiene stock suficiente ` +
                   `para revertir (${det.stock_producto} < ${dec}). ` +
-                  `Probablemente ya se vendió/consumió el reemplazo.`,
+                  `Probablemente ya se vendiÃ³/consumiÃ³ el reemplazo.`,
               },
             };
           }
         }
 
-        // 6) Marcar devolución como anulada (soft)
+        // 6) Marcar devoluciÃ³n como anulada (soft)
         await tx.devolucion_producto.update({
           where: { id_devolucion_product: devolucionId },
           data: { estado: false },
@@ -416,7 +435,7 @@ const anularReturnProduct = async (req, res) => {
           });
         }
 
-        // 8) Soft delete líneas
+        // 8) Soft delete lÃ­neas
         const idsLineas = lineas.map((l) => l.id_detalle_devolucion_productos);
 
         if (idsLineas.length) {
@@ -425,7 +444,38 @@ const anularReturnProduct = async (req, res) => {
             data: { estado: false },
           });
         }
+        // ✅ 8.5) Soft delete de detalles creados por esta devolución (si no se usaron)
+        const idsDetallesCreados = lineas
+          .map((l) => Number(l.id_detalle_producto_creado))
+          .filter((x) => Number.isFinite(x) && x > 0);
 
+        if (idsDetallesCreados.length) {
+          // si aparecen en ventas, no los puedes apagar
+          const usosVenta = await tx.detalle_venta.findMany({
+            where: { id_detalle_producto: { in: idsDetallesCreados } },
+            select: { id_detalle_producto: true },
+          });
+
+          // si aparecen en facturas, tampoco (por tu schema facturas -> detalle_productos)
+          const usosFactura = await tx.facturas.findMany({
+            where: { id_detalle_producto: { in: idsDetallesCreados } },
+            select: { id_detalle_producto: true },
+          });
+
+          const usados = new Set([
+            ...usosVenta.map((u) => u.id_detalle_producto),
+            ...usosFactura.map((u) => u.id_detalle_producto),
+          ]);
+
+          const noUsados = idsDetallesCreados.filter((id) => !usados.has(id));
+
+          if (noUsados.length) {
+            await tx.detalle_productos.updateMany({
+              where: { id_detalle_producto: { in: noUsados } },
+              data: { estado: false, stock_producto: 0 },
+            });
+          }
+        }
         // 9) Respuesta final
         const devolucionFinal = await tx.devolucion_producto.findUnique({
           where: { id_devolucion_product: devolucionId },
@@ -442,7 +492,7 @@ const anularReturnProduct = async (req, res) => {
     console.error(error);
     return res
       .status(500)
-      .json({ error: error.message ?? "Error al anular la devolución" });
+      .json({ error: error.message ?? "Error al anular la devoluciÃ³n" });
   }
 };
 
