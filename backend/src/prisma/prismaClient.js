@@ -16,13 +16,12 @@ const prisma = new PrismaClient({
 // Solo registrar logs en modo desarrollo
 if (process.env.NODE_ENV === 'development') {
   // Ruta absoluta hacia la carpeta /logs en la raíz del proyecto
-    const logFile = "./logs/query.log";
+  const logsDir = "./logs";
+  const logFile = "./logs/query.log";
 
-  // Crear carpeta logs si no existe
-  if (!fs.existsSync(logFile)) {
-    fs.mkdirSync(logFile, { recursive: true });
+  if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
   }
-
   // Escuchar todas las consultas ejecutadas por Prisma
   prisma.$on('query', (e) => {
     const log = `
