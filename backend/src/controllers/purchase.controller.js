@@ -8,13 +8,11 @@ function parseFecha(fecha) {
 
   if (fecha instanceof Date && !isNaN(fecha)) return fecha;
 
-  // "yyyy-mm-dd" o "yyyy-mm-ddTHH..."
   if (typeof fecha === "string" && /^\d{4}-\d{2}-\d{2}/.test(fecha)) {
     const d = new Date(fecha);
     return isNaN(d) ? null : d;
   }
 
-  // "dd/mm/yyyy"
   if (typeof fecha === "string" && /^\d{2}\/\d{2}\/\d{4}$/.test(fecha)) {
     const [dd, mm, yyyy] = fecha.split("/").map(Number);
     const d = new Date(yyyy, mm - 1, dd);
@@ -30,19 +28,22 @@ function toNumber(v, def = 0) {
   return Number.isFinite(n) ? n : def;
 }
 
+function toDecimalOrNull(v) {
+  if (v === undefined || v === null || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
 function toNonNegInt(v, def = 0) {
   const n = Math.floor(toNumber(v, def));
   return Number.isFinite(n) ? Math.max(0, n) : Math.max(0, def);
 }
 
-// Lee payload desde:
-// 1) multipart: req.body.data (string JSON)
-// 2) json: req.body (obj)
 function getPayload(req) {
   if (req.body?.data) {
     try {
       return JSON.parse(req.body.data);
-    } catch (e) {
+    } catch {
       throw new Error("El campo 'data' no es JSON válido");
     }
   }
@@ -52,7 +53,6 @@ function getPayload(req) {
 function getComprobante(req, payload) {
   if (req.file) {
     const url = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-
     return {
       url,
       nombre: req.file.originalname,
@@ -70,7 +70,6 @@ function getComprobante(req, payload) {
       size: c.size != null ? Number(c.size) : null,
     };
   }
-
   return null;
 }
 
@@ -80,7 +79,7 @@ exports.createPurchase = async (req, res) => {
     const payload = getPayload(req);
     const { fecha_compra, id_proveedor, items } = payload;
 
-    if (!id_proveedor || !items || !Array.isArray(items) || items.length === 0) {
+    if (!id_proveedor || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Datos incompletos (proveedor/items)" });
     }
 
@@ -103,22 +102,18 @@ exports.createPurchase = async (req, res) => {
         if (!productoExiste) throw new Error(`Producto no existe: id_producto=${idProducto}`);
 
         const precioUnit = toNumber(item.precio_unitario, 0);
-        const ivaPct = toNumber(item.iva_porcentaje, 0);
-        const icuPct = toNumber(item.icu_porcentaje, 0);
+        const ivaPctCalc = toNumber(item.iva_porcentaje, 0);
+        const icuPctCalc = toNumber(item.icu_porcentaje, 0);
 
         const paquetesArr = Array.isArray(item.paquetes) ? item.paquetes : [];
-
-        // ✅ cantidad paquetes: prioridad a paquetes[].length
         const cantidadPaquetes =
           paquetesArr.length > 0 ? paquetesArr.length : toNonNegInt(item.cantidad, 0);
 
-        if (cantidadPaquetes <= 0) {
-          throw new Error("Item inválido: cantidad_paquetes <= 0");
-        }
+        if (cantidadPaquetes <= 0) throw new Error("Item inválido: cantidad_paquetes <= 0");
 
         const sub = cantidadPaquetes * precioUnit;
         subtotal += sub;
-        totalImpuestos += sub * ((ivaPct + icuPct) / 100);
+        totalImpuestos += sub * ((ivaPctCalc + icuPctCalc) / 100);
       }
 
       const total = subtotal + totalImpuestos;
@@ -128,12 +123,10 @@ exports.createPurchase = async (req, res) => {
         data: {
           fecha_compra: fechaCompraDate,
           id_proveedor: Number(id_proveedor),
-
           subtotal,
           total_impuestos: totalImpuestos,
           total,
           estado_compra: "Completada",
-
           comprobante_url: comprobante?.url || null,
           comprobante_nombre: comprobante?.nombre || null,
           comprobante_mime: comprobante?.mime || null,
@@ -146,12 +139,15 @@ exports.createPurchase = async (req, res) => {
         const idProducto = Number(item.id_producto);
 
         const precioUnit = toNumber(item.precio_unitario, 0);
-        const precioVenta = toNumber(item.precio_venta, 0);
+        const precioVenta = toDecimalOrNull(item.precio_venta);
 
-        const ivaPct = toNumber(item.iva_porcentaje, 0);
-        const icuPct = toNumber(item.icu_porcentaje, 0);
+        const ivaPct = toDecimalOrNull(item.iva_porcentaje);
+        const icuPct = toDecimalOrNull(item.icu_porcentaje);
 
-        // ✅ leer unidades por paquete desde TODOS los nombres posibles (front manda snake_case)
+        const traeIva = item.iva_porcentaje !== undefined && item.iva_porcentaje !== "";
+        const traeIcu = item.icu_porcentaje !== undefined && item.icu_porcentaje !== "";
+        const traePrecio = item.precio_venta !== undefined && item.precio_venta !== "";
+
         const unidadesPorPaquete = toNonNegInt(
           item.unidades_por_paquete ?? item.unidadesPorPaquete ?? 0,
           0
@@ -161,11 +157,8 @@ exports.createPurchase = async (req, res) => {
 
         let paquetes = Array.isArray(item.paquetes) ? [...item.paquetes] : [];
 
-        // ✅ Si NO vienen paquetes, solo permitimos 1 (compat).
-        // Si cantidad > 1, obligamos a que envíen paquetes[] para no “inventar” códigos repetidos.
         if (paquetes.length === 0) {
           const cantidadCompat = toNonNegInt(item.cantidad, 0);
-
           if (cantidadCompat > 1) {
             throw new Error(
               "Faltan paquetes[]: si cantidad > 1 debes enviar item.paquetes[] con un código por paquete"
@@ -173,9 +166,7 @@ exports.createPurchase = async (req, res) => {
           }
 
           const fallbackCodigo =
-            item.codigoBarrasIngreso ||
-            item.codigo_barras_producto_compra ||
-            null;
+            item.codigoBarrasIngreso || item.codigo_barras_producto_compra || null;
 
           if (!fallbackCodigo) {
             throw new Error(
@@ -191,21 +182,46 @@ exports.createPurchase = async (req, res) => {
           ];
         }
 
-        // ✅ cantidad paquetes real (la que vamos a guardar)
         const cantidadPaquetes = paquetes.length;
-
-        // ✅ total unidades real (solo si unidadesPorPaquete > 0)
         const totalUnidades = cantidadPaquetes * unidadesPorPaquete;
 
-        // ✅ Stock por unidades (recomendado)
-        if (totalUnidades > 0) {
+        // ✅ CÁLCULO costo_unitario (costo_total / cantidad_total_unidades)
+        const costoTotal = cantidadPaquetes * precioUnit;
+        const costoUnitarioCalc = totalUnidades > 0 ? costoTotal / totalUnidades : null;
+
+        // ✅ PRECIO ANTERIOR DEL PRODUCTO (ANTES de actualizar)
+        const prodPrev = await tx.productos.findUnique({
+          where: { id_producto: idProducto },
+          select: { precio_venta: true },
+        });
+        const precioAnteriorProducto = prodPrev?.precio_venta ?? null;
+
+        // ✅ incremento_venta: (precio anterior del producto / precio actual) - 1
+        const incrementoVentaCalc =
+          precioAnteriorProducto != null &&
+          Number(precioAnteriorProducto) !== 0 &&
+          precioVenta != null &&
+          Number(precioVenta) !== 0
+            ? (Number(precioAnteriorProducto) / Number(precioVenta)) - 1
+            : null;
+
+        // ✅ Actualiza producto base: stock + precio_venta (+ costo_unitario)
+        const dataProdUpdate = {};
+        if (totalUnidades > 0) dataProdUpdate.stock_actual = { increment: totalUnidades };
+
+        // productos.precio_venta y costo_unitario son Int (redondeo)
+        if (precioVenta != null) dataProdUpdate.precio_venta = Math.round(Number(precioVenta));
+        if (costoUnitarioCalc != null)
+          dataProdUpdate.costo_unitario = Math.round(Number(costoUnitarioCalc));
+
+        if (Object.keys(dataProdUpdate).length > 0) {
           await tx.productos.update({
             where: { id_producto: idProducto },
-            data: { stock_actual: { increment: totalUnidades } },
+            data: dataProdUpdate,
           });
         }
 
-        // ✅ por cada paquete => detalle_producto + detalle_compra (1 fila por paquete)
+        // ✅ por cada paquete => detalle_producto + detalle_compra
         for (const pack of paquetes) {
           const codigoBarras = pack?.codigoBarrasIngreso
             ? String(pack.codigoBarrasIngreso).trim()
@@ -215,7 +231,6 @@ exports.createPurchase = async (req, res) => {
 
           if (!codigoBarras) throw new Error("Paquete inválido: falta codigoBarrasIngreso");
 
-          // ✅ FIX: si el pack no trae fecha, usa la fecha del item
           const fechaVenc = parseFecha(
             pack?.fechaVencimiento ||
               pack?.fecha_vencimiento ||
@@ -223,12 +238,8 @@ exports.createPurchase = async (req, res) => {
               item?.fechaVencimiento
           );
 
-          // buscar si ya existe ese codigo para ese producto
           let detalleProducto = await tx.detalle_productos.findFirst({
-            where: {
-              id_producto: idProducto,
-              codigo_barras_producto_compra: codigoBarras,
-            },
+            where: { id_producto: idProducto, codigo_barras_producto_compra: codigoBarras },
           });
 
           if (!detalleProducto) {
@@ -241,13 +252,30 @@ exports.createPurchase = async (req, res) => {
                 es_devolucion: false,
                 estado: true,
                 lote: loteTexto,
+
+                // ✅ desde compra
+                iva_porcentaje: traeIva ? ivaPct : null,
+                icu_porcentaje: traeIcu ? icuPct : null,
+                precio_venta: traePrecio ? precioVenta : null,
+
+                // ✅ NUEVO
+                costo_unitario: costoUnitarioCalc,
+                incremento_venta: incrementoVentaCalc, // ✅ ahora sí se calcula siempre que haya precioAnteriorProducto y precioVenta
               },
             });
           } else {
-            // actualizar datos opcionales
             const updates = {};
             if (fechaVenc) updates.fecha_vencimiento = fechaVenc;
             if (loteTexto && !detalleProducto.lote) updates.lote = loteTexto;
+
+            // ✅ solo pisa si vienen
+            if (traeIva) updates.iva_porcentaje = ivaPct;
+            if (traeIcu) updates.icu_porcentaje = icuPct;
+            if (traePrecio) updates.precio_venta = precioVenta;
+
+            // ✅ NUEVO
+            if (costoUnitarioCalc != null) updates.costo_unitario = costoUnitarioCalc;
+            if (incrementoVentaCalc != null) updates.incremento_venta = incrementoVentaCalc;
 
             if (Object.keys(updates).length) {
               await tx.detalle_productos.update({
@@ -272,13 +300,12 @@ exports.createPurchase = async (req, res) => {
               id_detalle_producto: detalleProducto.id_detalle_producto,
 
               cantidad: 1,
-
               cantidad_paquetes: 1,
               unidades_por_paquete: unidadesPorPaquete,
               cantidad_total_unidades: unidadesPorPaquete,
 
               precio_unitario: precioUnit,
-              precio_venta: precioVenta,
+              precio_venta: precioVenta ?? 0,
 
               subtotal: 1 * precioUnit,
               iva_porcentaje: ivaPct,
@@ -313,7 +340,20 @@ exports.getPurchases = async (req, res) => {
         detalle_compra: {
           include: {
             detalle_productos: {
-              include: {
+              select: {
+                id_detalle_producto: true,
+                id_producto: true,
+                codigo_barras_producto_compra: true,
+                fecha_vencimiento: true,
+                stock_producto: true,
+                es_devolucion: true,
+                estado: true,
+                lote: true,
+                iva_porcentaje: true,
+                icu_porcentaje: true,
+                precio_venta: true,
+                costo_unitario: true,
+                incremento_venta: true,
                 productos: { select: { id_producto: true, nombre: true } },
               },
             },
