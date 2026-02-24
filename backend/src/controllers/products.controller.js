@@ -150,6 +150,7 @@ const createProduct = async (req, res) => {
       porcentaje_incremento,
       costo_unitario,
       precio_venta,
+      cantidad_unitaria,
       id_proveedor, // ahora opcional (se asocia desde otro módulo)
     } = req.body;
 
@@ -269,9 +270,9 @@ const createProduct = async (req, res) => {
         iva: ivaId,
         icu: icuId,
         porcentaje_incremento: porcId,
-
         costo_unitario: costoUnitarioNum,
         precio_venta: precioVentaNum,
+        cantidad_unitaria: Number(cantidad_unitaria),
         url_imagen: imageUrl,
       },
     });
