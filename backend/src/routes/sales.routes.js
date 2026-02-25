@@ -9,8 +9,8 @@ router.get("/", salesController.getSales);
 // POST /kajamart/api/sales
 router.post("/", salesController.createSale);
 
-// PATCH /kajamart/api/sales
-router.put("/sales/:id/status", salesController.updateSaleStatus);
+// PUT /kajamart/api/sales/:id/status
+router.put("/:id/status", salesController.updateSaleStatus);
 
 
 module.exports = router;
