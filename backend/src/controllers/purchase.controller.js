@@ -153,8 +153,6 @@ exports.createPurchase = async (req, res) => {
           0
         );
 
-        const loteTexto = item.lote ? String(item.lote).trim() : null;
-
         let paquetes = Array.isArray(item.paquetes) ? [...item.paquetes] : [];
 
         if (paquetes.length === 0) {
@@ -251,7 +249,6 @@ exports.createPurchase = async (req, res) => {
                 stock_producto: 0,
                 es_devolucion: false,
                 estado: true,
-                lote: loteTexto,
 
                 // ✅ desde compra
                 iva_porcentaje: traeIva ? ivaPct : null,
@@ -266,7 +263,6 @@ exports.createPurchase = async (req, res) => {
           } else {
             const updates = {};
             if (fechaVenc) updates.fecha_vencimiento = fechaVenc;
-            if (loteTexto && !detalleProducto.lote) updates.lote = loteTexto;
 
             // ✅ solo pisa si vienen
             if (traeIva) updates.iva_porcentaje = ivaPct;
@@ -285,7 +281,7 @@ exports.createPurchase = async (req, res) => {
             }
           }
 
-          // ✅ stock del lote: sube por unidades
+          // ✅ stock del detalle: sube por unidades
           if (unidadesPorPaquete > 0) {
             await tx.detalle_productos.update({
               where: { id_detalle_producto: detalleProducto.id_detalle_producto },
@@ -348,7 +344,6 @@ exports.getPurchases = async (req, res) => {
                 stock_producto: true,
                 es_devolucion: true,
                 estado: true,
-                lote: true,
                 iva_porcentaje: true,
                 icu_porcentaje: true,
                 precio_venta: true,

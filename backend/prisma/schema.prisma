@@ -98,7 +98,6 @@ model detalle_productos {
   stock_producto                Int
   es_devolucion                 Boolean?                       @default(false)
   estado                        Boolean?
-  lote                          String?                        @db.VarChar(50)
   iva_porcentaje                Decimal?
   icu_porcentaje                Decimal?
   precio_venta                  Decimal?                       @db.Decimal(12, 2)

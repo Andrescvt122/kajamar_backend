@@ -334,7 +334,6 @@ const createLowProduct = async (req, res) => {
                   stock_producto: 0,
                   estado: true,
                   es_devolucion: false,
-                  lote: p.lote_destino ?? null,
                   fecha_vencimiento: p.fecha_vencimiento_destino ? new Date(p.fecha_vencimiento_destino) : null,
                 },
                 select: { id_detalle_producto: true, id_producto: true },
