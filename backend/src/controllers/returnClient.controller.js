@@ -245,7 +245,31 @@ const cancelReturnClient = async (req, res) => {
         where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
         data: { estado: false },
       });
-      for (const p of data.productosDevueltos) {
+      const productosDevueltos = await tx.devolucion_cliente_devuelto.findMany({
+        where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
+        include: {
+          detalle_venta: {
+            include: {
+              detalle_productos: {
+                include: {
+                  productos: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      const productosEntregados = await tx.devolucion_cliente_entregado.findMany({
+        where:{ id_devolucion_cliente: Number(id_devolucion_cliente) },
+        include:{
+          detalle_productos:{
+            include:{
+              productos:true
+            }
+          }
+        }
+      });
+      for (const p of productosDevueltos) {
         if (
           p.motivo === "Producto incorrecto" ||
           p.motivo === "Producto no requerido" ||
@@ -277,7 +301,12 @@ const cancelReturnClient = async (req, res) => {
           });
         }
       }
-      for (const p of data.productosEntregados) {
+      if(productosEntregados.length == 0){
+        return res
+      .status(200)
+      .json({ message: "Devolucion al cliente anulada con exito (sin productos entregados)" });
+      }
+      for (const p of productosEntregados) {
         tx.detalle_productos.update({
           where: {
             id_detalle_producto: p.detalle_productos.id_detalle_producto,
@@ -294,6 +323,7 @@ const cancelReturnClient = async (req, res) => {
       .status(200)
       .json({ message: "Devolucion al cliente anulada con exito" });
   } catch (error) {
+    console.error("Error al anular la devolucion al cliente:", error);
     return res
       .status(500)
       .json({ error: "Error al anular la devolucion al cliente" });
