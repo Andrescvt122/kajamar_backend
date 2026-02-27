@@ -430,6 +430,168 @@ const cancelLowProduct = async (req, res) => {
           include: { detalle_conversion: true },
         });
 
+        const idsConversion = conversiones.map((c) => c.id_conversion_productos);
+        const idsProductosCreados = Array.from(
+          new Set(
+            conversiones
+              .map((c) => Number(c.id_producto_creado))
+              .filter((x) => Number.isFinite(x) && x > 0)
+          )
+        );
+        const idsDetallesDestinoCreados = Array.from(
+          new Set(
+            conversiones
+              .flatMap((c) =>
+                c.detalle_conversion.map((l) => Number(l.id_detalle_destino_creado))
+              )
+              .filter((x) => Number.isFinite(x) && x > 0)
+          )
+        );
+
+        // Bloquea anulacion si productos/detalles creados ya estan relacionados
+        // con tablas externas a esta baja/conversion.
+        if (idsProductosCreados.length || idsDetallesDestinoCreados.length) {
+          const whereRelDetalleConversion = {
+            OR: [
+              { id_detalle_origen: { in: idsDetallesDestinoCreados } },
+              { id_detalle_destino: { in: idsDetallesDestinoCreados } },
+            ],
+          };
+          if (idsConversion.length) {
+            whereRelDetalleConversion.id_conversion_productos = {
+              notIn: idsConversion,
+            };
+          }
+
+          const whereRelProductoConversion = {
+            OR: [
+              { id_producto_creado: { in: idsProductosCreados } },
+              { productosId_producto: { in: idsProductosCreados } },
+            ],
+          };
+          if (idsConversion.length) {
+            whereRelProductoConversion.id_conversion_productos = {
+              notIn: idsConversion,
+            };
+          }
+
+          const [
+            relDetalleVenta,
+            relDetalleCompra,
+            relDetalleBaja,
+            relDetalleDevCliente,
+            relDetalleFactura,
+            relDetalleDevProducto,
+            relDetalleConversion,
+            relProductoProveedor,
+            relProductoDetalleExterno,
+            relProductoConversion,
+          ] = await Promise.all([
+            idsDetallesDestinoCreados.length
+              ? tx.detalle_venta.findFirst({
+                  where: { id_detalle_producto: { in: idsDetallesDestinoCreados } },
+                  select: { id_detalle: true },
+                })
+              : null,
+            idsDetallesDestinoCreados.length
+              ? tx.detalle_compra.findFirst({
+                  where: { id_detalle_producto: { in: idsDetallesDestinoCreados } },
+                  select: { id_detalle: true },
+                })
+              : null,
+            idsDetallesDestinoCreados.length
+              ? tx.detalle_productos_baja.findFirst({
+                  where: { id_detalle_productos: { in: idsDetallesDestinoCreados } },
+                  select: { id_detalle_productos_baja: true },
+                })
+              : null,
+            idsDetallesDestinoCreados.length
+              ? tx.devolucion_cliente_entregado.findFirst({
+                  where: { id_detalle_producto: { in: idsDetallesDestinoCreados } },
+                  select: { id_devolucion_cliente_entregado: true },
+                })
+              : null,
+            idsDetallesDestinoCreados.length
+              ? tx.facturas.findFirst({
+                  where: { id_detalle_producto: { in: idsDetallesDestinoCreados } },
+                  select: { id_factura: true },
+                })
+              : null,
+            idsDetallesDestinoCreados.length
+              ? tx.detalle_devolucion_producto.findFirst({
+                  where: {
+                    OR: [
+                      { id_detalle_producto: { in: idsDetallesDestinoCreados } },
+                      { id_detalle_producto_creado: { in: idsDetallesDestinoCreados } },
+                    ],
+                  },
+                  select: { id_detalle_devolucion_productos: true },
+                })
+              : null,
+            idsDetallesDestinoCreados.length
+              ? tx.detalle_conversion_productos.findFirst({
+                  where: whereRelDetalleConversion,
+                  select: { id_detalle_conversion: true },
+                })
+              : null,
+            idsProductosCreados.length
+              ? tx.producto_proveedor.findFirst({
+                  where: { id_producto: { in: idsProductosCreados } },
+                  select: { id_producto_proveedor: true },
+                })
+              : null,
+            idsProductosCreados.length
+              ? tx.detalle_productos.findFirst({
+                  where: {
+                    id_producto: { in: idsProductosCreados },
+                    id_detalle_producto: { notIn: idsDetallesDestinoCreados },
+                  },
+                  select: { id_detalle_producto: true },
+                })
+              : null,
+            idsProductosCreados.length
+              ? tx.conversion_productos.findFirst({
+                  where: whereRelProductoConversion,
+                  select: { id_conversion_productos: true },
+                })
+              : null,
+          ]);
+
+          const tablasDetalleRelacionadas = [];
+          if (relDetalleVenta) tablasDetalleRelacionadas.push("detalle_venta");
+          if (relDetalleCompra) tablasDetalleRelacionadas.push("detalle_compra");
+          if (relDetalleBaja) tablasDetalleRelacionadas.push("detalle_productos_baja");
+          if (relDetalleDevCliente)
+            tablasDetalleRelacionadas.push("devolucion_cliente_entregado");
+          if (relDetalleFactura) tablasDetalleRelacionadas.push("facturas");
+          if (relDetalleDevProducto)
+            tablasDetalleRelacionadas.push("detalle_devolucion_producto");
+          if (relDetalleConversion)
+            tablasDetalleRelacionadas.push("detalle_conversion_productos");
+
+          const tablasProductoRelacionadas = [];
+          if (relProductoProveedor) tablasProductoRelacionadas.push("producto_proveedor");
+          if (relProductoDetalleExterno)
+            tablasProductoRelacionadas.push("detalle_productos");
+          if (relProductoConversion)
+            tablasProductoRelacionadas.push("conversion_productos");
+
+          if (tablasDetalleRelacionadas.length || tablasProductoRelacionadas.length) {
+            return {
+              ok: false,
+              status: 409,
+              payload: {
+                error:
+                  "No se puede anular debido que los productos estan siendo usados.",
+                ids_producto: idsProductosCreados,
+                ids_detalle_producto: idsDetallesDestinoCreados,
+                tablas_producto_relacionadas: tablasProductoRelacionadas,
+                tablas_detalle_relacionadas: tablasDetalleRelacionadas,
+              },
+            };
+          }
+        }
+
         // IDs involucrados (baja + conversión)
         const idsDetalleBaja = baja.detalle_productos_baja
           .map((d) => d.id_detalle_productos)
@@ -584,7 +746,6 @@ const cancelLowProduct = async (req, res) => {
         }
 
         // 5) Anular conversiones y líneas
-        const idsConversion = conversiones.map((c) => c.id_conversion_productos);
         const idsLineas = conversiones.flatMap((c) => c.detalle_conversion.map((l) => l.id_detalle_conversion));
 
         if (idsLineas.length) {
@@ -601,9 +762,6 @@ const cancelLowProduct = async (req, res) => {
         }
 
         // 6) Soft delete PRODUCTOS creados (solo los realmente creados)
-        const idsProductosCreados = conversiones
-          .map((c) => c.id_producto_creado)
-          .filter((x) => Number.isFinite(x));
 
         if (idsProductosCreados.length) {
           // si algún detalle de esos productos fue vendido, NO se elimina
@@ -637,9 +795,6 @@ const cancelLowProduct = async (req, res) => {
         }
 
         // 7) Soft delete DETALLES creados (nuevo)
-        const idsDetallesDestinoCreados = conversiones
-          .flatMap((c) => c.detalle_conversion.map((l) => l.id_detalle_destino_creado))
-          .filter((x) => Number.isFinite(x));
 
         if (idsDetallesDestinoCreados.length) {
           const usos = await tx.detalle_venta.findMany({

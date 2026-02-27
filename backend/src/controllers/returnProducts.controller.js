@@ -334,6 +334,91 @@ const anularReturnProduct = async (req, res) => {
           }
         }
 
+        const idsLineas = lineas.map((l) => l.id_detalle_devolucion_productos);
+        const idsDetallesCreados = Array.from(
+          new Set(
+            lineas
+              .filter((l) => !Boolean(l.es_descuento))
+              .map((l) => Number(l.id_detalle_producto_creado))
+              .filter((x) => Number.isFinite(x) && x > 0)
+          )
+        );
+
+        // Bloquea anulación si algún detalle creado ya está relacionado
+        // en tablas externas a esta devolución.
+        if (idsDetallesCreados.length) {
+          const [
+            relVenta,
+            relCompra,
+            relBaja,
+            relDevCliente,
+            relFactura,
+            relConversion,
+            relDevProducto,
+          ] = await Promise.all([
+            tx.detalle_venta.findFirst({
+              where: { id_detalle_producto: { in: idsDetallesCreados } },
+              select: { id_detalle: true },
+            }),
+            tx.detalle_compra.findFirst({
+              where: { id_detalle_producto: { in: idsDetallesCreados } },
+              select: { id_detalle: true },
+            }),
+            tx.detalle_productos_baja.findFirst({
+              where: { id_detalle_productos: { in: idsDetallesCreados } },
+              select: { id_detalle_productos_baja: true },
+            }),
+            tx.devolucion_cliente_entregado.findFirst({
+              where: { id_detalle_producto: { in: idsDetallesCreados } },
+              select: { id_devolucion_cliente_entregado: true },
+            }),
+            tx.facturas.findFirst({
+              where: { id_detalle_producto: { in: idsDetallesCreados } },
+              select: { id_factura: true },
+            }),
+            tx.detalle_conversion_productos.findFirst({
+              where: {
+                OR: [
+                  { id_detalle_origen: { in: idsDetallesCreados } },
+                  { id_detalle_destino: { in: idsDetallesCreados } },
+                ],
+              },
+              select: { id_detalle_conversion: true },
+            }),
+            tx.detalle_devolucion_producto.findFirst({
+              where: {
+                OR: [
+                  { id_detalle_producto: { in: idsDetallesCreados } },
+                  { id_detalle_producto_creado: { in: idsDetallesCreados } },
+                ],
+                NOT: { id_detalle_devolucion_productos: { in: idsLineas } },
+              },
+              select: { id_detalle_devolucion_productos: true },
+            }),
+          ]);
+
+          const tablasRelacionadas = [];
+          if (relVenta) tablasRelacionadas.push("detalle_venta");
+          if (relCompra) tablasRelacionadas.push("detalle_compra");
+          if (relBaja) tablasRelacionadas.push("detalle_productos_baja");
+          if (relDevCliente) tablasRelacionadas.push("devolucion_cliente_entregado");
+          if (relFactura) tablasRelacionadas.push("facturas");
+          if (relConversion) tablasRelacionadas.push("detalle_conversion_productos");
+          if (relDevProducto) tablasRelacionadas.push("detalle_devolucion_producto");
+
+          if (tablasRelacionadas.length) {
+            return res.json({
+              ok: false,
+              status: 409,
+              payload: {
+                error:
+                  `No se puede anular la devolucion porque los productos creados estan siendo usados en: ` +
+                  tablasRelacionadas.join(", "),
+              },
+            });
+          }
+        }
+
         // 3) Traer detalles (origen + creado) en una sola consulta
         const idsDetalles = Array.from(
           new Set(
@@ -415,8 +500,6 @@ const anularReturnProduct = async (req, res) => {
         }
 
         // 8) Soft delete líneas
-        const idsLineas = lineas.map((l) => l.id_detalle_devolucion_productos);
-
         if (idsLineas.length) {
           await tx.detalle_devolucion_producto.updateMany({
             where: { id_detalle_devolucion_productos: { in: idsLineas } },
@@ -425,11 +508,6 @@ const anularReturnProduct = async (req, res) => {
         }
 
         // 9) Soft delete de detalles creados (si no se usaron en ventas/facturas)
-        const idsDetallesCreados = lineas
-          .filter((l) => !Boolean(l.es_descuento))
-          .map((l) => Number(l.id_detalle_producto_creado))
-          .filter((x) => Number.isFinite(x) && x > 0);
-
         if (idsDetallesCreados.length) {
           const usosVenta = await tx.detalle_venta.findMany({
             where: { id_detalle_producto: { in: idsDetallesCreados } },

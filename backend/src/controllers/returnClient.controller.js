@@ -72,6 +72,17 @@ const createReturnClients = async (req, res) => {
       .status(400)
       .json({ error: "Uno o mas productos a devolver no existen en la venta" });
   }
+  const disponibilidadDevolucion = await prisma.ventas.findFirst({
+    where:{
+      id_venta: Number(data.id_venta)
+    },
+    select:{
+      dispo_devolucion:true
+    }
+  })
+  if(!disponibilidadDevolucion?.dispo_devolucion){
+    return res.status(400).json({ error: "La venta no tiene disponible devoluciones" });
+  }
   if (responsable && productosEnVenta) {
     try {
       const cantidadTotalDeCliente = data.productosVenta.reduce(
@@ -94,7 +105,14 @@ const createReturnClients = async (req, res) => {
             cantidad_devuelta_cliente: cantidadTotalDeCliente,
           },
         });
-
+        await tx.ventas.update({
+          where: {
+            id_venta: Number(data.id_venta),
+          },
+          data: {
+            dispo_devolucion: false,
+          },
+        });
         const devolucionDevueltoPromesa = data.productosVenta.map(
           async (pv) => {
             const condicion = String(pv.condicion || "").toLowerCase();
@@ -218,110 +236,202 @@ const createReturnClients = async (req, res) => {
 };
 
 const cancelReturnClient = async (req, res) => {
-  const data = req.body;
-  const id_devolucion_cliente = Number(req.params.id ?? data.id_devolucion_cliente);
+  const data = req.body ?? {};
+  const id_devolucion_cliente = Number(
+    req.params.id ?? data.id_devolucion_cliente,
+  );
+
   if (!Number.isFinite(id_devolucion_cliente)) {
     return res.status(400).json({ error: "ID de devolucion invalido" });
   }
+
   const responsable = await getResponsable(Number(data.id_responsable));
   if (!responsable) {
     return res.status(404).json({ error: "Responsable no encontrado" });
   }
+
   try {
-    const cancelReturnClient = await prisma.$transaction(async (tx) => {
-      tx.devolucion_cliente.update({
+    const result = await prisma.$transaction(async (tx) => {
+      const devolucion = await tx.devolucion_cliente.findUnique({
         where: { id_devoluciones_cliente: id_devolucion_cliente },
-        data: {
-          estado: false,
-          id_responsable: responsable.usuario_id,
-          fecha_anulacion: new Date(),
-        },
+        select: { id_devoluciones_cliente: true, id_venta: true, estado: true },
       });
-      tx.devolucion_cliente_devuelto.update({
-        where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
-        data: { estado: false },
-      });
-      tx.devolucion_cliente_entregado.update({
-        where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
-        data: { estado: false },
-      });
-      const productosDevueltos = await tx.devolucion_cliente_devuelto.findMany({
-        where: { id_devolucion_cliente: Number(id_devolucion_cliente) },
-        include: {
-          detalle_venta: {
-            include: {
-              detalle_productos: {
-                include: {
-                  productos: true,
+
+      if (!devolucion) {
+        return {
+          ok: false,
+          status: 404,
+          payload: { error: "Devolucion al cliente no encontrada" },
+        };
+      }
+
+      if (devolucion.estado === false) {
+        return {
+          ok: false,
+          status: 400,
+          payload: { error: "La devolucion al cliente ya esta anulada" },
+        };
+      }
+
+      const [productosDevueltos, productosEntregados] = await Promise.all([
+        tx.devolucion_cliente_devuelto.findMany({
+          where: {
+            id_devolucion_cliente: id_devolucion_cliente,
+            estado: { not: false },
+          },
+          include: {
+            detalle_venta: {
+              include: {
+                detalle_productos: {
+                  include: {
+                    productos: true,
+                  },
                 },
               },
             },
           },
+        }),
+        tx.devolucion_cliente_entregado.findMany({
+          where: {
+            id_devolucion_cliente: id_devolucion_cliente,
+            estado: { not: false },
+          },
+          include: {
+            detalle_productos: {
+              include: {
+                productos: true,
+              },
+            },
+          },
+        }),
+      ]);
+
+      await tx.devolucion_cliente.update({
+        where: { id_devoluciones_cliente: id_devolucion_cliente },
+        data: {
+          estado: false,
+          usuarios: { connect: { usuario_id: responsable.usuario_id } },
         },
       });
-      const productosEntregados = await tx.devolucion_cliente_entregado.findMany({
-        where:{ id_devolucion_cliente: Number(id_devolucion_cliente) },
-        include:{
-          detalle_productos:{
-            include:{
-              productos:true
-            }
-          }
-        }
+
+      if (Number.isFinite(Number(devolucion.id_venta))) {
+        await tx.ventas.update({
+          where: { id_venta: Number(devolucion.id_venta) },
+          data: { dispo_devolucion: true },
+        });
+      }
+
+      await tx.devolucion_cliente_devuelto.updateMany({
+        where: { id_devolucion_cliente: id_devolucion_cliente },
+        data: { estado: false },
       });
+
+      await tx.devolucion_cliente_entregado.updateMany({
+        where: { id_devolucion_cliente: id_devolucion_cliente },
+        data: { estado: false },
+      });
+
+      const normalize = (value) =>
+        String(value ?? "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
       for (const p of productosDevueltos) {
+        const motivo = normalize(p.motivo);
+        const revierteStockDevuelto =
+          motivo.includes("incorrecto") ||
+          motivo.includes("no requerido") ||
+          motivo.includes("vencido");
+
+        if (!revierteStockDevuelto) continue;
+
+        const detalleId = Number(
+          p?.detalle_venta?.detalle_productos?.id_detalle_producto,
+        );
+        const productoId = Number(
+          p?.detalle_venta?.detalle_productos?.productos?.id_producto,
+        );
+        const cantidad = Number(p.cantidad_cliente_devuelto ?? 0);
+
         if (
-          p.motivo === "Producto incorrecto" ||
-          p.motivo === "Producto no requerido" ||
-          p.motivo === "Producto vencido"
+          !Number.isFinite(detalleId) ||
+          !Number.isFinite(productoId) ||
+          !Number.isFinite(cantidad) ||
+          cantidad <= 0
         ) {
-          tx.detalle_productos.update({
-            where: {
-              id_detalle_producto:
-                p.detalle_venta.detalle_productos.id_detalle_producto,
-            },
-            data: {
-              stock_producto: { decrement: p.cantidad_cliente_devuelto },
-            },
-          });
-          tx.productos.update({
-            where: {
-              id_producto:
-                p.detalle_venta.detalle_productos.productos.id_productos,
-            },
-            data: { stock_actual: { decrement: p.cantidad_cliente_devuelto } },
-          });
+          continue;
         }
-        if (p.motivo === "Producto dañado") {
-          const baja = tx.productos_baja.delete({
-            where: { desde_dev_cliente: id_devolucion_cliente },
+
+        await tx.detalle_productos.update({
+          where: { id_detalle_producto: detalleId },
+          data: { stock_producto: { decrement: cantidad } },
+        });
+
+        await tx.productos.update({
+          where: { id_producto: productoId },
+          data: { stock_actual: { decrement: cantidad } },
+        });
+      }
+
+      const huboDanados = productosDevueltos.some((p) =>
+        normalize(p.motivo).includes("danado"),
+      );
+
+      if (huboDanados) {
+        const bajas = await tx.productos_baja.findMany({
+          where: { desde_dev_cliente: id_devolucion_cliente },
+          select: { id_baja_productos: true },
+        });
+
+        const idsBaja = bajas
+          .map((b) => Number(b.id_baja_productos))
+          .filter((x) => Number.isFinite(x));
+
+        if (idsBaja.length) {
+          await tx.detalle_productos_baja.deleteMany({
+            where: { id_baja_productos: { in: idsBaja } },
           });
-          tx.detalle_productos_baja.delete({
-            where: { id_baja_productos: baja.id_baja_productos },
+
+          await tx.productos_baja.deleteMany({
+            where: { id_baja_productos: { in: idsBaja } },
           });
         }
       }
-      if(productosEntregados.length == 0){
-        return res
-      .status(200)
-      .json({ message: "Devolucion al cliente anulada con exito (sin productos entregados)" });
-      }
+
       for (const p of productosEntregados) {
-        tx.detalle_productos.update({
-          where: {
-            id_detalle_producto: p.detalle_productos.id_detalle_producto,
-          },
-          data: { stock_producto: { increment: p.cantidad_entregada } },
+        const detalleId = Number(p?.detalle_productos?.id_detalle_producto);
+        const productoId = Number(p?.detalle_productos?.productos?.id_producto);
+        const cantidad = Number(p.cantidad_entregada ?? 0);
+
+        if (
+          !Number.isFinite(detalleId) ||
+          !Number.isFinite(productoId) ||
+          !Number.isFinite(cantidad) ||
+          cantidad <= 0
+        ) {
+          continue;
+        }
+
+        await tx.detalle_productos.update({
+          where: { id_detalle_producto: detalleId },
+          data: { stock_producto: { increment: cantidad } },
         });
-        tx.productos.update({
-          where: { id_producto: p.detalle_productos.productos.id_productos },
-          data: { stock_actual: { increment: p.cantidad_entregada } },
+
+        await tx.productos.update({
+          where: { id_producto: productoId },
+          data: { stock_actual: { increment: cantidad } },
         });
       }
+
+      return {
+        ok: true,
+        status: 200,
+        payload: { message: "Devolucion al cliente anulada con exito" },
+      };
     });
-    return res
-      .status(200)
-      .json({ message: "Devolucion al cliente anulada con exito" });
+
+    return res.status(result.status).json(result.payload);
   } catch (error) {
     console.error("Error al anular la devolucion al cliente:", error);
     return res
@@ -338,3 +448,4 @@ module.exports = {
   cancelReturnClient,
   anularReturnClient,
 };
+
