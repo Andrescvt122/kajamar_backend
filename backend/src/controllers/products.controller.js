@@ -45,7 +45,51 @@ const resolveImpuestoId = async (val, tipo = "IMP") => {
 
   return created.id_impuesto;
 };
+// -------------------- GET PRODUCT BY ID --------------------
+const getProductById = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    const product = await prisma.productos.findUnique({
+      where: { id_producto: Number(id) },
+      include: {
+        categorias: { select: { id_categoria: true, nombre_categoria: true } },
+        producto_proveedor: {
+          include: {
+            proveedores: {
+              select: { id_proveedor: true, nombre: true, nit: true },
+            },
+          },
+        },
+        impuestos_productos_productos_ivaToimpuestos_productos: true,
+        impuestos_productos_productos_icuToimpuestos_productos: true,
+        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
+      },
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    const formatted = {
+      ...product,
+      categoria: product.categorias?.nombre_categoria || null,
+      proveedores: product.producto_proveedor.map((pp) => pp.proveedores),
+      iva_detalle:
+        product.impuestos_productos_productos_ivaToimpuestos_productos || null,
+      icu_detalle:
+        product.impuestos_productos_productos_icuToimpuestos_productos || null,
+      incremento_detalle:
+        product.impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos ||
+        null,
+    };
+
+    return res.json(formatted);
+  } catch (error) {
+    console.error("❌ Error al obtener producto:", error);
+    return res.status(500).json({ message: "Error al obtener el producto" });
+  }
+};
 // --------------------- GETs ---------------------
 const getAllProducts = async (_req, res) => {
   try {
@@ -588,4 +632,5 @@ module.exports = {
   deleteProduct,
   getRandomProduct,
   getProductsByCategory,
+  getProductById,
 };
