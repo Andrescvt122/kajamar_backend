@@ -92,7 +92,7 @@ const createUser = async (req, res) => {
     const nuevoAcceso = await prisma.acceso.create({
       data: {
         email,
-        password_hash: hashedPassword, 
+        password_hash: hashedPassword,
         estado_usuario,
         rol_id,
       },
@@ -200,9 +200,8 @@ const toggleUserStatus = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: `Estado del usuario ${usuario_id} actualizado a ${
-        nuevoEstado ? "Activo" : "Inactivo"
-      }`,
+      message: `Estado del usuario ${usuario_id} actualizado a ${nuevoEstado ? "Activo" : "Inactivo"
+        }`,
       estado: updatedAcceso.estado_usuario,
     });
   } catch (error) {
@@ -217,16 +216,27 @@ const toggleUserStatus = async (req, res) => {
 const deleteUser = async (req, res) => {
   const usuario_id = Number(req.params.id);
   try {
-    await prisma.usuarios.delete({
+    // 1️⃣ Buscar el usuario para obtener su acceso_id
+    const user = await prisma.usuarios.findUnique({
       where: { usuario_id },
+      select: { acceso_id: true },
     });
 
-    return res.status(200).json({ message: "User deleted successfully" });
+    if (!user) {
+      return res.status(404).json({ error: "User not found for deletion" });
+    }
+
+    // 2️⃣ Eliminar el registro de acceso (esto eliminará el usuario en cascada)
+    await prisma.acceso.delete({
+      where: { acceso_id: user.acceso_id },
+    });
+
+    return res.status(200).json({ message: "User and access deleted successfully" });
   } catch (error) {
     console.error("Error al eliminar usuario:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({ error: "User not found for deletion" });
+      return res.status(404).json({ error: "User or access not found for deletion" });
     }
 
     return res.status(500).json({ error: "Error deleting the user" });

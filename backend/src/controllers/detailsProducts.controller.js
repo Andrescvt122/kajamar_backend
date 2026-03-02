@@ -48,9 +48,8 @@ const createDetailProduct = async (req, res) => {
           stock_producto: stock,
           es_devolucion: data.es_devolucion ?? false,
           estado: true,
-          lote: data.lote ? String(data.lote).trim() : null,
 
-          // ✅ NUEVO: impuestos y precio venta por detalle (lote)
+          // ✅ NUEVO: impuestos y precio venta por detalle
           iva_porcentaje: toDecimalOrNull(data.iva_porcentaje),
           icu_porcentaje: toDecimalOrNull(data.icu_porcentaje),
           precio_venta: toDecimalOrNull(data.precio_venta),
@@ -92,7 +91,6 @@ const getAllDetails = async (req, res) => {
      stock_producto: true,
      es_devolucion: true,
      estado: true,
-     lote: true,
      // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
      iva_porcentaje: true,
      icu_porcentaje: true,
@@ -180,7 +178,6 @@ const getDetailById = async (req, res) => {
         stock_producto: true,
         es_devolucion: true,
         estado: true,
-        lote: true,
 
         // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
         iva_porcentaje: true,
@@ -224,8 +221,6 @@ const updateDetailProduct = async (req, res) => {
         stock_producto: data.stock_producto === undefined ? undefined : toInt(data.stock_producto, 0),
         es_devolucion: data.es_devolucion ?? false,
         estado: true,
-
-        lote: data.lote === undefined ? undefined : data.lote ? String(data.lote).trim() : null,
 
         // ✅ NUEVO: actualizar impuestos y precio venta
         iva_porcentaje: toDecimalOrUndefined(data.iva_porcentaje),
