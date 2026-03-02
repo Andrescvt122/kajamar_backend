@@ -24,7 +24,6 @@ function toInt(v, def = 0) {
  * ============================ */
 const createDetailProduct = async (req, res) => {
   const data = req.body;
-
   try {
     if (!data?.id_producto) {
       return res.status(400).json({ message: "Falta id_producto" });

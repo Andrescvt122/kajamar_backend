@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [2026-02-22T03:44:55.805Z]
 Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado", "public"."detalle_productos"."lote", "public"."detalle_productos"."iva_porcentaje", "public"."detalle_productos"."icu_porcentaje", "public"."detalle_productos"."precio_venta" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."estado" = $1 ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $2
@@ -8860,3 +8861,5 @@ Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."p
 Params: [13,0]
 Duration: 79 ms
 ----------------------------------------------
+=======
+>>>>>>> 747459e0aaa11c4a83049b1bdad683f2fddc443b
