@@ -93,7 +93,6 @@ model detalle_devolucion_producto {
 }
 
 model detalle_productos {
-<<<<<<< HEAD
   id_detalle_producto                                                                                    Int                            @id @default(autoincrement())
   id_producto                                                                                            Int
   codigo_barras_producto_compra                                                                          String                         @db.VarChar(50)
@@ -117,7 +116,6 @@ model detalle_productos {
   detalle_venta                                                                                          detalle_venta[]
   devolucion_cliente_entregado                                                                           devolucion_cliente_entregado[]
   facturas                                                                                               facturas[]
-=======
   id_detalle_producto           Int                            @id @default(autoincrement())
   id_producto                   Int
   codigo_barras_producto_compra String                         @db.VarChar(50)
@@ -141,7 +139,6 @@ model detalle_productos {
   detalle_venta                 detalle_venta[]
   devolucion_cliente_entregado  devolucion_cliente_entregado[]
   facturas                      facturas[]
->>>>>>> 747459e0aaa11c4a83049b1bdad683f2fddc443b
 }
 
 model detalle_venta {

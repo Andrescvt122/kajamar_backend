@@ -1,5 +1,6 @@
 // src/controllers/purchase.controller.js
 const { PrismaClient } = require("@prisma/client");
+const { compras } = require("../prisma/prismaClient");
 const prisma = new PrismaClient();
 
 /** ===================== Helpers ===================== */
@@ -314,6 +315,7 @@ exports.getPurchases = async (req, res) => {
 };
 
 /** ===================== CANCEL PURCHASE ===================== */
+/** ===================== CANCEL PURCHASE ===================== */
 exports.cancelPurchase = async (req, res) => {
   try {
     const id_compra = Number(req.params.id_compra);
@@ -325,30 +327,24 @@ exports.cancelPurchase = async (req, res) => {
       });
     }
 
-    await prisma.$transaction(async (tx) => {
+    const compraActualizada = await prisma.$transaction(async (tx) => {
       const compra = await tx.compras.findUnique({
         where: { id_compra },
         include: {
           detalle_compra: {
-            include: {
-              detalle_productos: true,
-            },
+            include: { detalle_productos: true },
           },
         },
       });
 
       if (!compra) throw new Error("Compra no encontrada");
-
-      if (compra.estado_compra === "Anulada") {
+      if (compra.estado_compra === "Anulada")
         throw new Error("La compra ya está anulada");
-      }
 
-      /** ===== REVERTIR STOCK ===== */
+      // revertir stock
       for (const dc of compra.detalle_compra) {
         const dp = dc.detalle_productos;
-
-        // ⚠️ si no hay lote, saltar
-        if (!dp || !dp.id_detalle_producto) continue;
+        if (!dp) continue;
 
         const unidades =
           dc.cantidad_total_unidades ||
@@ -356,38 +352,41 @@ exports.cancelPurchase = async (req, res) => {
           dc.cantidad ||
           0;
 
-        if (!unidades || unidades <= 0) continue;
+        if (unidades <= 0) continue;
 
-        /** revertir stock lote */
         await tx.detalle_productos.update({
           where: { id_detalle_producto: dp.id_detalle_producto },
-          data: {
-            stock_producto: { decrement: unidades },
-          },
+          data: { stock_producto: { decrement: unidades } },
         });
 
-        /** revertir stock producto */
         await tx.productos.update({
           where: { id_producto: dp.id_producto },
-          data: {
-            stock_actual: { decrement: unidades },
-          },
+          data: { stock_actual: { decrement: unidades } },
         });
       }
 
-      /** ===== MARCAR COMPRA ANULADA ===== */
-      await tx.compras.update({
+      // marcar anulada
+      return await tx.compras.update({
         where: { id_compra },
         data: {
           estado_compra: "Anulada",
           motivo_anulacion: motivo.trim(),
           fecha_anulacion: new Date(),
         },
+        include: {
+          proveedores: true,
+          detalle_compra: {
+            include: {
+              detalle_productos: true,
+            },
+          },
+        },
       });
     });
 
     return res.json({
-      message: "Compra anulada y stock revertido correctamente",
+      message: "Compra anulada correctamente",
+      compra: compraActualizada,
     });
   } catch (error) {
     console.error("❌ cancelPurchase:", error);
@@ -396,23 +395,3 @@ exports.cancelPurchase = async (req, res) => {
     });
   }
 };
-const purchase = await prisma.compras.findUnique({
-  where: { id_compra: Number(id) },
-  include: {
-    proveedor: true,
-    detalle_compra: {
-      include: {
-        detalle_productos: {
-          include: {
-            productos: true,
-          },
-        },
-      },
-    },
-  },
-});
-
-return res.json({
-  ...purchase,
-  motivo_anulacion: purchase.motivo_anulacion, // 👈 importante
-});
