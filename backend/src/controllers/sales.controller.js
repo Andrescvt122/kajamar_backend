@@ -24,7 +24,7 @@ const normalizeProducts = (productos) => {
     const cantidad = Number(p.cantidad);
     const precioUnitario = Number(p.precioUnitario);
 
-    // OJO: productoId = ID DEL DETALLE (detalle_productos.id_detalle_producto)
+    // OJO: productoId = ID DEL LOTE (detalle_productos.id_detalle_producto)
     const productoId = p.productoId ?? null;
 
     if (!nombre) {
@@ -89,7 +89,7 @@ exports.getSales = async (_req, res) => {
 // Body:
 // { fecha:"YYYY-MM-DD", clienteId?, medioPago, estado, productos:[...], pagoMixto? }
 // pagoMixto: { efectivo, transferencia } (solo si medioPago="Mixto")
-// productos[].productoId = id_detalle_producto (detalle)
+// productos[].productoId = id_detalle_producto (lote)
 // ======================
 exports.createSale = async (req, res) => {
   try {
@@ -109,41 +109,41 @@ exports.createSale = async (req, res) => {
 
     const items = normalizeProducts(productos);
 
-    // Todos deben traer detalle
-    const missingDetail = items.find((it) => !toIntOrNull(it.productoId));
-    if (missingDetail) {
+    // Todos deben traer lote
+    const missingLot = items.find((it) => !toIntOrNull(it.productoId));
+    if (missingLot) {
       return res.status(400).json({
         message:
-          "Cada item debe enviar productoId (id_detalle_producto) para descontar stock.",
+          "Cada item debe enviar productoId (id_detalle_producto del lote) para descontar stock.",
       });
     }
 
     // 1) Validar stock con pre-lectura (mensaje bonito de insuficiente)
-    const detalleIds = [...new Set(items.map((it) => Number(it.productoId)))];
+    const loteIds = [...new Set(items.map((it) => Number(it.productoId)))];
 
-    const detalles = await prisma.detalle_productos.findMany({
-      where: { id_detalle_producto: { in: detalleIds } },
+    const lotes = await prisma.detalle_productos.findMany({
+      where: { id_detalle_producto: { in: loteIds } },
       include: { productos: true },
     });
 
-    const detalleById = new Map(detalles.map((d) => [d.id_detalle_producto, d]));
+    const loteById = new Map(lotes.map((l) => [l.id_detalle_producto, l]));
 
     for (const it of items) {
-      const detalleId = Number(it.productoId);
-      const detalle = detalleById.get(detalleId);
+      const loteId = Number(it.productoId);
+      const lote = loteById.get(loteId);
 
-      if (!detalle) {
+      if (!lote) {
         return res.status(400).json({
-          message: `Detalle no existe: id_detalle_producto=${detalleId}`,
+          message: `Lote no existe: id_detalle_producto=${loteId}`,
         });
       }
 
-      const disponible = Number(detalle.stock_producto ?? 0);
+      const disponible = Number(lote.stock_producto ?? 0);
       if (disponible < it.cantidad) {
         return res.status(400).json({
           code: "STOCK_INSUFICIENTE",
-          message: `Stock insuficiente. Detalle ${detalleId}: disponible ${disponible}, solicitado ${it.cantidad}`,
-          detalleId,
+          message: `Stock insuficiente. Lote ${loteId}: disponible ${disponible}, solicitado ${it.cantidad}`,
+          loteId,
           disponible,
           solicitado: it.cantidad,
         });
@@ -157,40 +157,33 @@ exports.createSale = async (req, res) => {
     // =====================================================
     const metodo = String(medioPago); // "Efectivo" | "Transferencia" | "Mixto"
 
-    let monto_efectivo = 0;
-    let monto_transferencia = 0;
+    let monto_efectivo = null;
+    let monto_transferencia = null;
 
     if (metodo === "Mixto") {
       const ef = Number(pagoMixto?.efectivo ?? 0);
       const tr = Number(pagoMixto?.transferencia ?? 0);
 
       if (!Number.isFinite(ef) || !Number.isFinite(tr)) {
-        return res.status(400).json({
-          message: "pagoMixto inválido: efectivo/transferencia deben ser números",
-        });
+        return res.status(400).json({ message: "pagoMixto inválido" });
       }
-
       if (ef <= 0 || tr <= 0) {
-        return res.status(400).json({
-          message: "En pago Mixto debes enviar efectivo y transferencia > 0.",
-        });
+        return res.status(400).json({ message: "En Mixto ambos deben ser > 0" });
       }
-
       if (ef + tr !== total) {
-        return res.status(400).json({
-          message: `Pago mixto no cuadra: efectivo(${ef}) + transferencia(${tr}) != total(${total})`,
-        });
+        return res.status(400).json({ message: "Pago mixto no cuadra con total" });
       }
 
       monto_efectivo = ef;
       monto_transferencia = tr;
-    } else if (metodo === "Efectivo") {
-      monto_efectivo = total;
-      monto_transferencia = 0;
-    } else if (metodo === "Transferencia") {
-      monto_transferencia = total;
-      monto_efectivo = 0;
-    } else {
+// En Efectivo / Transferencia se quedan NULL
+   } else if (metodo === "Efectivo") {
+    monto_efectivo = 0;
+    monto_transferencia = 0;
+   } else if (metodo === "Transferencia") {
+    monto_transferencia = 0;
+    monto_efectivo = 0;
+  }else {
       // Por si mandan algo raro
       return res.status(400).json({
         message: "medioPago inválido. Usa: Efectivo | Transferencia | Mixto",
@@ -212,21 +205,21 @@ exports.createSale = async (req, res) => {
     // 2) Transacción ATÓMICA (interactiva, pero rápida: SOLO updates + create)
     const created = await prisma.$transaction(
       async (tx) => {
-        // Agrupar por detalle (si repiten detalle, suma cantidades)
-        const qtyByDetalle = new Map();
+        // Agrupar por lote (si repiten lote, suma cantidades)
+        const qtyByLote = new Map();
         for (const it of items) {
-          const detalleId = Number(it.productoId);
-          qtyByDetalle.set(
-            detalleId,
-            (qtyByDetalle.get(detalleId) || 0) + Number(it.cantidad)
+          const loteId = Number(it.productoId);
+          qtyByLote.set(
+            loteId,
+            (qtyByLote.get(loteId) || 0) + Number(it.cantidad)
           );
         }
 
-        // Descontar stock por detalle con condición stock >= qty
-        for (const [detalleId, qty] of qtyByDetalle.entries()) {
+        // Descontar stock por lote con condición stock >= qty
+        for (const [loteId, qty] of qtyByLote.entries()) {
           const r = await tx.detalle_productos.updateMany({
             where: {
-              id_detalle_producto: detalleId,
+              id_detalle_producto: loteId,
               stock_producto: { gte: qty },
             },
             data: { stock_producto: { decrement: qty } },
@@ -234,7 +227,7 @@ exports.createSale = async (req, res) => {
 
           if ((r?.count ?? 0) === 0) {
             const e = new Error(
-              `Stock insuficiente (cambió durante el registro). Detalle ${detalleId}`
+              `Stock insuficiente (cambió durante el registro). Lote ${loteId}`
             );
             e.status = 400;
             e.code = "STOCK_INSUFICIENTE";
@@ -279,48 +272,80 @@ exports.createSale = async (req, res) => {
 };
 
 // ======================
+// ======================
 // PUT /sales/:id/status
-// (sin cambios)
 // ======================
 exports.updateSaleStatus = async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { estado } = req.body;
 
+    // 🔹 Validar ID
     if (!Number.isFinite(id)) {
       return res.status(400).json({ message: "id inválido" });
     }
+
+    // 🔹 Validar estado requerido
     if (!estado) {
       return res.status(400).json({ message: "estado requerido" });
     }
 
     const nuevoEstado = String(estado);
 
+    // 🔹 Estados permitidos
+    const ESTADOS_VALIDOS = ["Pendiente", "Completada", "Anulada"];
+
+    if (!ESTADOS_VALIDOS.includes(nuevoEstado)) {
+      return res.status(400).json({
+        code: "ESTADO_INVALIDO",
+        message: "Estado no permitido",
+      });
+    }
+
+    // 🔹 Buscar venta
     const sale = await prisma.ventas.findUnique({
       where: { id_venta: id },
       include: {
         clientes: true,
-        detalle_venta: true, // solo para devolver stock
+        detalle_venta: true,
       },
     });
 
-    if (!sale) return res.status(404).json({ message: "Venta no encontrada" });
+    if (!sale) {
+      return res.status(404).json({ message: "Venta no encontrada" });
+    }
 
     const estadoActual = String(sale.estado_venta || "");
 
+    // 🔒 No permitir modificar una venta ya anulada
+    if (estadoActual === "Anulada" && nuevoEstado !== "Anulada") {
+      return res.status(400).json({
+        code: "VENTA_YA_ANULADA",
+        message: "No se puede modificar una venta anulada.",
+      });
+    }
+
+    // 🔁 Si ya está anulada y vuelven a enviar Anulada
     if (estadoActual === "Anulada" && nuevoEstado === "Anulada") {
       const same = await prisma.ventas.findUnique({
         where: { id_venta: id },
         include: {
           clientes: true,
           detalle_venta: {
-            include: { detalle_productos: { include: { productos: true } } },
+            include: {
+              detalle_productos: {
+                include: { productos: true },
+              },
+            },
           },
         },
       });
       return res.json(same);
     }
 
+    // ======================
+    // 🔴 ANULAR VENTA
+    // ======================
     if (nuevoEstado === "Anulada") {
       const LIMIT_MINUTES = 30;
       const fechaVenta = sale.fecha_venta ? new Date(sale.fecha_venta) : null;
@@ -333,7 +358,7 @@ exports.updateSaleStatus = async (req, res) => {
       }
 
       const now = new Date();
-      const diffMinutes = diffMinutesBetween(fechaVenta, now);
+      const diffMinutes = Math.floor((now - fechaVenta) / (1000 * 60));
 
       if (diffMinutes > LIMIT_MINUTES) {
         return res.status(400).json({
@@ -344,23 +369,27 @@ exports.updateSaleStatus = async (req, res) => {
         });
       }
 
+      // 🔁 Transacción para devolver stock
       await prisma.$transaction(async (tx) => {
-        const qtyByDetalle = new Map();
-        for (const d of sale.detalle_venta || []) {
-          const detalleId = Number(d.id_detalle_producto);
-          if (!Number.isFinite(detalleId)) continue;
+        const qtyByLote = new Map();
 
-          qtyByDetalle.set(
-            detalleId,
-            (qtyByDetalle.get(detalleId) || 0) + Number(d.cantidad || 0)
+        for (const d of sale.detalle_venta || []) {
+          const loteId = Number(d.id_detalle_producto);
+          if (!Number.isFinite(loteId)) continue;
+
+          qtyByLote.set(
+            loteId,
+            (qtyByLote.get(loteId) || 0) + Number(d.cantidad || 0)
           );
         }
 
-        for (const [detalleId, qty] of qtyByDetalle.entries()) {
+        for (const [loteId, qty] of qtyByLote.entries()) {
           if (qty > 0) {
             await tx.detalle_productos.update({
-              where: { id_detalle_producto: detalleId },
-              data: { stock_producto: { increment: qty } },
+              where: { id_detalle_producto: loteId },
+              data: {
+                stock_producto: { increment: qty },
+              },
             });
           }
         }
@@ -376,7 +405,11 @@ exports.updateSaleStatus = async (req, res) => {
         include: {
           clientes: true,
           detalle_venta: {
-            include: { detalle_productos: { include: { productos: true } } },
+            include: {
+              detalle_productos: {
+                include: { productos: true },
+              },
+            },
           },
         },
       });
@@ -384,13 +417,20 @@ exports.updateSaleStatus = async (req, res) => {
       return res.json(updated);
     }
 
+    // ======================
+    // 🟢 CAMBIAR A OTRO ESTADO
+    // ======================
     const updated = await prisma.ventas.update({
       where: { id_venta: id },
       data: { estado_venta: nuevoEstado },
       include: {
         clientes: true,
         detalle_venta: {
-          include: { detalle_productos: { include: { productos: true } } },
+          include: {
+            detalle_productos: {
+              include: { productos: true },
+            },
+          },
         },
       },
     });
@@ -398,10 +438,10 @@ exports.updateSaleStatus = async (req, res) => {
     return res.json(updated);
   } catch (error) {
     console.error("❌ updateSaleStatus:", error);
+
     return res.status(error.status || 500).json({
       code: error.code,
       message: error.message || "Error actualizando estado de venta",
     });
   }
 };
-
