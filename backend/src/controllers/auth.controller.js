@@ -21,7 +21,7 @@ const login = async (req, res) => {
 
         // Aquí comparamos la contraseña que acabas de cambiar
         const isMatch = await bcrypt.compare(password, usuario.password_hash);
-        
+
         if (!isMatch) {
             return res.status(401).json({ error: 'Contraseña incorrecta' });
         }
@@ -44,7 +44,7 @@ const forgotPassword = async (req, res) => {
         const emailLimpio = email.trim();
         const usuario = await prisma.acceso.findUnique({ where: { email: emailLimpio } });
 
-        if (!usuario) return res.json({ message: 'Enviado.' });
+        if (!usuario) return res.status(404).json({ error: 'El correo electrónico no está registrado.' });
 
         // Generar código de 6 dígitos
         const codigo = Math.floor(100000 + Math.random() * 900000).toString();
@@ -56,7 +56,7 @@ const forgotPassword = async (req, res) => {
         await prisma.password_resets.create({
             data: {
                 acceso_id: usuario.acceso_id,
-                token: codigo, 
+                token: codigo,
                 expires_at: expiresAt
             }
         });
@@ -84,7 +84,7 @@ const resetPassword = async (req, res) => {
         // B. VERIFICAR EL CÓDIGO
         // Buscamos en la tabla de resets si este usuario tiene ese código exacto
         const resetRecord = await prisma.password_resets.findFirst({
-            where: { 
+            where: {
                 acceso_id: usuario.acceso_id,
                 token: codigo // Aquí comparamos el número que introdujo el usuario
             }
