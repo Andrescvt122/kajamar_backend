@@ -1,5 +1,6 @@
 // src/controllers/purchase.controller.js
 const { PrismaClient } = require("@prisma/client");
+const { compras } = require("../prisma/prismaClient");
 const prisma = new PrismaClient();
 
 /** ===================== Helpers ===================== */
@@ -73,7 +74,7 @@ function getComprobante(req, payload) {
   return null;
 }
 
-/** ===================== Controller ===================== */
+/** ===================== CREATE PURCHASE ===================== */
 exports.createPurchase = async (req, res) => {
   try {
     const payload = getPayload(req);
@@ -87,10 +88,10 @@ exports.createPurchase = async (req, res) => {
     const comprobante = getComprobante(req, payload);
 
     const compraCreada = await prisma.$transaction(async (tx) => {
-      /** 1) Validar productos + calcular totales */
       let subtotal = 0;
       let totalImpuestos = 0;
 
+      /** ===== VALIDACIÓN Y TOTALES ===== */
       for (const item of items) {
         const idProducto = Number(item.id_producto);
         if (!idProducto) throw new Error("Item inválido: falta id_producto");
@@ -99,26 +100,25 @@ exports.createPurchase = async (req, res) => {
           where: { id_producto: idProducto },
           select: { id_producto: true },
         });
-        if (!productoExiste) throw new Error(`Producto no existe: id_producto=${idProducto}`);
+        if (!productoExiste) throw new Error(`Producto no existe: ${idProducto}`);
 
         const precioUnit = toNumber(item.precio_unitario, 0);
-        const ivaPctCalc = toNumber(item.iva_porcentaje, 0);
-        const icuPctCalc = toNumber(item.icu_porcentaje, 0);
+        const ivaPct = toNumber(item.iva_porcentaje, 0);
+        const icuPct = toNumber(item.icu_porcentaje, 0);
 
-        const paquetesArr = Array.isArray(item.paquetes) ? item.paquetes : [];
-        const cantidadPaquetes =
-          paquetesArr.length > 0 ? paquetesArr.length : toNonNegInt(item.cantidad, 0);
+        const paquetes = Array.isArray(item.paquetes) ? item.paquetes.length : 0;
+        const cantidad = paquetes > 0 ? paquetes : toNonNegInt(item.cantidad, 0);
 
-        if (cantidadPaquetes <= 0) throw new Error("Item inválido: cantidad_paquetes <= 0");
+        if (cantidad <= 0) throw new Error("Cantidad inválida");
 
-        const sub = cantidadPaquetes * precioUnit;
+        const sub = cantidad * precioUnit;
         subtotal += sub;
-        totalImpuestos += sub * ((ivaPctCalc + icuPctCalc) / 100);
+        totalImpuestos += sub * ((ivaPct + icuPct) / 100);
       }
 
       const total = subtotal + totalImpuestos;
 
-      /** 2) Crear compra */
+      /** ===== CREAR COMPRA ===== */
       const compra = await tx.compras.create({
         data: {
           fecha_compra: fechaCompraDate,
@@ -130,54 +130,27 @@ exports.createPurchase = async (req, res) => {
           comprobante_url: comprobante?.url || null,
           comprobante_nombre: comprobante?.nombre || null,
           comprobante_mime: comprobante?.mime || null,
-          comprobante_size: comprobante?.size != null ? Number(comprobante.size) : null,
+          comprobante_size: comprobante?.size ?? null,
         },
       });
 
-      /** 3) Insertar items + detalle_productos por cada paquete */
+      /** ===== ITEMS ===== */
       for (const item of items) {
         const idProducto = Number(item.id_producto);
-
         const precioUnit = toNumber(item.precio_unitario, 0);
         const precioVenta = toDecimalOrNull(item.precio_venta);
 
         const ivaPct = toDecimalOrNull(item.iva_porcentaje);
         const icuPct = toDecimalOrNull(item.icu_porcentaje);
 
-        const traeIva = item.iva_porcentaje !== undefined && item.iva_porcentaje !== "";
-        const traeIcu = item.icu_porcentaje !== undefined && item.icu_porcentaje !== "";
-        const traePrecio = item.precio_venta !== undefined && item.precio_venta !== "";
-
-        const unidadesPorPaquete = toNonNegInt(
-          item.unidades_por_paquete ?? item.unidadesPorPaquete ?? 0,
-          0
-        );
-
-        const loteTexto = item.lote ? String(item.lote).trim() : null;
+        const unidadesPorPaquete = toNonNegInt(item.unidades_por_paquete, 0);
 
         let paquetes = Array.isArray(item.paquetes) ? [...item.paquetes] : [];
-
         if (paquetes.length === 0) {
-          const cantidadCompat = toNonNegInt(item.cantidad, 0);
-          if (cantidadCompat > 1) {
-            throw new Error(
-              "Faltan paquetes[]: si cantidad > 1 debes enviar item.paquetes[] con un código por paquete"
-            );
-          }
-
-          const fallbackCodigo =
-            item.codigoBarrasIngreso || item.codigo_barras_producto_compra || null;
-
-          if (!fallbackCodigo) {
-            throw new Error(
-              "Falta códigos de barras: envía item.paquetes[] o item.codigo_barras_producto_compra"
-            );
-          }
-
           paquetes = [
             {
-              codigoBarrasIngreso: fallbackCodigo,
-              fechaVencimiento: item.fecha_vencimiento || item.fechaVencimiento,
+              codigoBarrasIngreso: item.codigo_barras_producto_compra,
+              fechaVencimiento: item.fecha_vencimiento,
             },
           ];
         }
@@ -185,32 +158,39 @@ exports.createPurchase = async (req, res) => {
         const cantidadPaquetes = paquetes.length;
         const totalUnidades = cantidadPaquetes * unidadesPorPaquete;
 
-        // ✅ CÁLCULO costo_unitario (costo_total / cantidad_total_unidades)
+        /** ===== COSTO UNITARIO ===== */
         const costoTotal = cantidadPaquetes * precioUnit;
-        const costoUnitarioCalc = totalUnidades > 0 ? costoTotal / totalUnidades : null;
+        const costoUnitarioCalc =
+          totalUnidades > 0 ? costoTotal / totalUnidades : null;
 
-        // ✅ PRECIO ANTERIOR DEL PRODUCTO (ANTES de actualizar)
+        /** ===== PRECIO ANTERIOR ===== */
         const prodPrev = await tx.productos.findUnique({
           where: { id_producto: idProducto },
           select: { precio_venta: true },
         });
-        const precioAnteriorProducto = prodPrev?.precio_venta ?? null;
 
-        // ✅ incremento_venta: (precio anterior del producto / precio actual) - 1
-        const incrementoVentaCalc =
-          precioAnteriorProducto != null &&
-          Number(precioAnteriorProducto) !== 0 &&
+        const precioAnterior = prodPrev?.precio_venta ?? null;
+
+        /** ===== INCREMENTO CORRECTO ===== */
+        let incrementoVentaCalc = null;
+        if (
+          precioAnterior != null &&
+          Number(precioAnterior) > 0 &&
           precioVenta != null &&
-          Number(precioVenta) !== 0
-            ? (Number(precioAnteriorProducto) / Number(precioVenta)) - 1
-            : null;
+          Number(precioVenta) > 0
+        ) {
+          incrementoVentaCalc =
+            Number(precioVenta) / Number(precioAnterior) - 1;
+        }
 
-        // ✅ Actualiza producto base: stock + precio_venta (+ costo_unitario)
+        /** ===== ACTUALIZAR PRODUCTO BASE ===== */
         const dataProdUpdate = {};
-        if (totalUnidades > 0) dataProdUpdate.stock_actual = { increment: totalUnidades };
+        if (totalUnidades > 0)
+          dataProdUpdate.stock_actual = { increment: totalUnidades };
 
-        // productos.precio_venta y costo_unitario son Int (redondeo)
-        if (precioVenta != null) dataProdUpdate.precio_venta = Math.round(Number(precioVenta));
+        if (precioVenta != null)
+          dataProdUpdate.precio_venta = Math.round(Number(precioVenta));
+
         if (costoUnitarioCalc != null)
           dataProdUpdate.costo_unitario = Math.round(Number(costoUnitarioCalc));
 
@@ -221,93 +201,57 @@ exports.createPurchase = async (req, res) => {
           });
         }
 
-        // ✅ por cada paquete => detalle_producto + detalle_compra
+        /** ===== DETALLE POR PAQUETE ===== */
         for (const pack of paquetes) {
-          const codigoBarras = pack?.codigoBarrasIngreso
-            ? String(pack.codigoBarrasIngreso).trim()
-            : pack?.codigo_barras_producto_compra
-            ? String(pack.codigo_barras_producto_compra).trim()
-            : null;
+          const codigo = pack.codigoBarrasIngreso?.trim();
+          if (!codigo) throw new Error("Paquete sin código");
 
-          if (!codigoBarras) throw new Error("Paquete inválido: falta codigoBarrasIngreso");
+          const fechaVenc = parseFecha(pack.fechaVencimiento);
 
-          const fechaVenc = parseFecha(
-            pack?.fechaVencimiento ||
-              pack?.fecha_vencimiento ||
-              item?.fecha_vencimiento ||
-              item?.fechaVencimiento
-          );
-
-          let detalleProducto = await tx.detalle_productos.findFirst({
-            where: { id_producto: idProducto, codigo_barras_producto_compra: codigoBarras },
+          let detalle = await tx.detalle_productos.findFirst({
+            where: {
+              id_producto: idProducto,
+              codigo_barras_producto_compra: codigo,
+            },
           });
 
-          if (!detalleProducto) {
-            detalleProducto = await tx.detalle_productos.create({
+          if (!detalle) {
+            detalle = await tx.detalle_productos.create({
               data: {
                 id_producto: idProducto,
-                codigo_barras_producto_compra: codigoBarras,
+                codigo_barras_producto_compra: codigo,
                 fecha_vencimiento: fechaVenc,
                 stock_producto: 0,
-                es_devolucion: false,
                 estado: true,
-                lote: loteTexto,
-
-                // ✅ desde compra
-                iva_porcentaje: traeIva ? ivaPct : null,
-                icu_porcentaje: traeIcu ? icuPct : null,
-                precio_venta: traePrecio ? precioVenta : null,
-
-                // ✅ NUEVO
+                iva_porcentaje: ivaPct,
+                icu_porcentaje: icuPct,
+                precio_venta: precioVenta,
                 costo_unitario: costoUnitarioCalc,
-                incremento_venta: incrementoVentaCalc, // ✅ ahora sí se calcula siempre que haya precioAnteriorProducto y precioVenta
+                incremento_venta: incrementoVentaCalc,
               },
             });
-          } else {
-            const updates = {};
-            if (fechaVenc) updates.fecha_vencimiento = fechaVenc;
-            if (loteTexto && !detalleProducto.lote) updates.lote = loteTexto;
-
-            // ✅ solo pisa si vienen
-            if (traeIva) updates.iva_porcentaje = ivaPct;
-            if (traeIcu) updates.icu_porcentaje = icuPct;
-            if (traePrecio) updates.precio_venta = precioVenta;
-
-            // ✅ NUEVO
-            if (costoUnitarioCalc != null) updates.costo_unitario = costoUnitarioCalc;
-            if (incrementoVentaCalc != null) updates.incremento_venta = incrementoVentaCalc;
-
-            if (Object.keys(updates).length) {
-              await tx.detalle_productos.update({
-                where: { id_detalle_producto: detalleProducto.id_detalle_producto },
-                data: updates,
-              });
-            }
           }
 
-          // ✅ stock del lote: sube por unidades
           if (unidadesPorPaquete > 0) {
             await tx.detalle_productos.update({
-              where: { id_detalle_producto: detalleProducto.id_detalle_producto },
-              data: { stock_producto: { increment: unidadesPorPaquete } },
+              where: { id_detalle_producto: detalle.id_detalle_producto },
+              data: {
+                stock_producto: { increment: unidadesPorPaquete },
+              },
             });
           }
 
-          // ✅ detalle_compra (1 línea por paquete)
           await tx.detalle_compra.create({
             data: {
               id_compra: compra.id_compra,
-              id_detalle_producto: detalleProducto.id_detalle_producto,
-
+              id_detalle_producto: detalle.id_detalle_producto,
               cantidad: 1,
               cantidad_paquetes: 1,
               unidades_por_paquete: unidadesPorPaquete,
               cantidad_total_unidades: unidadesPorPaquete,
-
               precio_unitario: precioUnit,
               precio_venta: precioVenta ?? 0,
-
-              subtotal: 1 * precioUnit,
+              subtotal: precioUnit,
               iva_porcentaje: ivaPct,
               icu_porcentaje: icuPct,
             },
@@ -331,30 +275,28 @@ exports.createPurchase = async (req, res) => {
   }
 };
 
+/** ===================== GET PURCHASES ===================== */
 exports.getPurchases = async (req, res) => {
   try {
     const compras = await prisma.compras.findMany({
       orderBy: { id_compra: "desc" },
       include: {
-        proveedores: { select: { nombre: true, nit: true } },
+        proveedores: {
+          select: {
+            nombre: true,
+            nit: true,
+          },
+        },
         detalle_compra: {
           include: {
             detalle_productos: {
-              select: {
-                id_detalle_producto: true,
-                id_producto: true,
-                codigo_barras_producto_compra: true,
-                fecha_vencimiento: true,
-                stock_producto: true,
-                es_devolucion: true,
-                estado: true,
-                lote: true,
-                iva_porcentaje: true,
-                icu_porcentaje: true,
-                precio_venta: true,
-                costo_unitario: true,
-                incremento_venta: true,
-                productos: { select: { id_producto: true, nombre: true } },
+              include: {
+                productos: {
+                  select: {
+                    id_producto: true,
+                    nombre: true,
+                  },
+                },
               },
             },
           },
@@ -368,6 +310,88 @@ exports.getPurchases = async (req, res) => {
     return res.status(500).json({
       message: "Error al listar compras",
       error: error.message,
+    });
+  }
+};
+
+/** ===================== CANCEL PURCHASE ===================== */
+/** ===================== CANCEL PURCHASE ===================== */
+exports.cancelPurchase = async (req, res) => {
+  try {
+    const id_compra = Number(req.params.id_compra);
+    const { motivo } = req.body;
+
+    if (!id_compra || !motivo || motivo.trim().length < 5) {
+      return res.status(400).json({
+        message: "Debe ingresar un motivo válido",
+      });
+    }
+
+    const compraActualizada = await prisma.$transaction(async (tx) => {
+      const compra = await tx.compras.findUnique({
+        where: { id_compra },
+        include: {
+          detalle_compra: {
+            include: { detalle_productos: true },
+          },
+        },
+      });
+
+      if (!compra) throw new Error("Compra no encontrada");
+      if (compra.estado_compra === "Anulada")
+        throw new Error("La compra ya está anulada");
+
+      // revertir stock
+      for (const dc of compra.detalle_compra) {
+        const dp = dc.detalle_productos;
+        if (!dp) continue;
+
+        const unidades =
+          dc.cantidad_total_unidades ||
+          dc.cantidad_paquetes * dc.unidades_por_paquete ||
+          dc.cantidad ||
+          0;
+
+        if (unidades <= 0) continue;
+
+        await tx.detalle_productos.update({
+          where: { id_detalle_producto: dp.id_detalle_producto },
+          data: { stock_producto: { decrement: unidades } },
+        });
+
+        await tx.productos.update({
+          where: { id_producto: dp.id_producto },
+          data: { stock_actual: { decrement: unidades } },
+        });
+      }
+
+      // marcar anulada
+      return await tx.compras.update({
+        where: { id_compra },
+        data: {
+          estado_compra: "Anulada",
+          motivo_anulacion: motivo.trim(),
+          fecha_anulacion: new Date(),
+        },
+        include: {
+          proveedores: true,
+          detalle_compra: {
+            include: {
+              detalle_productos: true,
+            },
+          },
+        },
+      });
+    });
+
+    return res.json({
+      message: "Compra anulada correctamente",
+      compra: compraActualizada,
+    });
+  } catch (error) {
+    console.error("❌ cancelPurchase:", error);
+    return res.status(500).json({
+      message: error.message || "Error al anular compra",
     });
   }
 };

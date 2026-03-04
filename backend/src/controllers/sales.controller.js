@@ -157,40 +157,33 @@ exports.createSale = async (req, res) => {
     // =====================================================
     const metodo = String(medioPago); // "Efectivo" | "Transferencia" | "Mixto"
 
-    let monto_efectivo = 0;
-    let monto_transferencia = 0;
+    let monto_efectivo = null;
+    let monto_transferencia = null;
 
     if (metodo === "Mixto") {
       const ef = Number(pagoMixto?.efectivo ?? 0);
       const tr = Number(pagoMixto?.transferencia ?? 0);
 
       if (!Number.isFinite(ef) || !Number.isFinite(tr)) {
-        return res.status(400).json({
-          message: "pagoMixto inválido: efectivo/transferencia deben ser números",
-        });
+        return res.status(400).json({ message: "pagoMixto inválido" });
       }
-
       if (ef <= 0 || tr <= 0) {
-        return res.status(400).json({
-          message: "En pago Mixto debes enviar efectivo y transferencia > 0.",
-        });
+        return res.status(400).json({ message: "En Mixto ambos deben ser > 0" });
       }
-
       if (ef + tr !== total) {
-        return res.status(400).json({
-          message: `Pago mixto no cuadra: efectivo(${ef}) + transferencia(${tr}) != total(${total})`,
-        });
+        return res.status(400).json({ message: "Pago mixto no cuadra con total" });
       }
 
       monto_efectivo = ef;
       monto_transferencia = tr;
-    } else if (metodo === "Efectivo") {
-      monto_efectivo = total;
-      monto_transferencia = 0;
-    } else if (metodo === "Transferencia") {
-      monto_transferencia = total;
-      monto_efectivo = 0;
-    } else {
+// En Efectivo / Transferencia se quedan NULL
+   } else if (metodo === "Efectivo") {
+    monto_efectivo = 0;
+    monto_transferencia = 0;
+   } else if (metodo === "Transferencia") {
+    monto_transferencia = 0;
+    monto_efectivo = 0;
+  }else {
       // Por si mandan algo raro
       return res.status(400).json({
         message: "medioPago inválido. Usa: Efectivo | Transferencia | Mixto",
@@ -279,48 +272,80 @@ exports.createSale = async (req, res) => {
 };
 
 // ======================
+// ======================
 // PUT /sales/:id/status
-// (sin cambios)
 // ======================
 exports.updateSaleStatus = async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { estado } = req.body;
 
+    // 🔹 Validar ID
     if (!Number.isFinite(id)) {
       return res.status(400).json({ message: "id inválido" });
     }
+
+    // 🔹 Validar estado requerido
     if (!estado) {
       return res.status(400).json({ message: "estado requerido" });
     }
 
     const nuevoEstado = String(estado);
 
+    // 🔹 Estados permitidos
+    const ESTADOS_VALIDOS = ["Pendiente", "Completada", "Anulada"];
+
+    if (!ESTADOS_VALIDOS.includes(nuevoEstado)) {
+      return res.status(400).json({
+        code: "ESTADO_INVALIDO",
+        message: "Estado no permitido",
+      });
+    }
+
+    // 🔹 Buscar venta
     const sale = await prisma.ventas.findUnique({
       where: { id_venta: id },
       include: {
         clientes: true,
-        detalle_venta: true, // solo para devolver stock
+        detalle_venta: true,
       },
     });
 
-    if (!sale) return res.status(404).json({ message: "Venta no encontrada" });
+    if (!sale) {
+      return res.status(404).json({ message: "Venta no encontrada" });
+    }
 
     const estadoActual = String(sale.estado_venta || "");
 
+    // 🔒 No permitir modificar una venta ya anulada
+    if (estadoActual === "Anulada" && nuevoEstado !== "Anulada") {
+      return res.status(400).json({
+        code: "VENTA_YA_ANULADA",
+        message: "No se puede modificar una venta anulada.",
+      });
+    }
+
+    // 🔁 Si ya está anulada y vuelven a enviar Anulada
     if (estadoActual === "Anulada" && nuevoEstado === "Anulada") {
       const same = await prisma.ventas.findUnique({
         where: { id_venta: id },
         include: {
           clientes: true,
           detalle_venta: {
-            include: { detalle_productos: { include: { productos: true } } },
+            include: {
+              detalle_productos: {
+                include: { productos: true },
+              },
+            },
           },
         },
       });
       return res.json(same);
     }
 
+    // ======================
+    // 🔴 ANULAR VENTA
+    // ======================
     if (nuevoEstado === "Anulada") {
       const LIMIT_MINUTES = 30;
       const fechaVenta = sale.fecha_venta ? new Date(sale.fecha_venta) : null;
@@ -333,7 +358,7 @@ exports.updateSaleStatus = async (req, res) => {
       }
 
       const now = new Date();
-      const diffMinutes = diffMinutesBetween(fechaVenta, now);
+      const diffMinutes = Math.floor((now - fechaVenta) / (1000 * 60));
 
       if (diffMinutes > LIMIT_MINUTES) {
         return res.status(400).json({
@@ -344,8 +369,10 @@ exports.updateSaleStatus = async (req, res) => {
         });
       }
 
+      // 🔁 Transacción para devolver stock
       await prisma.$transaction(async (tx) => {
         const qtyByLote = new Map();
+
         for (const d of sale.detalle_venta || []) {
           const loteId = Number(d.id_detalle_producto);
           if (!Number.isFinite(loteId)) continue;
@@ -360,7 +387,9 @@ exports.updateSaleStatus = async (req, res) => {
           if (qty > 0) {
             await tx.detalle_productos.update({
               where: { id_detalle_producto: loteId },
-              data: { stock_producto: { increment: qty } },
+              data: {
+                stock_producto: { increment: qty },
+              },
             });
           }
         }
@@ -376,7 +405,11 @@ exports.updateSaleStatus = async (req, res) => {
         include: {
           clientes: true,
           detalle_venta: {
-            include: { detalle_productos: { include: { productos: true } } },
+            include: {
+              detalle_productos: {
+                include: { productos: true },
+              },
+            },
           },
         },
       });
@@ -384,13 +417,20 @@ exports.updateSaleStatus = async (req, res) => {
       return res.json(updated);
     }
 
+    // ======================
+    // 🟢 CAMBIAR A OTRO ESTADO
+    // ======================
     const updated = await prisma.ventas.update({
       where: { id_venta: id },
       data: { estado_venta: nuevoEstado },
       include: {
         clientes: true,
         detalle_venta: {
-          include: { detalle_productos: { include: { productos: true } } },
+          include: {
+            detalle_productos: {
+              include: { productos: true },
+            },
+          },
         },
       },
     });
@@ -398,6 +438,7 @@ exports.updateSaleStatus = async (req, res) => {
     return res.json(updated);
   } catch (error) {
     console.error("❌ updateSaleStatus:", error);
+
     return res.status(error.status || 500).json({
       code: error.code,
       message: error.message || "Error actualizando estado de venta",

@@ -6,6 +6,16 @@ const getCategories = async (_req, res) => {
   try {
     const categories = await prisma.categorias.findMany({
       orderBy: { id_categoria: "desc" },
+      include:{
+        productos:{
+          select:{
+            id_producto:true,
+            nombre:true,
+            stock_actual:true,
+            url_imagen:true
+          }
+        }
+      }
     });
     res.json(categories);
   } catch (error) {

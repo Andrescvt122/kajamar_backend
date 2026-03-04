@@ -48,9 +48,8 @@ const createDetailProduct = async (req, res) => {
           stock_producto: stock,
           es_devolucion: data.es_devolucion ?? false,
           estado: true,
-          lote: data.lote ? String(data.lote).trim() : null,
 
-          // ✅ NUEVO: impuestos y precio venta por detalle (lote)
+          // ✅ NUEVO: impuestos y precio venta por detalle
           iva_porcentaje: toDecimalOrNull(data.iva_porcentaje),
           icu_porcentaje: toDecimalOrNull(data.icu_porcentaje),
           precio_venta: toDecimalOrNull(data.precio_venta),
@@ -92,7 +91,6 @@ const getAllDetails = async (req, res) => {
      stock_producto: true,
      es_devolucion: true,
      estado: true,
-     lote: true,
      // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
      iva_porcentaje: true,
      icu_porcentaje: true,
@@ -116,12 +114,17 @@ const getAllDetails = async (req, res) => {
  * 🟣 Listar detalles por producto
  * ============================ */
 const getDetailsByProduct = async (req, res) => {
-  const { id_producto } = req.params;
-
   try {
+    const id_producto = Number(req.params.id_producto);
+
+    if (!Number.isFinite(id_producto) || id_producto <= 0) {
+      return res.status(400).json({ message: "id_producto inválido" });
+    }
+
     const detalles = await prisma.detalle_productos.findMany({
       where: {
-        AND: [{ id_producto: Number(id_producto) }, { estado: true }],
+        id_producto: id_producto,
+        OR: [{ estado: true }, { estado: null }],
       },
       orderBy: { id_detalle_producto: "desc" },
       select: {
@@ -132,25 +135,32 @@ const getDetailsByProduct = async (req, res) => {
         stock_producto: true,
         es_devolucion: true,
         estado: true,
-        lote: true,
 
-        // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
         iva_porcentaje: true,
         icu_porcentaje: true,
         precio_venta: true,
         costo_unitario: true,
         incremento_venta: true,
-        productos: { select: { nombre: true, precio_venta: true } }, // opcional
+
+        productos: {
+          select: {
+            nombre: true,
+            precio_venta: true,
+          },
+        },
       },
     });
 
-    return res.json(detalles || []);
+    // ✅ SI NO HAY DETALLES → DEVOLVER ARRAY VACÍO (NO ERROR)
+    return res.json(detalles ?? []);
   } catch (error) {
-    console.error("❌ Error al obtener detalles del producto:", error);
-    res.status(500).json({ message: "Error al obtener detalles del producto" });
+    console.error("❌ getDetailsByProduct:", error);
+    return res.status(500).json({
+      message: "Error al obtener detalles del producto",
+      error: error.message,
+    });
   }
 };
-
 /** ============================
  * 🟠 Obtener un detalle individual
  * ============================ */
@@ -168,7 +178,6 @@ const getDetailById = async (req, res) => {
         stock_producto: true,
         es_devolucion: true,
         estado: true,
-        lote: true,
 
         // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
         iva_porcentaje: true,
@@ -212,8 +221,6 @@ const updateDetailProduct = async (req, res) => {
         stock_producto: data.stock_producto === undefined ? undefined : toInt(data.stock_producto, 0),
         es_devolucion: data.es_devolucion ?? false,
         estado: true,
-
-        lote: data.lote === undefined ? undefined : data.lote ? String(data.lote).trim() : null,
 
         // ✅ NUEVO: actualizar impuestos y precio venta
         iva_porcentaje: toDecimalOrUndefined(data.iva_porcentaje),

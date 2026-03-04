@@ -30,4 +30,7 @@ router.post("/", upload.single("comprobante"), purchaseController.createPurchase
 // ✅ Queda: /kajamart/api/purchase
 router.get("/", purchaseController.getPurchases);
 
+// ✅ Queda: /kajamart/api/purchase/:id_compra/cancel
+router.put("/:id_compra/cancel", purchaseController.cancelPurchase);
+
 module.exports = router;

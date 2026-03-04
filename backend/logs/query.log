@@ -1,0 +1,30 @@
+
+[2026-03-03T02:00:04.478Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen", "public"."productos"."created_at", "public"."productos"."updated_at", "public"."productos"."cantidad_unitaria", "public"."productos"."desde_dev_productos", "public"."productos"."desde_baja_productos" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC OFFSET $1
+Params: [0]
+Duration: 145 ms
+----------------------------------------------
+
+[2026-03-03T02:00:04.488Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado", "public"."detalle_productos"."iva_porcentaje", "public"."detalle_productos"."icu_porcentaje", "public"."detalle_productos"."precio_venta", "public"."detalle_productos"."costo_unitario", "public"."detalle_productos"."incremento_venta" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."estado" = $1 ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC OFFSET $2
+Params: [true,0]
+Duration: 151 ms
+----------------------------------------------
+
+[2026-03-03T02:00:04.631Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1) OFFSET $2
+Params: [2,0]
+Duration: 153 ms
+----------------------------------------------
+
+[2026-03-03T02:00:04.639Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."precio_venta" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1,$2) OFFSET $3
+Params: [17,16,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2026-03-03T02:00:04.777Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [16,17,0]
+Duration: 145 ms
+----------------------------------------------
