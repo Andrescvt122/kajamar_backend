@@ -1,4 +1,11 @@
 const prisma = require("../prisma/prismaClient");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
@@ -289,6 +296,28 @@ const createLowProduct = async (req, res) => {
               // B1) Crear producto nuevo (opcional)
               if (p.producto_destino) {
                 const pd = p.producto_destino;
+                let imageUrl =
+                  typeof pd.url_imagen === "string" && pd.url_imagen.trim()
+                    ? pd.url_imagen.trim()
+                    : null;
+
+                if (
+                  !imageUrl &&
+                  typeof pd.imagen_base64 === "string" &&
+                  pd.imagen_base64.trim()
+                ) {
+                  try {
+                    const uploadResult = await cloudinary.uploader.upload(
+                      pd.imagen_base64,
+                      { folder: "kajamart/products" }
+                    );
+                    imageUrl = uploadResult.secure_url;
+                  } catch (_err) {
+                    throw new Error(
+                      "No se pudo subir la imagen del producto destino"
+                    );
+                  }
+                }
 
                 // IMPORTANTE: si manejas codigo_barras único a nivel productos, valida acá.
                 // (En tu schema actual, productos.codigo_barras existe pero no lo marcaste unique)
@@ -306,7 +335,7 @@ const createLowProduct = async (req, res) => {
                     porcentaje_incremento: pd.porcentaje_incremento ?? null,
                     costo_unitario: pd.costo_unitario ?? 0,
                     precio_venta: pd.precio_venta ?? 0,
-                    url_imagen: pd.url_imagen ?? null,
+                    url_imagen: imageUrl,
                     cantidad_unitaria: pd.cantidad_unitaria ?? null,
                   },
                   select: { id_producto: true },
