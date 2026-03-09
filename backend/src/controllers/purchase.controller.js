@@ -296,6 +296,14 @@ exports.getPurchases = async (req, res) => {
                     id_producto: true,
                     nombre: true,
                   },
+                  include:{
+                    categorias:{
+                      select:{
+                        id_categoria:true,
+                        nombre_categoria:true
+                      }
+                    }
+                  }
                 },
               },
             },

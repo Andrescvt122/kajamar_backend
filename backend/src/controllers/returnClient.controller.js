@@ -3,7 +3,14 @@ const { getResponsable } = require("./returnProducts.controller");
 
 const getReturnClients = async (req, res) => {
   try {
+    const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
+    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const safeLimit = Math.min(limit, 20);
     const returnClients = await prisma.devolucion_cliente.findMany({
+      take: safeLimit + 1,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id_devoluciones_cliente: cursor } : undefined,
+      orderBy: { id_devoluciones_cliente: "desc" },
       include: {
         ventas: {
           include: {
@@ -16,7 +23,16 @@ const getReturnClients = async (req, res) => {
               include: {
                 detalle_productos: {
                   include: {
-                    productos: true,
+                    productos: {
+                      include: {
+                        categorias: {
+                          select: {
+                            id_categoria: true,
+                            nombre_categoria: true,
+                          },
+                        },
+                      },
+                    },
                   },
                 },
               },
@@ -35,7 +51,14 @@ const getReturnClients = async (req, res) => {
         usuarios: true,
       },
     });
-    return res.status(200).json({ returnClients });
+    const nextCursor = returnClients.length === safeLimit ? returnClients[returnClients.length - 1].id_devoluciones_cliente : null;
+    return res.status(200).json({ 
+      data: returnClients.slice(0, safeLimit),
+      meta:{
+        limit: safeLimit,
+        nextCursor
+      }
+     });
   } catch (error) {
     return res
       .status(500)

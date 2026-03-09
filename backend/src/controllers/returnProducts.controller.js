@@ -29,7 +29,16 @@ const getReturnProducts = async (req, res) => {
           include: {
             detalle_productos: {
               include: {
-                productos: true, // suficiente para nombre/SKU
+                productos: {
+                  include: {
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
+                      },
+                    },
+                  },
+                     }
               },
             },
           },
