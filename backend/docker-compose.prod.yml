@@ -9,6 +9,7 @@ services:
       - .env
     environment:
       NODE_ENV: production
+    command: sh -c "npx prisma migrate deploy && npm start"
     volumes:
       - ./uploads:/app/uploads
       - ./logs:/app/logs
