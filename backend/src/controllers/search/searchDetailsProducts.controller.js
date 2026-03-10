@@ -18,7 +18,6 @@ const searchDetailsProducts = async (req, res) => {
       include: { productos: true },
     });
     if (detailsProducts) {
-      console.log(detailsProducts);
       return res.status(200).json(detailsProducts);
     } else {
       return res.status(404).json({ error: "No se encontro ningun producto" });
