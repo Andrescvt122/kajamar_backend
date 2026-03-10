@@ -39,4 +39,4 @@ EXPOSE 3000
 
 # IMPORTANTE:
 # Si tu start real es distinto (ej: node backend/src/index.js), cámbialo.
-CMD ["npm","src/index.js"]
+CMD ["npm","start"]

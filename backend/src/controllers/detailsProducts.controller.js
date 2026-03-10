@@ -117,42 +117,65 @@ const getDetailsByProduct = async (req, res) => {
   try {
     const id_producto = Number(req.params.id_producto);
 
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+
+    const skip = (page - 1) * limit;
+
     if (!Number.isFinite(id_producto) || id_producto <= 0) {
       return res.status(400).json({ message: "id_producto inválido" });
     }
 
-    const detalles = await prisma.detalle_productos.findMany({
-      where: {
-        id_producto: id_producto,
-        OR: [{ estado: true }, { estado: null }],
-      },
-      orderBy: { id_detalle_producto: "desc" },
-      select: {
-        id_detalle_producto: true,
-        id_producto: true,
-        codigo_barras_producto_compra: true,
-        fecha_vencimiento: true,
-        stock_producto: true,
-        es_devolucion: true,
-        estado: true,
+    const [detalles, totalItems] = await prisma.$transaction([
+      prisma.detalle_productos.findMany({
+        where: {
+          id_producto: id_producto,
+          OR: [{ estado: true }, { estado: null }],
+        },
+        orderBy: { id_detalle_producto: "desc" },
+        skip,
+        take: limit,
 
-        iva_porcentaje: true,
-        icu_porcentaje: true,
-        precio_venta: true,
-        costo_unitario: true,
-        incremento_venta: true,
+        select: {
+          id_detalle_producto: true,
+          id_producto: true,
+          codigo_barras_producto_compra: true,
+          fecha_vencimiento: true,
+          stock_producto: true,
+          es_devolucion: true,
+          estado: true,
 
-        productos: {
-          select: {
-            nombre: true,
-            precio_venta: true,
+          iva_porcentaje: true,
+          icu_porcentaje: true,
+          precio_venta: true,
+          costo_unitario: true,
+          incremento_venta: true,
+
+          productos: {
+            select: {
+              nombre: true,
+              precio_venta: true,
+            },
           },
         },
-      },
-    });
+      }),
 
-    // ✅ SI NO HAY DETALLES → DEVOLVER ARRAY VACÍO (NO ERROR)
-    return res.json(detalles ?? []);
+      prisma.detalle_productos.count({
+        where: {
+          id_producto: id_producto,
+          OR: [{ estado: true }, { estado: null }],
+        },
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return res.json({
+      data: detalles,
+      currentPage: page,
+      totalPages,
+      totalItems,
+    });
   } catch (error) {
     console.error("❌ getDetailsByProduct:", error);
     return res.status(500).json({
