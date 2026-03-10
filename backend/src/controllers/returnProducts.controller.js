@@ -15,7 +15,13 @@ const getResponsable = async (id) => {
 
 const getReturnProducts = async (req, res) => {
   try {
+    const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
+    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const safeLimit = Math.min(limit, 20);
     const returnProducts = await prisma.devolucion_producto.findMany({
+      take: safeLimit + 1,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id_devolucion_product: cursor } : undefined,
       orderBy: { id_devolucion_product: "desc" },
       include: {
         // âœ… proveedor real, por compra
@@ -45,8 +51,16 @@ const getReturnProducts = async (req, res) => {
         },
       },
     });
-
-    return res.status(200).json({ returnProducts });
+    const hashMore = returnProducts.length > safeLimit;
+    const data = hashMore ? returnProducts.slice(0, safeLimit) : returnProducts;
+    const nextCursor = hashMore ? data[data.length - 1].id_devolucion_product : null;
+    return res.status(200).json({ 
+      data,
+      meta:{
+        limit: safeLimit,
+        nextCursor
+      }
+     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Error al obtener los productos" });

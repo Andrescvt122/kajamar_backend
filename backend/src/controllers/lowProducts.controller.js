@@ -92,10 +92,29 @@ const enrichLowProduct = (lowProduct) => ({
 
 const getLowProducts = async (req, res) => {
   try {
+    const limit = Number(req.query.limit) || 6;
+    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const safeLimit = Math.min(limit, 20);
+
     const lowProducts = await prisma.productos_baja.findMany({
+      take: safeLimit + 1,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id_baja_productos: cursor } : undefined,
+      orderBy: { id_baja_productos: "desc" },
       include: lowProductInclude,
     });
-    return res.status(200).json(lowProducts.map(enrichLowProduct));
+
+    const hasMore = lowProducts.length > safeLimit;
+    const data = hasMore ? lowProducts.slice(0, safeLimit) : lowProducts;
+    const nextCursor = hasMore ? data[data.length - 1].id_baja_productos : null;
+
+    return res.status(200).json({
+      data,
+      meta: {
+        limit: safeLimit,
+        nextCursor,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ error: "Error al obtener los productos" });
   }

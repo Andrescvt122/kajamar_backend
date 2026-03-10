@@ -51,9 +51,11 @@ const getReturnClients = async (req, res) => {
         usuarios: true,
       },
     });
-    const nextCursor = returnClients.length === safeLimit ? returnClients[returnClients.length - 1].id_devoluciones_cliente : null;
+    const hashMore = returnClients.length > safeLimit;
+    const data = hashMore ? returnClients.slice(0, safeLimit) : returnClients;
+    const nextCursor = hashMore? data[data.length - 1].id_devoluciones_cliente : null;
     return res.status(200).json({ 
-      data: returnClients.slice(0, safeLimit),
+      data,
       meta:{
         limit: safeLimit,
         nextCursor
