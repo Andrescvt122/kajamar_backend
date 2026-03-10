@@ -21,7 +21,7 @@ const lowProductInclude = {
           id_detalle_producto: true,
           id_producto: true,
           productos: {
-            select: { id_producto: true, nombre: true },
+            select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
           },
         },
       },
@@ -33,7 +33,7 @@ const lowProductInclude = {
         select: { usuario_id: true, nombre: true, apellido: true },
       },
       producto_creado: {
-        select: { id_producto: true, nombre: true },
+        select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
       },
       detalle_conversion: {
         include: {
@@ -42,7 +42,7 @@ const lowProductInclude = {
               id_detalle_producto: true,
               id_producto: true,
               productos: {
-                select: { id_producto: true, nombre: true },
+                select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
               },
             },
           },
@@ -51,7 +51,7 @@ const lowProductInclude = {
               id_detalle_producto: true,
               id_producto: true,
               productos: {
-                select: { id_producto: true, nombre: true },
+                select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
               },
             },
           },
