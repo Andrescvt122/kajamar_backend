@@ -3,6 +3,15 @@ const { PrismaClient } = require("@prisma/client");
 const { compras } = require("../prisma/prismaClient");
 const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/library");
 const prisma = new PrismaClient();
+const fs = require("fs/promises");
+const cloudinary = require("cloudinary").v2;
+
+// ───────── CONFIG CLOUDINARY ─────────
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 /** ===================== Helpers ===================== */
 function parseFecha(fecha) {
@@ -77,6 +86,8 @@ function getComprobante(req, payload) {
 
 /** ===================== CREATE PURCHASE ===================== */
 exports.createPurchase = async (req, res) => {
+  let tempPath = null;
+
   try {
     const payload = getPayload(req);
     const { fecha_compra, id_proveedor, items } = payload;
@@ -86,7 +97,28 @@ exports.createPurchase = async (req, res) => {
     }
 
     const fechaCompraDate = parseFecha(fecha_compra) || new Date();
-    const comprobante = getComprobante(req, payload);
+
+    // ───────── SUBIR COMPROBANTE A CLOUDINARY SI VIENE ─────────
+    let comprobante = null;
+    if (req.file) {
+      tempPath = req.file.path;
+      try {
+        const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+          folder: "kajamart/comprobantes",
+        });
+        comprobante = {
+          url: uploadResult.secure_url,
+          nombre: req.file.originalname,
+          mime: req.file.mimetype,
+          size: req.file.size,
+        };
+      } catch (err) {
+        console.error("❌ Error al subir comprobante a Cloudinary:", err);
+        return res.status(500).json({ message: "Error al subir el comprobante a Cloudinary" });
+      }
+    } else {
+      comprobante = getComprobante(req, payload);
+    }
 
     const compraCreada = await prisma.$transaction(async (tx) => {
       let subtotal = 0;
@@ -273,6 +305,14 @@ exports.createPurchase = async (req, res) => {
       message: "Error al registrar la compra",
       error: error.message,
     });
+  } finally {
+    if (tempPath) {
+      try {
+        await fs.unlink(tempPath);
+      } catch (e) {
+        console.warn("⚠️ No se pudo borrar el archivo temporal:", e.message);
+      }
+    }
   }
 };
 
