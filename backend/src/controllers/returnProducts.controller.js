@@ -15,36 +15,66 @@ const getResponsable = async (id) => {
 
 const getReturnProducts = async (req, res) => {
   try {
-    const returnProducts = await prisma.devolucion_producto.findMany({
+    const limit = Number(req.query.limit);
+    const parsedCursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const cursor = Number.isFinite(parsedCursor) ? parsedCursor : undefined;
+    const shouldPaginate = req.query.limit != null || req.query.cursor != null;
+    const safeLimit = Math.min(Math.max(limit || 6, 1), 20);
+    const baseQuery = {
       orderBy: { id_devolucion_product: "desc" },
       include: {
-        // âœ… proveedor real, por compra
         compras: {
           include: {
             proveedores: true,
           },
         },
-        // si quieres seguir trayendo el detalle
         detalle_devolucion_producto: {
           include: {
             detalle_productos: {
               include: {
                 productos: {
-                  include: {
+                  select: {
+                    nombre: true,
+                    id_producto: true,
                     categorias: {
-                      select: {
-                        id_categoria: true,
-                        nombre_categoria: true,
-                      },
+                      select: { id_categoria: true, nombre_categoria: true },
                     },
                   },
-                     }
+                },
               },
             },
           },
         },
       },
-    });
+    };
+
+    if (shouldPaginate) {
+      const returnProducts = await prisma.devolucion_producto.findMany({
+        ...baseQuery,
+        take: safeLimit + 1,
+        skip: cursor ? 1 : 0,
+        cursor: cursor
+          ? { id_devolucion_product: cursor }
+          : undefined,
+      });
+      const hasMore = returnProducts.length > safeLimit;
+      const pageData = hasMore
+        ? returnProducts.slice(0, safeLimit)
+        : returnProducts;
+      const nextCursor = hasMore
+        ? pageData[pageData.length - 1]?.id_devolucion_product ?? null
+        : null;
+
+      return res.status(200).json({
+        data: pageData,
+        meta: {
+          limit: safeLimit,
+          nextCursor,
+        },
+      });
+    }
+
+    const returnProducts = await prisma.devolucion_producto.findMany(baseQuery);
 
     return res.status(200).json({ returnProducts });
   } catch (error) {

@@ -21,7 +21,7 @@ const lowProductInclude = {
           id_detalle_producto: true,
           id_producto: true,
           productos: {
-            select: { id_producto: true, nombre: true },
+            select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
           },
         },
       },
@@ -33,7 +33,7 @@ const lowProductInclude = {
         select: { usuario_id: true, nombre: true, apellido: true },
       },
       producto_creado: {
-        select: { id_producto: true, nombre: true },
+        select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
       },
       detalle_conversion: {
         include: {
@@ -42,7 +42,7 @@ const lowProductInclude = {
               id_detalle_producto: true,
               id_producto: true,
               productos: {
-                select: { id_producto: true, nombre: true },
+                select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
               },
             },
           },
@@ -51,7 +51,7 @@ const lowProductInclude = {
               id_detalle_producto: true,
               id_producto: true,
               productos: {
-                select: { id_producto: true, nombre: true },
+                select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
               },
             },
           },
@@ -92,6 +92,35 @@ const enrichLowProduct = (lowProduct) => ({
 
 const getLowProducts = async (req, res) => {
   try {
+    const limit = Number(req.query.limit);
+    const parsedCursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const cursor = Number.isFinite(parsedCursor) ? parsedCursor : undefined;
+    const shouldPaginate = req.query.limit != null || req.query.cursor != null;
+    const safeLimit = Math.min(Math.max(limit || 6, 1), 20);
+
+    if (shouldPaginate) {
+      const lowProducts = await prisma.productos_baja.findMany({
+        take: safeLimit + 1,
+        skip: cursor ? 1 : 0,
+        cursor: cursor ? { id_baja_productos: cursor } : undefined,
+        orderBy: { id_baja_productos: "desc" },
+        include: lowProductInclude,
+      });
+      const hasMore = lowProducts.length > safeLimit;
+      const pageData = hasMore ? lowProducts.slice(0, safeLimit) : lowProducts;
+      const nextCursor = hasMore
+        ? pageData[pageData.length - 1]?.id_baja_productos ?? null
+        : null;
+
+      return res.status(200).json({
+        data: pageData.map(enrichLowProduct),
+        meta: {
+          limit: safeLimit,
+          nextCursor,
+        },
+      });
+    }
+
     const lowProducts = await prisma.productos_baja.findMany({
       include: lowProductInclude,
     });

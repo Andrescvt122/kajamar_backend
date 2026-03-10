@@ -4,8 +4,9 @@ const { getResponsable } = require("./returnProducts.controller");
 const getReturnClients = async (req, res) => {
   try {
     const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
-    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const parsedCursor = req.query.cursor ? Number(req.query.cursor) : undefined;
     const safeLimit = Math.min(limit, 20);
+    const cursor = Number.isFinite(parsedCursor) ? parsedCursor : undefined;
     const returnClients = await prisma.devolucion_cliente.findMany({
       take: safeLimit + 1,
       skip: cursor ? 1 : 0,
@@ -24,14 +25,13 @@ const getReturnClients = async (req, res) => {
                 detalle_productos: {
                   include: {
                     productos: {
-                      include: {
-                        categorias: {
-                          select: {
-                            id_categoria: true,
-                            nombre_categoria: true,
-                          },
-                        },
-                      },
+                      select:{
+                        nombre:true,
+                        id_producto:true,
+                        categorias:{
+                          select:{id_categoria:true, nombre_categoria:true}
+                        }
+                      }
                     },
                   },
                 },
@@ -51,9 +51,15 @@ const getReturnClients = async (req, res) => {
         usuarios: true,
       },
     });
-    const nextCursor = returnClients.length === safeLimit ? returnClients[returnClients.length - 1].id_devoluciones_cliente : null;
+    const hasMore = returnClients.length > safeLimit;
+    const pageData = hasMore
+      ? returnClients.slice(0, safeLimit)
+      : returnClients;
+    const nextCursor = hasMore
+      ? pageData[pageData.length - 1]?.id_devoluciones_cliente ?? null
+      : null;
     return res.status(200).json({ 
-      data: returnClients.slice(0, safeLimit),
+      data: pageData,
       meta:{
         limit: safeLimit,
         nextCursor

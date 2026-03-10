@@ -71,10 +71,11 @@ exports.getSales = async (_req, res) => {
           include: {
             detalle_productos: {
             include: { productos:{
-              include:{
+              select:{
+                nombre:true,
+                id_producto:true,
                 categorias:{
-                  id_categoria:true,
-                  nombre_categoria:true
+                  select:{id_categoria:true, nombre_categoria:true}
                 }
               }
             } },
