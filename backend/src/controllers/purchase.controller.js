@@ -1,6 +1,7 @@
 // src/controllers/purchase.controller.js
 const { PrismaClient } = require("@prisma/client");
 const { compras } = require("../prisma/prismaClient");
+const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/library");
 const prisma = new PrismaClient();
 
 /** ===================== Helpers ===================== */
@@ -292,11 +293,14 @@ exports.getPurchases = async (req, res) => {
             detalle_productos: {
               include: {
                 productos: {
-                  select: {
-                    id_producto: true,
-                    nombre: true,
+                  select:{
+                    nombre:true,
+                    id_producto:true,
+                    categorias:{
+                      select:{id_categoria:true, nombre_categoria:true}
+                    }
                   },
-                },
+                }
               },
             },
           },
