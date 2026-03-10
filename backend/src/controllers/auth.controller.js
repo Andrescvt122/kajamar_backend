@@ -15,8 +15,12 @@ const login = async (req, res) => {
             include: { roles: true, usuarios: true }
         });
 
-        if (!usuario || !usuario.estado_usuario) {
+        if (!usuario) {
             return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        if (!usuario.estado_usuario) {
+            return res.status(403).json({ error: 'este usuario esta inactivo' });
         }
 
         // Aquí comparamos la contraseña que acabas de cambiar
