@@ -7,12 +7,50 @@ exports.getAllSuppliers = async (req, res) => {
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
+    const search = req.query.search || "";
 
     const skip = (page - 1) * limit;
 
-    const [suppliers, total] = await Promise.all([
+    // 🔎 Condiciones de búsqueda
+    const where = search
+      ? {
+          OR: [
+            {
+              nombre: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              telefono: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              nit: {
+                contains: search,
+              },
+            },
+            {
+              proveedor_categoria: {
+                some: {
+                  categorias: {
+                    nombre_categoria: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        }
+      : {};
 
+    const [suppliers, total] = await Promise.all([
       prisma.proveedores.findMany({
+        where,
         skip,
         take: limit,
         include: {
@@ -21,12 +59,13 @@ exports.getAllSuppliers = async (req, res) => {
           },
         },
         orderBy: {
-          id_proveedor: "desc"
-        }
+          id_proveedor: "desc",
+        },
       }),
 
-      prisma.proveedores.count()
-
+      prisma.proveedores.count({
+        where,
+      }),
     ]);
 
     const formatted = suppliers.map((s) => ({

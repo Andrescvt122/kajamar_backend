@@ -139,11 +139,32 @@ const getAllProducts = async (req, res) => {
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
+    const search = req.query.search || "";
 
     const skip = (page - 1) * limit;
 
+    const where = search
+      ? {
+          OR: [
+            {
+              nombre: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              descripcion: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }
+      : {};
+
     const [products, total] = await Promise.all([
       prisma.productos.findMany({
+        where,
         skip,
         take: limit,
         orderBy: { nombre: "asc" },
@@ -161,7 +182,9 @@ const getAllProducts = async (req, res) => {
           impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
         },
       }),
-      prisma.productos.count(),
+      prisma.productos.count({
+        where,
+      }),
     ]);
 
     const formatted = products.map((p) => ({

@@ -7,16 +7,39 @@ const getCategories = async (req, res) => {
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
+    const search = req.query.search || "";
 
     const skip = (page - 1) * limit;
 
+    const where = search
+      ? {
+          OR: [
+            {
+              nombre_categoria: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              descripcion_categoria: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }
+      : {};
+
     const [categories, total] = await Promise.all([
       prisma.categorias.findMany({
+        where,
         skip,
         take: limit,
         orderBy: { id_categoria: "desc" },
       }),
-      prisma.categorias.count()
+      prisma.categorias.count({
+        where,
+      }),
     ]);
 
     const totalPages = Math.ceil(total / limit);
@@ -25,7 +48,7 @@ const getCategories = async (req, res) => {
       data: categories,
       currentPage: page,
       totalPages,
-      totalItems: total
+      totalItems: total,
     });
 
   } catch (error) {

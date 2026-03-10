@@ -80,36 +80,93 @@ const createDetailProduct = async (req, res) => {
  * ============================ */
 const getAllDetails = async (req, res) => {
   try {
-    const detalles = await prisma.detalle_productos.findMany({
-      where: { estado: true },
-      orderBy: { id_detalle_producto: "desc" },
-     select: {
-     id_detalle_producto: true,
-     id_producto: true,
-     codigo_barras_producto_compra: true,
-     fecha_vencimiento: true,
-     stock_producto: true,
-     es_devolucion: true,
-     estado: true,
-     // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
-     iva_porcentaje: true,
-     icu_porcentaje: true,
-     precio_venta: true,
-    // 
-     costo_unitario: true,
-     incremento_venta: true,
 
-    productos: { select: { nombre: true, precio_venta: true } }, // opcional
-    },
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const search = req.query.search || "";
+
+    const skip = (page - 1) * limit;
+
+    const where = {
+      AND: [
+        { estado: true },
+        search
+          ? {
+              OR: [
+                {
+                  codigo_barras_producto_compra: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+                {
+                  productos: {
+                    nombre: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              ],
+            }
+          : {},
+      ],
+    };
+
+    const [detalles, total] = await Promise.all([
+      prisma.detalle_productos.findMany({
+        where,
+        orderBy: { id_detalle_producto: "desc" },
+        skip,
+        take: limit,
+        select: {
+          id_detalle_producto: true,
+          id_producto: true,
+          codigo_barras_producto_compra: true,
+          fecha_vencimiento: true,
+          stock_producto: true,
+          es_devolucion: true,
+          estado: true,
+
+          iva_porcentaje: true,
+          icu_porcentaje: true,
+          precio_venta: true,
+          costo_unitario: true,
+          incremento_venta: true,
+
+          productos: {
+            select: {
+              nombre: true,
+              precio_venta: true,
+            },
+          },
+        },
+      }),
+
+      prisma.detalle_productos.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      data: detalles,
+      currentPage: page,
+      totalPages,
+      totalItems: total,
     });
 
-    res.json(detalles);
   } catch (error) {
+
     console.error("❌ Error al listar detalles:", error);
-    res.status(500).json({ message: "Error al obtener los detalles" });
+
+    res.status(500).json({
+      message: "Error al obtener los detalles",
+    });
+
   }
 };
-
 /** ============================
  * 🟣 Listar detalles por producto
  * ============================ */
