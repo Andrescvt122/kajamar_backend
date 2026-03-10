@@ -70,7 +70,15 @@ exports.getSales = async (_req, res) => {
         detalle_venta: {
           include: {
             detalle_productos: {
-              include: { productos: true },
+            include: { productos:{
+              select:{
+                nombre:true,
+                id_producto:true,
+                categorias:{
+                  select:{id_categoria:true, nombre_categoria:true}
+                }
+              }
+            } },
             },
           },
         },

@@ -52,6 +52,8 @@ model compras {
   comprobante_nombre  String?
   comprobante_mime    String?
   comprobante_size    Int?
+  motivo_anulacion    String?
+  fecha_anulacion     DateTime?             @db.Timestamp(6)
   proveedores         proveedores           @relation(fields: [id_proveedor], references: [id_proveedor], onUpdate: NoAction, map: "fk_compras_proveedor")
   detalle_compra      detalle_compra[]
   devolucion_producto devolucion_producto[]
