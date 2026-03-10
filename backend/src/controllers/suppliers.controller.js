@@ -1,22 +1,48 @@
 const prisma = require("../prisma/prismaClient");
 
 // ✅ Obtener todos los proveedores con sus categorías
+// ✅ Obtener proveedores con paginación
 exports.getAllSuppliers = async (req, res) => {
   try {
-    const suppliers = await prisma.proveedores.findMany({
-      include: {
-        proveedor_categoria: {
-          include: { categorias: true },
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+
+    const skip = (page - 1) * limit;
+
+    const [suppliers, total] = await Promise.all([
+
+      prisma.proveedores.findMany({
+        skip,
+        take: limit,
+        include: {
+          proveedor_categoria: {
+            include: { categorias: true },
+          },
         },
-      },
-    });
+        orderBy: {
+          id_proveedor: "desc"
+        }
+      }),
+
+      prisma.proveedores.count()
+
+    ]);
 
     const formatted = suppliers.map((s) => ({
       ...s,
       categorias: s.proveedor_categoria.map((pc) => pc.categorias),
     }));
 
-    res.json(formatted);
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      data: formatted,
+      currentPage: page,
+      totalPages,
+      totalItems: total,
+    });
+
   } catch (error) {
     console.error("❌ Error al obtener proveedores:", error);
     res.status(500).json({ message: "Error al obtener los proveedores." });

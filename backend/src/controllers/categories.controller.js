@@ -2,28 +2,42 @@
 const prisma = require("../prisma/prismaClient");
 
 // ✅ Obtener todas las categorías
-const getCategories = async (_req, res) => {
+const getCategories = async (req, res) => {
   try {
-    const categories = await prisma.categorias.findMany({
-      orderBy: { id_categoria: "desc" },
-      include:{
-        productos:{
-          select:{
-            id_producto:true,
-            nombre:true,
-            stock_actual:true,
-            url_imagen:true
-          }
-        }
-      }
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+
+    const skip = (page - 1) * limit;
+
+    const [categories, total] = await Promise.all([
+      prisma.categorias.findMany({
+        skip,
+        take: limit,
+        orderBy: { id_categoria: "desc" },
+      }),
+      prisma.categorias.count()
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      data: categories,
+      currentPage: page,
+      totalPages,
+      totalItems: total
     });
-    res.json(categories);
+
   } catch (error) {
+
     console.error("❌ Error al obtener categorías:", error);
-    res.status(500).json({ message: "Error al obtener las categorías" });
+
+    res.status(500).json({
+      message: "Error al obtener las categorías"
+    });
+
   }
 };
-
 // ✅ Obtener una categoría por ID
 const getCategoryById = async (req, res) => {
   const { id } = req.params;

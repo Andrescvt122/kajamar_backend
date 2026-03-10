@@ -134,40 +134,66 @@ const getProductById = async (req, res) => {
   }
 };
 // --------------------- GETs ---------------------
-const getAllProducts = async (_req, res) => {
+const getAllProducts = async (req, res) => {
   try {
-    const products = await prisma.productos.findMany({
-      orderBy: { nombre: "asc" },
-      include: {
-        categorias: { select: { id_categoria: true, nombre_categoria: true } },
-        producto_proveedor: {
-          include: {
-            proveedores: {
-              select: { id_proveedor: true, nombre: true, nit: true },
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      prisma.productos.findMany({
+        skip,
+        take: limit,
+        orderBy: { nombre: "asc" },
+        include: {
+          categorias: { select: { id_categoria: true, nombre_categoria: true } },
+          producto_proveedor: {
+            include: {
+              proveedores: {
+                select: { id_proveedor: true, nombre: true, nit: true },
+              },
             },
           },
+          impuestos_productos_productos_ivaToimpuestos_productos: true,
+          impuestos_productos_productos_icuToimpuestos_productos: true,
+          impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
         },
-        impuestos_productos_productos_ivaToimpuestos_productos: true,
-        impuestos_productos_productos_icuToimpuestos_productos: true,
-        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
-      },
-    });
+      }),
+      prisma.productos.count(),
+    ]);
 
     const formatted = products.map((p) => ({
       ...p,
       categoria: p.categorias ? p.categorias.nombre_categoria : null,
       proveedores: p.producto_proveedor.map((pp) => pp.proveedores),
-      iva_detalle: p.impuestos_productos_productos_ivaToimpuestos_productos || null,
-      icu_detalle: p.impuestos_productos_productos_icuToimpuestos_productos || null,
+      iva_detalle:
+        p.impuestos_productos_productos_ivaToimpuestos_productos || null,
+      icu_detalle:
+        p.impuestos_productos_productos_icuToimpuestos_productos || null,
       incremento_detalle:
         p.impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos ||
         null,
     }));
 
-    res.json(formatted);
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      data: formatted,
+      currentPage: page,
+      totalPages,
+      totalItems: total,
+    });
+
   } catch (error) {
+
     console.error("❌ Error al obtener productos:", error);
-    res.status(500).json({ message: "Error al obtener productos." });
+
+    res.status(500).json({
+      message: "Error al obtener productos.",
+    });
+
   }
 };
 
