@@ -84,6 +84,12 @@ function getComprobante(req, payload) {
   return null;
 }
 
+function isValidReceiptImageMime(mime) {
+  return ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(
+    String(mime || "").toLowerCase()
+  );
+}
+
 /** ===================== CREATE PURCHASE ===================== */
 exports.createPurchase = async (req, res) => {
   let tempPath = null;
@@ -118,6 +124,11 @@ exports.createPurchase = async (req, res) => {
       }
     } else {
       comprobante = getComprobante(req, payload);
+      if (comprobante && !isValidReceiptImageMime(comprobante.mime)) {
+        return res.status(400).json({
+          message: "Solo se permiten comprobantes en formato de imagen (JPG, PNG o WebP).",
+        });
+      }
     }
 
     const compraCreada = await prisma.$transaction(async (tx) => {
@@ -317,6 +328,48 @@ exports.createPurchase = async (req, res) => {
 };
 
 /** ===================== GET PURCHASES ===================== */
+
+exports.getAllPurchases = async (req,res)=>{
+  try{
+    const compras = await prisma.compras.findMany({
+      orderBy:{ id_compra:"desc"},
+      include:{
+        proveedores:{
+          select:{nombre:true, nit:true}
+        },
+        detalle_compra:{
+          include:{
+            detalle_productos:{
+              include:{
+                productos:{
+                  select:{
+                    id_producto:true,
+                    nombre:true,
+                    producto_proveedor:{
+                      select:{
+                        id_producto_proveedor:true,
+                        proveedores:{
+                          select:{
+                            id_proveedor:true,
+                            nombre:true
+                          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    return res.status(200).json({data:compras})
+  }catch(error){
+    return res.status(500).json({message:"Error al obtener las compras"})
+  }
+}
+
 exports.getPurchases = async (req, res) => {
   try {
     const compras = await prisma.compras.findMany({

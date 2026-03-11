@@ -90,6 +90,19 @@ const enrichLowProduct = (lowProduct) => ({
   ),
 });
 
+const getAllLowProducts = async (req,res)=>{
+  try{
+    const lowProducts = await prisma.productos_baja.findMany({
+      include: lowProductInclude,
+      orderBy: { id_baja_productos: "desc" },
+    });
+    return res.status(200).json({ data: lowProducts.map(enrichLowProduct) });
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({error:"Error al obtener los productos"})
+  }
+}
+
 const getLowProducts = async (req, res) => {
   try {
     const limit = Number(req.query.limit) || 6;
@@ -890,4 +903,5 @@ module.exports = {
   getResponsable,
   cancelLowProduct,
   anularLowProduct,
+  getAllLowProducts
 };

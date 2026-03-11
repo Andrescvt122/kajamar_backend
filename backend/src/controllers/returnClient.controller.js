@@ -1,6 +1,110 @@
 const prisma = require("../prisma/prismaClient");
 const { getResponsable } = require("./returnProducts.controller");
 
+const getAllReturnClients = async (req, res) => {
+  try {
+    const returnClients = await prisma.devolucion_cliente.findMany({
+      include: {
+        ventas: {
+          select: {
+            id_venta: true,
+            clientes: {
+              select: {
+                id_cliente: true,
+                nombre_cliente: true,
+              },
+            },
+          },
+        },
+        devolucion_cliente_devuelto: {
+          include: {
+            detalle_venta: {
+              select: {
+                id_detalle: true,
+                detalle_productos: {
+                  select: {
+                    id_detalle_producto: true,
+                    productos: {
+                      select: {
+                        id_producto: true,
+                        nombre: true,
+                        producto_proveedor: {
+                          select: {
+                            id_producto_proveedor: true,
+                            proveedores: {
+                              select: {
+                                id_proveedor: true,
+                                nombre: true,
+                              },
+                            },
+                          },
+                        },
+                        categorias: {
+                          select: {
+                            id_categoria: true,
+                            nombre_categoria: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        devolucion_cliente_entregado: {
+          include: {
+            detalle_productos: {
+              select: {
+                id_detalle_producto: true,
+                productos: {
+                  select: {
+                    id_producto: true,
+                    nombre: true,
+                    producto_proveedor: {
+                      select: {
+                        id_producto_proveedor: true,
+                        proveedores: {
+                          select: {
+                            id_proveedor: true,
+                            nombre: true,
+                          },
+                        },
+                      },
+                    },
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        usuarios: {
+          select: {
+            usuario_id: true,
+            nombre: true,
+            apellido: true,
+          },
+        },
+      },
+      orderBy: { id_devoluciones_cliente: "desc" }
+    });
+
+    return res.status(200).json({ data: returnClients });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Error al obtener las devoluciones a clientes" });
+  }
+};
+
+
 const getReturnClients = async (req, res) => {
   try {
     const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
@@ -472,5 +576,6 @@ module.exports = {
   createReturnClients,
   cancelReturnClient,
   anularReturnClient,
+  getAllReturnClients
 };
 

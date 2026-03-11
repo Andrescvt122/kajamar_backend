@@ -61,6 +61,59 @@ const diffMinutesBetween = (a, b) => {
 // ======================
 // GET /sales
 // ======================
+
+exports.getAllSales = async (req,res) =>{
+  try{
+    const sales = await prisma.ventas.findMany({
+      include:{
+        clientes:{
+          select:{id_cliente:true, nombre_cliente:true}
+        },
+        detalle_venta:{
+          include:{
+            detalle_productos:{
+              select:{
+                id_detalle_producto:true,
+                stock_producto:true,
+                precio_venta:true,
+                productos:{
+                  select:{
+                    id_producto:true,
+                    nombre:true,
+                    producto_proveedor:{
+                      select:{
+                        id_producto_proveedor:true,
+                        proveedores:{
+                          select:{
+                            id_proveedor:true,
+                            nombre:true
+                          }
+                        }
+                      }
+                    },
+                    categorias:{
+                      select:{
+                        id_categoria:true,
+                        nombre_categoria:true
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy:{
+        id_venta:"desc"
+      }
+    })
+    return res.status(200).json({data:sales}) 
+  }catch(error){
+    return res.status(500).json({message:"Error al obtener las ventas"})
+  }
+}
+
 exports.getSales = async (_req, res) => {
   try {
     const sales = await prisma.ventas.findMany({
