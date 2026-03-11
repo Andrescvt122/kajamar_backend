@@ -4,9 +4,7 @@
   "description": "backend de kajamart",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --runInBand",
-    "test:watch":"cross-env NODE_ENV=test jest --watch",
-    "test:coverage": "cross-env NODE_ENV=test jest --coverage",
+    "test": "jest --runInBand",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "start": "node src/index.js",
     "build": "npx prisma generate",
