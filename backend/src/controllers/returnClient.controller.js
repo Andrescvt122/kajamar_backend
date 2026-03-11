@@ -93,7 +93,7 @@ const getAllReturnClients = async (req, res) => {
           },
         },
       },
-      orderBy: { id_devoluciones_cliente: "desc" }
+      orderBy: { id_devoluciones_cliente: "desc" },
     });
 
     return res.status(200).json({ data: returnClients });
@@ -104,11 +104,12 @@ const getAllReturnClients = async (req, res) => {
   }
 };
 
-
 const getReturnClients = async (req, res) => {
   try {
     const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
-    const parsedCursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const parsedCursor = req.query.cursor
+      ? Number(req.query.cursor)
+      : undefined;
     const safeLimit = Math.min(limit, 20);
     const cursor = Number.isFinite(parsedCursor) ? parsedCursor : undefined;
     const returnClients = await prisma.devolucion_cliente.findMany({
@@ -129,13 +130,16 @@ const getReturnClients = async (req, res) => {
                 detalle_productos: {
                   include: {
                     productos: {
-                      select:{
-                        nombre:true,
-                        id_producto:true,
-                        categorias:{
-                          select:{id_categoria:true, nombre_categoria:true}
-                        }
-                      }
+                      select: {
+                        nombre: true,
+                        id_producto: true,
+                        categorias: {
+                          select: {
+                            id_categoria: true,
+                            nombre_categoria: true,
+                          },
+                        },
+                      },
                     },
                   },
                 },
@@ -157,14 +161,16 @@ const getReturnClients = async (req, res) => {
     });
     const hashMore = returnClients.length > safeLimit;
     const data = hashMore ? returnClients.slice(0, safeLimit) : returnClients;
-    const nextCursor = hashMore? data[data.length - 1].id_devoluciones_cliente : null;
-    return res.status(200).json({ 
+    const nextCursor = hashMore
+      ? data[data.length - 1].id_devoluciones_cliente
+      : null;
+    return res.status(200).json({
       data,
-      meta:{
+      meta: {
         limit: safeLimit,
-        nextCursor
-      }
-     });
+        nextCursor,
+      },
+    });
   } catch (error) {
     return res
       .status(500)
@@ -202,15 +208,17 @@ const createReturnClients = async (req, res) => {
       .json({ error: "Uno o mas productos a devolver no existen en la venta" });
   }
   const disponibilidadDevolucion = await prisma.ventas.findFirst({
-    where:{
-      id_venta: Number(data.id_venta)
+    where: {
+      id_venta: Number(data.id_venta),
     },
-    select:{
-      dispo_devolucion:true
-    }
-  })
-  if(!disponibilidadDevolucion?.dispo_devolucion){
-    return res.status(400).json({ error: "La venta no tiene disponible devoluciones" });
+    select: {
+      dispo_devolucion: true,
+    },
+  });
+  if (!disponibilidadDevolucion?.dispo_devolucion) {
+    return res
+      .status(400)
+      .json({ error: "La venta no tiene disponible devoluciones" });
   }
   if (responsable && productosEnVenta) {
     try {
@@ -576,6 +584,5 @@ module.exports = {
   createReturnClients,
   cancelReturnClient,
   anularReturnClient,
-  getAllReturnClients
+  getAllReturnClients,
 };
-
