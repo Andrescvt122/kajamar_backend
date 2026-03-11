@@ -1,5 +1,72 @@
 ﻿const prisma = require("../prisma/prismaClient");
 
+const getAllReturnProducts = async (req,res)=>{
+  try{
+    const returnProducts = await prisma.devolucion_producto.findMany({
+      include:{
+        compras:{
+          select:{
+            id_compra:true,
+            total:true,
+            proveedores:{
+              select:{
+                id_proveedor:true,
+                nombre:true,
+              },
+            },
+            detalle_compra:{
+              select:{
+                cantidad:true,
+                precio_unitario:true,
+                detalle_productos:{
+                  select:{
+                    id_detalle_producto:true,
+                    productos:{
+                      select:{
+                        id_producto:true,
+                        nombre:true,
+                        categorias:{
+                          select:{
+                            id_categoria:true,
+                            nombre_categoria:true,
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+          },
+        },
+        detalle_devolucion_producto: {
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  include: {
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: { id_devolucion_product: "desc" }
+    })
+    return res.status(200).json({data:returnProducts})
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({error:"Error al obtener los productos"})
+  }
+}
+
 const getResponsable = async (id) => {
   try {
     const responsable = await prisma.usuarios.findUnique({
@@ -582,4 +649,5 @@ module.exports = {
   createReturnProduct,
   getResponsable,
   anularReturnProduct,
+  getAllReturnProducts
 };
