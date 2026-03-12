@@ -1,1 +1,67 @@
 
+
+[2026-03-12T11:01:41.216Z]
+Query: SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."categorias"."id_categoria" FROM "public"."categorias" WHERE 1=1 OFFSET $1) AS "sub"
+Params: [0]
+Duration: 208 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.673Z]
+Query: SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."categorias"."id_categoria" FROM "public"."categorias" WHERE 1=1 OFFSET $1) AS "sub"
+Params: [0]
+Duration: 162 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.701Z]
+Query: SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."detalle_productos"."id_detalle_producto" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."estado" = $1 OFFSET $2) AS "sub"
+Params: [true,0]
+Duration: 187 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.702Z]
+Query: SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."productos"."id_producto" FROM "public"."productos" WHERE 1=1 OFFSET $1) AS "sub"
+Params: [0]
+Duration: 190 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.702Z]
+Query: SELECT "public"."detalle_productos"."id_detalle_producto", "public"."detalle_productos"."id_producto", "public"."detalle_productos"."codigo_barras_producto_compra", "public"."detalle_productos"."fecha_vencimiento", "public"."detalle_productos"."stock_producto", "public"."detalle_productos"."es_devolucion", "public"."detalle_productos"."estado", "public"."detalle_productos"."iva_porcentaje", "public"."detalle_productos"."icu_porcentaje", "public"."detalle_productos"."precio_venta", "public"."detalle_productos"."costo_unitario", "public"."detalle_productos"."incremento_venta" FROM "public"."detalle_productos" WHERE "public"."detalle_productos"."estado" = $1 ORDER BY "public"."detalle_productos"."id_detalle_producto" DESC LIMIT $2 OFFSET $3
+Params: [true,6,0]
+Duration: 188 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.702Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC LIMIT $1 OFFSET $2
+Params: [6,0]
+Duration: 187 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.703Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE 1=1 ORDER BY "public"."categorias"."id_categoria" DESC LIMIT $1 OFFSET $2
+Params: [6,0]
+Duration: 188 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.703Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen", "public"."productos"."created_at", "public"."productos"."updated_at", "public"."productos"."cantidad_unitaria", "public"."productos"."desde_dev_productos", "public"."productos"."desde_baja_productos" FROM "public"."productos" WHERE 1=1 ORDER BY "public"."productos"."nombre" ASC LIMIT $1 OFFSET $2
+Params: [6,0]
+Duration: 188 ms
+----------------------------------------------
+
+[2026-03-12T11:01:41.873Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."precio_venta" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1,$2) OFFSET $3
+Params: [2,1,0]
+Duration: 168 ms
+----------------------------------------------
+
+[2026-03-12T11:01:42.151Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1) OFFSET $2
+Params: [4,0]
+Duration: 448 ms
+----------------------------------------------
+
+[2026-03-12T11:01:42.314Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_producto" IN ($1,$2) OFFSET $3
+Params: [1,2,0]
+Duration: 162 ms
+----------------------------------------------

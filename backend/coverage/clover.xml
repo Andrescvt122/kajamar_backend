@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1773246298676" clover="3.2.0">
+  <project timestamp="1773246298677" name="All files">
+    <metrics statements="59" coveredstatements="40" conditionals="28" coveredconditionals="15" methods="5" coveredmethods="4" elements="92" coveredelements="59" complexity="0" loc="59" ncloc="59" packages="1" files="1" classes="1"/>
+    <file name="categories.controller.js" path="/KAJAMART/kajamart/kajamar_backend/backend/src/controllers/categories.controller.js">
+      <metrics statements="59" coveredstatements="40" conditionals="28" coveredconditionals="15" methods="5" coveredmethods="4"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="8" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="9" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="10" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="14" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="33" count="1" type="stmt"/>
+      <line num="45" count="1" type="stmt"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="56" count="0" type="stmt"/>
+      <line num="58" count="0" type="stmt"/>
+      <line num="65" count="1" type="stmt"/>
+      <line num="66" count="0" type="stmt"/>
+      <line num="67" count="0" type="stmt"/>
+      <line num="68" count="0" type="stmt"/>
+      <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="72" count="0" type="stmt"/>
+      <line num="74" count="0" type="stmt"/>
+      <line num="76" count="0" type="stmt"/>
+      <line num="77" count="0" type="stmt"/>
+      <line num="82" count="1" type="stmt"/>
+      <line num="83" count="2" type="stmt"/>
+      <line num="84" count="2" type="stmt"/>
+      <line num="86" count="2" type="cond" truecount="4" falsecount="0"/>
+      <line num="87" count="1" type="stmt"/>
+      <line num="92" count="1" type="stmt"/>
+      <line num="100" count="0" type="stmt"/>
+      <line num="105" count="1" type="stmt"/>
+      <line num="108" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="109" count="1" type="stmt"/>
+      <line num="114" count="0" type="stmt"/>
+      <line num="119" count="1" type="stmt"/>
+      <line num="120" count="1" type="stmt"/>
+      <line num="121" count="1" type="stmt"/>
+      <line num="123" count="1" type="stmt"/>
+      <line num="124" count="1" type="stmt"/>
+      <line num="133" count="0" type="stmt"/>
+      <line num="138" count="1" type="stmt"/>
+      <line num="141" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="142" count="1" type="stmt"/>
+      <line num="148" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="149" count="0" type="stmt"/>
+      <line num="154" count="0" type="stmt"/>
+      <line num="159" count="1" type="stmt"/>
+      <line num="160" count="1" type="stmt"/>
+      <line num="161" count="1" type="stmt"/>
+      <line num="163" count="1" type="stmt"/>
+      <line num="165" count="1" type="stmt"/>
+      <line num="169" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="170" count="0" type="stmt"/>
+      <line num="175" count="1" type="stmt"/>
+      <line num="179" count="0" type="stmt"/>
+      <line num="181" count="1" type="stmt"/>
+      <line num="184" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="185" count="1" type="stmt"/>
+      <line num="192" count="0" type="stmt"/>
+      <line num="196" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
