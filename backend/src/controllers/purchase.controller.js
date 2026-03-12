@@ -276,10 +276,21 @@ exports.createPurchase = async (req, res) => {
 };
 
 /** ===================== GET PURCHASES ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
 exports.getPurchases = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const totalPurchases = await prisma.compras.count();
+
     const compras = await prisma.compras.findMany({
       orderBy: { id_compra: "desc" },
+      skip,
+      take: limit,
       include: {
         proveedores: {
           select: {
@@ -304,7 +315,17 @@ exports.getPurchases = async (req, res) => {
       },
     });
 
-    return res.json(compras);
+    const totalPages = Math.ceil(totalPurchases / limit);
+
+    return res.json({
+      data: compras,
+      pagination: {
+        total: totalPurchases,
+        page,
+        limit,
+        totalPages,
+      },
+    });
   } catch (error) {
     console.error("❌ getPurchases:", error);
     return res.status(500).json({
@@ -313,9 +334,7 @@ exports.getPurchases = async (req, res) => {
     });
   }
 };
-
-/** ===================== CANCEL PURCHASE ===================== */
-/** ===================== CANCEL PURCHASE ===================== */
+  /** ===================== CANCEL PURCHASE ===================== */
 exports.cancelPurchase = async (req, res) => {
   try {
     const id_compra = Number(req.params.id_compra);
