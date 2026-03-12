@@ -1,25 +1,218 @@
 const prisma = require("../prisma/prismaClient");
 
 // ✅ Obtener todos los proveedores con sus categorías
+// ✅ Obtener proveedores con paginación
 exports.getAllSuppliers = async (req, res) => {
   try {
-    const suppliers = await prisma.proveedores.findMany({
-      include: {
-        proveedor_categoria: {
-          include: { categorias: true },
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const search = req.query.search || "";
+
+    const skip = (page - 1) * limit;
+
+    // 🔎 Condiciones de búsqueda
+    const where = search
+      ? {
+          OR: [
+            {
+              nombre: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              telefono: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              nit: {
+                contains: search,
+              },
+            },
+            {
+              proveedor_categoria: {
+                some: {
+                  categorias: {
+                    nombre_categoria: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        }
+      : {};
+
+    const [suppliers, total] = await Promise.all([
+      prisma.proveedores.findMany({
+        where,
+        skip,
+        take: limit,
+        include: {
+          proveedor_categoria: {
+            include: { categorias: true },
+          },
         },
-      },
-    });
+        orderBy: {
+          id_proveedor: "desc",
+        },
+      }),
+
+      prisma.proveedores.count({
+        where,
+      }),
+    ]);
 
     const formatted = suppliers.map((s) => ({
       ...s,
       categorias: s.proveedor_categoria.map((pc) => pc.categorias),
     }));
 
-    res.json(formatted);
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      data: formatted,
+      currentPage: page,
+      totalPages,
+      totalItems: total,
+    });
+
   } catch (error) {
     console.error("❌ Error al obtener proveedores:", error);
     res.status(500).json({ message: "Error al obtener los proveedores." });
+  }
+};
+
+exports.getSuppliersForDashboard = async (_req, res) => {
+  try {
+    const suppliers = await prisma.proveedores.findMany({
+      orderBy: {
+        id_proveedor: "desc",
+      },
+      include: {
+        proveedor_categoria: {
+          include: { categorias: true },
+        },
+        compras: {
+          select: {
+            id_compra: true,
+            fecha_compra: true,
+            total: true,
+            estado_compra: true,
+          },
+          orderBy: {
+            fecha_compra: "desc",
+          },
+        },
+      },
+    });
+
+    const formatted = suppliers.map((s) => ({
+      ...s,
+      categorias: Array.isArray(s.proveedor_categoria)
+        ? s.proveedor_categoria.map((pc) => pc.categorias)
+        : [],
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error("❌ Error al obtener proveedores para dashboard:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener los proveedores para dashboard." });
+  }
+};
+
+exports.searchSuppliers = async (req, res) => {
+  try {
+    const q = String(req.query.q || "").trim();
+    if (!q) {
+      return res.status(200).json({ data: [] });
+    }
+
+    const normalized = q.toLowerCase();
+    const numericId = Number(q);
+    const isNumeric = !Number.isNaN(numericId);
+    const statusFilters = [];
+
+    if (/^activos?$/.test(normalized)) statusFilters.push(true);
+    if (/^inactivos?$/.test(normalized)) statusFilters.push(false);
+
+    const suppliers = await prisma.proveedores.findMany({
+      where: {
+        OR: [
+          ...(isNumeric ? [{ id_proveedor: numericId }] : []),
+          {
+            nombre: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            telefono: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            nit: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            contacto: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            correo: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            proveedor_categoria: {
+              some: {
+                categorias: {
+                  nombre_categoria: {
+                    contains: q,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          },
+          ...statusFilters.map((estado) => ({ estado })),
+        ],
+      },
+      include: {
+        proveedor_categoria: {
+          include: { categorias: true },
+        },
+      },
+      orderBy: {
+        id_proveedor: "desc",
+      },
+    });
+
+    const formatted = suppliers.map((s) => ({
+      ...s,
+      categorias: Array.isArray(s.proveedor_categoria)
+        ? s.proveedor_categoria.map((pc) => pc.categorias)
+        : [],
+    }));
+
+    res.status(200).json({ data: formatted });
+  } catch (error) {
+    console.error("❌ Error al buscar proveedores:", error);
+    res.status(500).json({ message: "Error al buscar los proveedores." });
   }
 };
 // ... arriba ya tienes: const prisma = require("../prisma/prismaClient");

@@ -1,7 +1,17 @@
 // src/controllers/purchase.controller.js
 const { PrismaClient } = require("@prisma/client");
 const { compras } = require("../prisma/prismaClient");
+const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/library");
 const prisma = new PrismaClient();
+const fs = require("fs/promises");
+const cloudinary = require("cloudinary").v2;
+
+// ───────── CONFIG CLOUDINARY ─────────
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 /** ===================== Helpers ===================== */
 function parseFecha(fecha) {
@@ -74,8 +84,16 @@ function getComprobante(req, payload) {
   return null;
 }
 
+function isValidReceiptImageMime(mime) {
+  return ["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(
+    String(mime || "").toLowerCase()
+  );
+}
+
 /** ===================== CREATE PURCHASE ===================== */
 exports.createPurchase = async (req, res) => {
+  let tempPath = null;
+
   try {
     const payload = getPayload(req);
     const { fecha_compra, id_proveedor, items } = payload;
@@ -85,7 +103,119 @@ exports.createPurchase = async (req, res) => {
     }
 
     const fechaCompraDate = parseFecha(fecha_compra) || new Date();
-    const comprobante = getComprobante(req, payload);
+
+    // ───────── SUBIR COMPROBANTE A CLOUDINARY SI VIENE ─────────
+    let comprobante = null;
+    if (req.file) {
+      tempPath = req.file.path;
+      try {
+        const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+          folder: "kajamart/comprobantes",
+        });
+        comprobante = {
+          url: uploadResult.secure_url,
+          nombre: req.file.originalname,
+          mime: req.file.mimetype,
+          size: req.file.size,
+        };
+      } catch (err) {
+        console.error("❌ Error al subir comprobante a Cloudinary:", err);
+        return res.status(500).json({ message: "Error al subir el comprobante a Cloudinary" });
+      }
+    } else {
+      comprobante = getComprobante(req, payload);
+      if (comprobante && !isValidReceiptImageMime(comprobante.mime)) {
+        return res.status(400).json({
+          message: "Solo se permiten comprobantes en formato de imagen (JPG, PNG o WebP).",
+        });
+      }
+
+      return compra;
+    });
+
+    return res.status(201).json({
+      message: "Compra registrada correctamente",
+      compra: compraCreada,
+    });
+  } catch (error) {
+    console.error("❌ createPurchase:", error);
+    return res.status(500).json({
+      message: "Error al registrar la compra",
+      error: error.message,
+    });
+  }
+};
+
+/** ===================== GET PURCHASES ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+exports.getPurchases = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const totalPurchases = await prisma.compras.count();
+
+    const compras = await prisma.compras.findMany({
+      orderBy: { id_compra: "desc" },
+      skip,
+      take: limit,
+      include: {
+        proveedores: {
+          select: {
+            nombre: true,
+            nit: true,
+          },
+        },
+        detalle_compra: {
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  select: {
+                    id_producto: true,
+                    nombre: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const totalPages = Math.ceil(totalPurchases / limit);
+
+    return res.json({
+      data: compras,
+      pagination: {
+        total: totalPurchases,
+        page,
+        limit,
+        totalPages,
+      },
+    });
+  } catch (error) {
+    console.error("❌ getPurchases:", error);
+    return res.status(500).json({
+      message: "Error al listar compras",
+      error: error.message,
+    });
+  }
+};
+  /** ===================== CANCEL PURCHASE ===================== */
+exports.cancelPurchase = async (req, res) => {
+  try {
+    const id_compra = Number(req.params.id_compra);
+    const { motivo } = req.body;
+
+    if (!id_compra || !motivo || motivo.trim().length < 5) {
+      return res.status(400).json({
+        message: "Debe ingresar un motivo válido",
+      });
+    }
 
     const compraCreada = await prisma.$transaction(async (tx) => {
       let subtotal = 0;
@@ -272,25 +402,64 @@ exports.createPurchase = async (req, res) => {
       message: "Error al registrar la compra",
       error: error.message,
     });
+  } finally {
+    if (tempPath) {
+      try {
+        await fs.unlink(tempPath);
+      } catch (e) {
+        console.warn("⚠️ No se pudo borrar el archivo temporal:", e.message);
+      }
+    }
   }
 };
 
 /** ===================== GET PURCHASES ===================== */
-/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
-/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+
+exports.getAllPurchases = async (req,res)=>{
+  try{
+    const compras = await prisma.compras.findMany({
+      orderBy:{ id_compra:"desc"},
+      include:{
+        proveedores:{
+          select:{nombre:true, nit:true}
+        },
+        detalle_compra:{
+          include:{
+            detalle_productos:{
+              include:{
+                productos:{
+                  select:{
+                    id_producto:true,
+                    nombre:true,
+                    producto_proveedor:{
+                      select:{
+                        id_producto_proveedor:true,
+                        proveedores:{
+                          select:{
+                            id_proveedor:true,
+                            nombre:true
+                          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    return res.status(200).json({data:compras})
+  }catch(error){
+    return res.status(500).json({message:"Error al obtener las compras"})
+  }
+}
+
 exports.getPurchases = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-
-    const skip = (page - 1) * limit;
-
-    const totalPurchases = await prisma.compras.count();
-
     const compras = await prisma.compras.findMany({
       orderBy: { id_compra: "desc" },
-      skip,
-      take: limit,
       include: {
         proveedores: {
           select: {
@@ -303,11 +472,14 @@ exports.getPurchases = async (req, res) => {
             detalle_productos: {
               include: {
                 productos: {
-                  select: {
-                    id_producto: true,
-                    nombre: true,
+                  select:{
+                    nombre:true,
+                    id_producto:true,
+                    categorias:{
+                      select:{id_categoria:true, nombre_categoria:true}
+                    }
                   },
-                },
+                }
               },
             },
           },
@@ -315,17 +487,7 @@ exports.getPurchases = async (req, res) => {
       },
     });
 
-    const totalPages = Math.ceil(totalPurchases / limit);
-
-    return res.json({
-      data: compras,
-      pagination: {
-        total: totalPurchases,
-        page,
-        limit,
-        totalPages,
-      },
-    });
+    return res.json(compras);
   } catch (error) {
     console.error("❌ getPurchases:", error);
     return res.status(500).json({
@@ -334,7 +496,9 @@ exports.getPurchases = async (req, res) => {
     });
   }
 };
-  /** ===================== CANCEL PURCHASE ===================== */
+
+/** ===================== CANCEL PURCHASE ===================== */
+/** ===================== CANCEL PURCHASE ===================== */
 exports.cancelPurchase = async (req, res) => {
   try {
     const id_compra = Number(req.params.id_compra);

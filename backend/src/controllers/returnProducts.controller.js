@@ -1,5 +1,72 @@
 ﻿const prisma = require("../prisma/prismaClient");
 
+const getAllReturnProducts = async (req,res)=>{
+  try{
+    const returnProducts = await prisma.devolucion_producto.findMany({
+      include:{
+        compras:{
+          select:{
+            id_compra:true,
+            total:true,
+            proveedores:{
+              select:{
+                id_proveedor:true,
+                nombre:true,
+              },
+            },
+            detalle_compra:{
+              select:{
+                cantidad:true,
+                precio_unitario:true,
+                detalle_productos:{
+                  select:{
+                    id_detalle_producto:true,
+                    productos:{
+                      select:{
+                        id_producto:true,
+                        nombre:true,
+                        categorias:{
+                          select:{
+                            id_categoria:true,
+                            nombre_categoria:true,
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+          },
+        },
+        detalle_devolucion_producto: {
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  include: {
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: { id_devolucion_product: "desc" }
+    })
+    return res.status(200).json({data:returnProducts})
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({error:"Error al obtener los productos"})
+  }
+}
+
 const getResponsable = async (id) => {
   try {
     const responsable = await prisma.usuarios.findUnique({
@@ -15,7 +82,13 @@ const getResponsable = async (id) => {
 
 const getReturnProducts = async (req, res) => {
   try {
+    const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
+    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const safeLimit = Math.min(limit, 20);
     const returnProducts = await prisma.devolucion_producto.findMany({
+      take: safeLimit + 1,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id_devolucion_product: cursor } : undefined,
       orderBy: { id_devolucion_product: "desc" },
       include: {
         // âœ… proveedor real, por compra
@@ -29,15 +102,32 @@ const getReturnProducts = async (req, res) => {
           include: {
             detalle_productos: {
               include: {
-                productos: true, // suficiente para nombre/SKU
+                productos: {
+                  include: {
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
+                      },
+                    },
+                  },
+                     }
               },
             },
           },
         },
       },
     });
-
-    return res.status(200).json({ returnProducts });
+    const hashMore = returnProducts.length > safeLimit;
+    const data = hashMore ? returnProducts.slice(0, safeLimit) : returnProducts;
+    const nextCursor = hashMore ? data[data.length - 1].id_devolucion_product : null;
+    return res.status(200).json({ 
+      data,
+      meta:{
+        limit: safeLimit,
+        nextCursor
+      }
+     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Error al obtener los productos" });
@@ -45,60 +135,149 @@ const getReturnProducts = async (req, res) => {
 };
 
 const searchReturnProdcts = async (req, res) => {
-  const { q } = req.query;
-  const isNumber = !isNaN(q);
-  console.log(q);
-  const filter = isNumber
-    ? {
+  try {
+    const q = String(req.query.q || "").trim();
+    if (!q) {
+      return res.status(200).json({ data: [] });
+    }
+
+    const numericId = Number(q);
+    const isNumeric = !Number.isNaN(numericId);
+    const normalized = q.toLowerCase();
+    const statusFilters = [];
+
+    if (/^activos?$/.test(normalized)) statusFilters.push(true);
+    if (/^inactivos?$/.test(normalized)) statusFilters.push(false);
+
+    const returnProducts = await prisma.devolucion_producto.findMany({
+      where: {
         OR: [
-          { id_devolucion_product: { equals: Number(q) } },
-          { fecha_devolucion: { contains: q } },
-          { cantidad_total: { equals: Number(q) } },
+          ...(isNumeric
+            ? [
+                { id_devolucion_product: numericId },
+                { id_compras: numericId },
+                { cantidad_total: numericId },
+                {
+                  detalle_devolucion_producto: {
+                    some: {
+                      cantidad_devuelta: numericId,
+                    },
+                  },
+                },
+              ]
+            : []),
+          {
+            numero_factura: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            nombre_responsable: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            compras: {
+              is: {
+                proveedores: {
+                  is: {
+                    nombre: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          },
           {
             detalle_devolucion_producto: {
               some: {
                 OR: [
                   {
-                    cantidad_devuelta: { equals: Number(q) },
+                    nombre_producto: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    motivo: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    detalle_productos: {
+                      is: {
+                        productos: {
+                          is: {
+                            nombre: {
+                              contains: q,
+                              mode: "insensitive",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    detalle_productos: {
+                      is: {
+                        productos: {
+                          is: {
+                            categorias: {
+                              is: {
+                                nombre_categoria: {
+                                  contains: q,
+                                  mode: "insensitive",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
                   },
                 ],
               },
             },
           },
+          ...statusFilters.map((estado) => ({ estado })),
         ],
-      }
-    : {
-        OR: [
-          {
-            nombre_responsable: { contains: q, mode: "insensitive" },
+      },
+      include: {
+        compras: {
+          include: {
+            proveedores: true,
           },
-          {
-            OR: [
-              {
-                detalle_devolucion_producto: {
-                  some: {
-                    OR: [
-                      {
-                        nombre_producto: { contains: q, mode: "insensitive" },
+        },
+        detalle_devolucion_producto: {
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  include: {
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
                       },
-                      {
-                        motivo: { contains: q, mode: "insensitive" },
-                      },
-                    ],
+                    },
                   },
                 },
               },
-            ],
+            },
           },
-        ],
-      };
-  try {
-    const returnProducts = await prisma.devolucion_producto.findMany({
-      where: filter,
-      include: { detalle_devolucion_producto: true },
+        },
+      },
+      orderBy: { id_devolucion_product: "desc" },
     });
-    return res.status(200).json({ returnProducts });
+
+    return res.status(200).json({ data: returnProducts });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Error al obtener el producto" });
   }
 };
@@ -559,4 +738,5 @@ module.exports = {
   createReturnProduct,
   getResponsable,
   anularReturnProduct,
+  getAllReturnProducts
 };

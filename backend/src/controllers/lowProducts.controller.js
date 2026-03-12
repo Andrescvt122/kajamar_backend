@@ -1,4 +1,11 @@
 const prisma = require("../prisma/prismaClient");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
@@ -14,7 +21,7 @@ const lowProductInclude = {
           id_detalle_producto: true,
           id_producto: true,
           productos: {
-            select: { id_producto: true, nombre: true },
+            select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
           },
         },
       },
@@ -26,7 +33,7 @@ const lowProductInclude = {
         select: { usuario_id: true, nombre: true, apellido: true },
       },
       producto_creado: {
-        select: { id_producto: true, nombre: true },
+        select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
       },
       detalle_conversion: {
         include: {
@@ -35,7 +42,7 @@ const lowProductInclude = {
               id_detalle_producto: true,
               id_producto: true,
               productos: {
-                select: { id_producto: true, nombre: true },
+                select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
               },
             },
           },
@@ -44,7 +51,7 @@ const lowProductInclude = {
               id_detalle_producto: true,
               id_producto: true,
               productos: {
-                select: { id_producto: true, nombre: true },
+                select: { id_producto: true, nombre: true, categorias: { select: { id_categoria: true, nombre_categoria: true } } },
               },
             },
           },
@@ -83,12 +90,44 @@ const enrichLowProduct = (lowProduct) => ({
   ),
 });
 
-const getLowProducts = async (req, res) => {
-  try {
+const getAllLowProducts = async (req,res)=>{
+  try{
     const lowProducts = await prisma.productos_baja.findMany({
       include: lowProductInclude,
+      orderBy: { id_baja_productos: "desc" },
     });
-    return res.status(200).json(lowProducts.map(enrichLowProduct));
+    return res.status(200).json({ data: lowProducts.map(enrichLowProduct) });
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({error:"Error al obtener los productos"})
+  }
+}
+
+const getLowProducts = async (req, res) => {
+  try {
+    const limit = Number(req.query.limit) || 6;
+    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const safeLimit = Math.min(limit, 20);
+
+    const lowProducts = await prisma.productos_baja.findMany({
+      take: safeLimit + 1,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id_baja_productos: cursor } : undefined,
+      orderBy: { id_baja_productos: "desc" },
+      include: lowProductInclude,
+    });
+
+    const hasMore = lowProducts.length > safeLimit;
+    const data = hasMore ? lowProducts.slice(0, safeLimit) : lowProducts;
+    const nextCursor = hasMore ? data[data.length - 1].id_baja_productos : null;
+
+    return res.status(200).json({
+      data,
+      meta: {
+        limit: safeLimit,
+        nextCursor,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ error: "Error al obtener los productos" });
   }
@@ -151,6 +190,24 @@ const searchLowProduct = async (req, res) => {
                       nombre_producto: {
                         contains: q,
                         mode: "insensitive",
+                      },
+                    },
+                    {
+                      detalle_productos: {
+                        is: {
+                          productos: {
+                            is: {
+                              categorias: {
+                                is: {
+                                  nombre_categoria: {
+                                    contains: q,
+                                    mode: "insensitive",
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
                       },
                     },
                   ],
@@ -289,6 +346,28 @@ const createLowProduct = async (req, res) => {
               // B1) Crear producto nuevo (opcional)
               if (p.producto_destino) {
                 const pd = p.producto_destino;
+                let imageUrl =
+                  typeof pd.url_imagen === "string" && pd.url_imagen.trim()
+                    ? pd.url_imagen.trim()
+                    : null;
+
+                if (
+                  !imageUrl &&
+                  typeof pd.imagen_base64 === "string" &&
+                  pd.imagen_base64.trim()
+                ) {
+                  try {
+                    const uploadResult = await cloudinary.uploader.upload(
+                      pd.imagen_base64,
+                      { folder: "kajamart/products" }
+                    );
+                    imageUrl = uploadResult.secure_url;
+                  } catch (_err) {
+                    throw new Error(
+                      "No se pudo subir la imagen del producto destino"
+                    );
+                  }
+                }
 
                 // IMPORTANTE: si manejas codigo_barras único a nivel productos, valida acá.
                 // (En tu schema actual, productos.codigo_barras existe pero no lo marcaste unique)
@@ -306,7 +385,7 @@ const createLowProduct = async (req, res) => {
                     porcentaje_incremento: pd.porcentaje_incremento ?? null,
                     costo_unitario: pd.costo_unitario ?? 0,
                     precio_venta: pd.precio_venta ?? 0,
-                    url_imagen: pd.url_imagen ?? null,
+                    url_imagen: imageUrl,
                     cantidad_unitaria: pd.cantidad_unitaria ?? null,
                   },
                   select: { id_producto: true },
@@ -842,4 +921,5 @@ module.exports = {
   getResponsable,
   cancelLowProduct,
   anularLowProduct,
+  getAllLowProducts
 };

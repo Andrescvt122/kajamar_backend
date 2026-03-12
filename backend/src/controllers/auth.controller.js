@@ -45,6 +45,7 @@ const forgotPassword = async (req, res) => {
         const usuario = await prisma.acceso.findUnique({ where: { email: emailLimpio } });
 
         if (!usuario) return res.status(404).json({ error: 'El correo electrónico no está registrado.' });
+        if (!usuario.estado_usuario) return res.status(403).json({ error: 'El usuario está desactivado.' });
 
         // Generar código de 6 dígitos
         const codigo = Math.floor(100000 + Math.random() * 900000).toString();
