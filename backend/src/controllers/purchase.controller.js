@@ -129,6 +129,92 @@ exports.createPurchase = async (req, res) => {
           message: "Solo se permiten comprobantes en formato de imagen (JPG, PNG o WebP).",
         });
       }
+
+      return compra;
+    });
+
+    return res.status(201).json({
+      message: "Compra registrada correctamente",
+      compra: compraCreada,
+    });
+  } catch (error) {
+    console.error("❌ createPurchase:", error);
+    return res.status(500).json({
+      message: "Error al registrar la compra",
+      error: error.message,
+    });
+  }
+};
+
+/** ===================== GET PURCHASES ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+exports.getPurchases = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const totalPurchases = await prisma.compras.count();
+
+    const compras = await prisma.compras.findMany({
+      orderBy: { id_compra: "desc" },
+      skip,
+      take: limit,
+      include: {
+        proveedores: {
+          select: {
+            nombre: true,
+            nit: true,
+          },
+        },
+        detalle_compra: {
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  select: {
+                    id_producto: true,
+                    nombre: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const totalPages = Math.ceil(totalPurchases / limit);
+
+    return res.json({
+      data: compras,
+      pagination: {
+        total: totalPurchases,
+        page,
+        limit,
+        totalPages,
+      },
+    });
+  } catch (error) {
+    console.error("❌ getPurchases:", error);
+    return res.status(500).json({
+      message: "Error al listar compras",
+      error: error.message,
+    });
+  }
+};
+  /** ===================== CANCEL PURCHASE ===================== */
+exports.cancelPurchase = async (req, res) => {
+  try {
+    const id_compra = Number(req.params.id_compra);
+    const { motivo } = req.body;
+
+    if (!id_compra || !motivo || motivo.trim().length < 5) {
+      return res.status(400).json({
+        message: "Debe ingresar un motivo válido",
+      });
     }
 
     const compraCreada = await prisma.$transaction(async (tx) => {
