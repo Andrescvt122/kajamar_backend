@@ -5,7 +5,6 @@ const salesController = require("../controllers/sales.controller");
 
 // GET /kajamart/api/sales
 router.get("/", salesController.getSales);
-router.get("/all", salesController.getAllSales);
 // POST /kajamart/api/sales
 router.post("/", salesController.createSale);
 

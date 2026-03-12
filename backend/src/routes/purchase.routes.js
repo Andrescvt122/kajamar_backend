@@ -57,7 +57,6 @@ router.post("/", (req, res, next) => {
 
 // ✅ Queda: /kajamart/api/purchase
 router.get("/", purchaseController.getPurchases);
-router.get("/all", purchaseController.getAllPurchases);
 
 // ✅ Queda: /kajamart/api/purchase/:id_compra/cancel
 router.put("/:id_compra/cancel", purchaseController.cancelPurchase);
