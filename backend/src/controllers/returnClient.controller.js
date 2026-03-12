@@ -106,17 +106,183 @@ const getAllReturnClients = async (req, res) => {
 
 const getReturnClients = async (req, res) => {
   try {
-    const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
-    const parsedCursor = req.query.cursor
-      ? Number(req.query.cursor)
-      : undefined;
-    const safeLimit = Math.min(limit, 20);
-    const cursor = Number.isFinite(parsedCursor) ? parsedCursor : undefined;
+    const page = Math.max(Number(req.query.page) || 1, 1);
+    const limit = Math.min(Math.max(Number(req.query.limit) || 6, 1), 20);
+    const skip = (page - 1) * limit;
+
+    const [data, totalItems] = await Promise.all([
+      prisma.devolucion_cliente.findMany({
+        skip,
+        take: limit,
+        orderBy: { id_devoluciones_cliente: "desc" },
+        include: {
+          ventas: {
+            include: {
+              clientes: true,
+            },
+          },
+          devolucion_cliente_devuelto: {
+            include: {
+              detalle_venta: {
+                include: {
+                  detalle_productos: {
+                    include: {
+                      productos: {
+                        select: {
+                          nombre: true,
+                          id_producto: true,
+                          categorias: {
+                            select: {
+                              id_categoria: true,
+                              nombre_categoria: true,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          devolucion_cliente_entregado: {
+            include: {
+              detalle_productos: {
+                include: {
+                  productos: true,
+                },
+              },
+            },
+          },
+          usuarios: true,
+        },
+      }),
+      prisma.devolucion_cliente.count(),
+    ]);
+
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+
+    return res.status(200).json({
+      data,
+      meta: {
+        page,
+        limit,
+        totalItems,
+        totalPages,
+      },
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Error al obtener las devoluciones a clientes" });
+  }
+};
+
+const searchReturnClients = async (req, res) => {
+  try {
+    const q = String(req.query.q || "").trim();
+    if (!q) {
+      return res.status(200).json({ data: [] });
+    }
+
+    const numericId = Number(q);
+    const isNumeric = !Number.isNaN(numericId);
+
     const returnClients = await prisma.devolucion_cliente.findMany({
-      take: safeLimit + 1,
-      skip: cursor ? 1 : 0,
-      cursor: cursor ? { id_devoluciones_cliente: cursor } : undefined,
-      orderBy: { id_devoluciones_cliente: "desc" },
+      where: {
+        OR: [
+          ...(isNumeric
+            ? [
+                { id_devoluciones_cliente: numericId },
+                { id_venta: numericId },
+              ]
+            : []),
+          {
+            ventas: {
+              is: {
+                clientes: {
+                  is: {
+                    nombre_cliente: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            usuarios: {
+              is: {
+                OR: [
+                  {
+                    nombre: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    apellido: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          {
+            devolucion_cliente_devuelto: {
+              some: {
+                OR: [
+                  {
+                    motivo: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    detalle_venta: {
+                      is: {
+                        detalle_productos: {
+                          is: {
+                            productos: {
+                              is: {
+                                nombre: {
+                                  contains: q,
+                                  mode: "insensitive",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          {
+            devolucion_cliente_entregado: {
+              some: {
+                detalle_productos: {
+                  is: {
+                    productos: {
+                      is: {
+                        nombre: {
+                          contains: q,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
       include: {
         ventas: {
           include: {
@@ -158,23 +324,15 @@ const getReturnClients = async (req, res) => {
         },
         usuarios: true,
       },
+      orderBy: { id_devoluciones_cliente: "desc" },
     });
-    const hashMore = returnClients.length > safeLimit;
-    const data = hashMore ? returnClients.slice(0, safeLimit) : returnClients;
-    const nextCursor = hashMore
-      ? data[data.length - 1].id_devoluciones_cliente
-      : null;
-    return res.status(200).json({
-      data,
-      meta: {
-        limit: safeLimit,
-        nextCursor,
-      },
-    });
+
+    return res.status(200).json({ data: returnClients });
   } catch (error) {
+    console.error("❌ Error al buscar devoluciones de clientes:", error);
     return res
       .status(500)
-      .json({ error: "Error al obtener las devoluciones a clientes" });
+      .json({ error: "Error al buscar las devoluciones a clientes" });
   }
 };
 
@@ -585,4 +743,5 @@ module.exports = {
   cancelReturnClient,
   anularReturnClient,
   getAllReturnClients,
+  searchReturnClients,
 };

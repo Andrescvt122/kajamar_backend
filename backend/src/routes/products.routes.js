@@ -13,6 +13,8 @@ const {
   getRandomProduct,
   getProductsByCategory,
   getProductById,
+  getProducts,
+  searchProducts,
 } = require("../controllers/products.controller");
 
 // Config multer (carpeta uploads/)
@@ -29,6 +31,8 @@ const upload = multer({ storage });
 
 // Rutas
 router.get("/", getAllProducts);
+router.get("/all", getProducts);
+router.get("/search", searchProducts);
 router.get("/supplier/:id", getProductsBySupplier);
 router.get("/random", getRandomProduct);
 router.get("/category", getProductsByCategory),

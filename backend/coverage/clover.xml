@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1773200348004" clover="3.2.0">
-  <project timestamp="1773200348004" name="All files">
+<coverage generated="1773205653637" clover="3.2.0">
+  <project timestamp="1773205653637" name="All files">
     <metrics statements="124" coveredstatements="72" conditionals="77" coveredconditionals="31" methods="16" coveredmethods="8" elements="217" coveredelements="111" complexity="0" loc="124" ncloc="124" packages="1" files="1" classes="1"/>
     <file name="returnClient.controller.js" path="/home/Andres/projects/proyecto/kajamar_backend/backend/src/controllers/returnClient.controller.js">
       <metrics statements="124" coveredstatements="72" conditionals="77" coveredconditionals="31" methods="16" coveredmethods="8"/>
