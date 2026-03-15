@@ -1,6 +1,26 @@
 // controllers/categories.controller.js
 const prisma = require("../prisma/prismaClient");
 
+const categoryProductSelect = {
+  id_producto: true,
+  nombre: true,
+  stock_actual: true,
+  url_imagen: true,
+};
+
+const formatCategory = (category) => {
+  const products = Array.isArray(category.productos) ? category.productos : [];
+  const imageProduct = products.find(
+    (product) => product.url_imagen && String(product.url_imagen).trim() !== ""
+  );
+
+  return {
+    ...category,
+    productos: products,
+    imagen_categoria: imageProduct?.url_imagen || null,
+  };
+};
+
 // ✅ Obtener todas las categorías
 
 const getAllCategories = async(req,res)=>{
@@ -9,13 +29,12 @@ const getAllCategories = async(req,res)=>{
       orderBy: { id_categoria: "desc" },
       include:{
         productos:{
-          select:{
-            id_producto:true,
-          }
+          select: categoryProductSelect,
         }
       }
-    })
-    res.status(200).json(categories);
+    });
+
+    res.status(200).json(categories.map(formatCategory));
   }catch(error){
     console.error("❌ Error al obtener categorías:", error);
     res.status(500).json({
@@ -104,6 +123,11 @@ const getCategories = async (req, res) => {
         skip,
         take: limit,
         orderBy: { id_categoria: "desc" },
+        include: {
+          productos: {
+            select: categoryProductSelect,
+          },
+        },
       }),
       prisma.categorias.count({
         where,
@@ -113,7 +137,7 @@ const getCategories = async (req, res) => {
     const totalPages = Math.ceil(total / limit);
 
     res.json({
-      data: categories,
+      data: categories.map(formatCategory),
       currentPage: page,
       totalPages,
       totalItems: total,
@@ -135,11 +159,16 @@ const getCategoryById = async (req, res) => {
   try {
     const category = await prisma.categorias.findUnique({
       where: { id_categoria: Number(id) },
+      include: {
+        productos: {
+          select: categoryProductSelect,
+        },
+      },
     });
     if (!category)
       return res.status(404).json({ message: "Categoría no encontrada" });
 
-    res.json(category);
+    res.json(formatCategory(category));
   } catch (error) {
     console.error("❌ Error al obtener la categoría:", error);
     res.status(500).json({ message: "Error al obtener la categoría" });

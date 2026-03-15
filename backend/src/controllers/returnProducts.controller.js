@@ -1,4 +1,47 @@
 ﻿const prisma = require("../prisma/prismaClient");
+const {
+  safeUnlink,
+  uploadImageFileToCloudinary,
+} = require("../utils/cloudinaryUpload");
+
+function getPayload(req) {
+  if (req.body?.data) {
+    try {
+      return JSON.parse(req.body.data);
+    } catch {
+      throw new Error("El campo 'data' no es JSON válido");
+    }
+  }
+
+  return req.body || {};
+}
+
+async function getComprobante(req, payload) {
+  if (req.file) {
+    const uploadResult = await uploadImageFileToCloudinary(req.file.path, {
+      folder: "kajamart/return-products",
+    });
+
+    return {
+      url: uploadResult?.secure_url ?? null,
+      nombre: req.file.originalname,
+      mime: req.file.mimetype,
+      size: req.file.size,
+    };
+  }
+
+  const comprobante = payload?.comprobante;
+  if (comprobante && typeof comprobante === "object") {
+    return {
+      url: comprobante.url ?? null,
+      nombre: comprobante.nombre ?? null,
+      mime: comprobante.mime ?? null,
+      size: comprobante.size != null ? Number(comprobante.size) : null,
+    };
+  }
+
+  return null;
+}
 
 const getAllReturnProducts = async (req,res)=>{
   try{
@@ -283,42 +326,43 @@ const searchReturnProdcts = async (req, res) => {
 };
 
 const createReturnProduct = async (req, res) => {
-  const data = req.body;
-
-  const responsable = await getResponsable(Number(data.id_responsable));
-  if (!responsable) return res.status(400).json({ error: "Responsable inválido" });
-
-  if (!Array.isArray(data.products) || data.products.length === 0) {
-    return res.status(400).json({ error: "Debe enviar al menos un producto" });
-  }
-
-  const cantidadTotal = data.products.reduce((acc, p) => acc + Number(p.cantidad || 0), 0);
-
-  // 1) Validar compra
-  const compra = await prisma.compras.findUnique({
-    where: { id_compra: Number(data.id_compra) },
-    include: {
-      detalle_compra: { include: { detalle_productos: true } },
-    },
-  });
-
-  if (!compra) {
-    return res.status(404).json({ error: "La compra especificada no existe" });
-  }
-
-  // Productos permitidos por compra (a nivel id_producto)
-  const purchaseProductIds = new Set(
-    compra.detalle_compra.map((dc) => dc?.detalle_productos?.id_producto).filter(Boolean)
-  );
-
-  const isValidReturn = data.products.every((p) => purchaseProductIds.has(Number(p.id_producto)));
-  if (!isValidReturn) {
-    return res.status(400).json({
-      error: "Uno o más productos no pertenecen a la compra especificada",
-    });
-  }
-
   try {
+    const data = getPayload(req);
+    const responsable = await getResponsable(Number(data.id_responsable));
+    if (!responsable) return res.status(400).json({ error: "Responsable inválido" });
+
+    if (!Array.isArray(data.products) || data.products.length === 0) {
+      return res.status(400).json({ error: "Debe enviar al menos un producto" });
+    }
+
+    const cantidadTotal = data.products.reduce((acc, p) => acc + Number(p.cantidad || 0), 0);
+
+    // 1) Validar compra
+    const compra = await prisma.compras.findUnique({
+      where: { id_compra: Number(data.id_compra) },
+      include: {
+        detalle_compra: { include: { detalle_productos: true } },
+      },
+    });
+
+    if (!compra) {
+      return res.status(404).json({ error: "La compra especificada no existe" });
+    }
+
+    // Productos permitidos por compra (a nivel id_producto)
+    const purchaseProductIds = new Set(
+      compra.detalle_compra.map((dc) => dc?.detalle_productos?.id_producto).filter(Boolean)
+    );
+
+    const isValidReturn = data.products.every((p) => purchaseProductIds.has(Number(p.id_producto)));
+    if (!isValidReturn) {
+      return res.status(400).json({
+        error: "Uno o más productos no pertenecen a la compra especificada",
+      });
+    }
+
+    const comprobante = await getComprobante(req, data);
+
     const result = await prisma.$transaction(
       async (tx) => {
         // 2) Crear cabecera devolución
@@ -332,6 +376,10 @@ const createReturnProduct = async (req, res) => {
             nombre_responsable: responsable.nombre,
             estado: true,
             tipo_devolucion: "reemplazo", // tu default, aunque existan líneas con descuento
+            comprobante_url: comprobante?.url || null,
+            comprobante_nombre: comprobante?.nombre || null,
+            comprobante_mime: comprobante?.mime || null,
+            comprobante_size: comprobante?.size ?? null,
           },
         });
 
@@ -464,6 +512,8 @@ const createReturnProduct = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message ?? "Error al crear la devolución" });
+  } finally {
+    await safeUnlink(req.file?.path);
   }
 };
 
