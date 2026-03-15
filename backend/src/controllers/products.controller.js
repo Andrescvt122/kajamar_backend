@@ -2,24 +2,8 @@
 // kajamar_backend/backend/src/controllers/products.controller.js
 require("dotenv").config();
 const prisma = require("../prisma/prismaClient");
-const fs = require("fs/promises");
-const cloudinary = require("cloudinary").v2;
 const { removeImageBackground } = require("../utils/removeBackground");
-
-// ───────── CONFIG CLOUDINARY ─────────
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// ───────── HELPERS IMAGEN ─────────
-const safeUnlink = async (filePath) => {
-  if (!filePath) return;
-  try {
-    await fs.unlink(filePath);
-  } catch (_) {}
-};
+const { cloudinary, safeUnlink } = require("../utils/cloudinaryUpload");
 
 const uploadWithBgRemoval = async (originalPath) => {
   let processedPath = null;
@@ -88,6 +72,15 @@ const resolveImpuestoId = async (val, tipo = "IMP") => {
   });
 
   return created.id_impuesto;
+};
+
+const parseOptionalPositiveInt = (value) => {
+  if (value === undefined || value === null || value === "") return null;
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return null;
+
+  return Math.max(0, Math.trunc(parsed));
 };
 // -------------------- GET PRODUCT BY ID --------------------
 const getProductById = async (req, res) => {
@@ -520,7 +513,7 @@ const createProduct = async (req, res) => {
         porcentaje_incremento: porcId,
         costo_unitario: costoUnitarioNum,
         precio_venta: precioVentaNum,
-        cantidad_unitaria: Number(cantidad_unitaria),
+        cantidad_unitaria: parseOptionalPositiveInt(cantidad_unitaria),
         url_imagen: imageUrl,
       },
     });
@@ -568,6 +561,7 @@ const updateProduct = async (req, res) => {
       porcentaje_incremento,
       costo_unitario,
       precio_venta,
+      cantidad_unitaria,
       id_proveedor,
       url_imagen,
     } = req.body;
@@ -630,6 +624,9 @@ const updateProduct = async (req, res) => {
 
     if (costo_unitario !== undefined) data.costo_unitario = Number(costo_unitario);
     if (precio_venta !== undefined) data.precio_venta = Number(precio_venta);
+    if (cantidad_unitaria !== undefined) {
+      data.cantidad_unitaria = parseOptionalPositiveInt(cantidad_unitaria);
+    }
 
     if (finalImageUrl !== undefined) data.url_imagen = finalImageUrl || null;
 

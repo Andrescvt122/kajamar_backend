@@ -21,6 +21,7 @@ exports.searchPurchase = async (req, res) => {
   const dateRange = getDayRange(q);
 
   const or = [
+    { numero_factura: { contains: q, mode: "insensitive" } },
     { proveedores: { is: { nombre: { contains: q, mode: "insensitive" } } } },
     { proveedores: { is: { nit: { contains: q, mode: "insensitive" } } } },
     { estado_compra: { contains: q, mode: "insensitive" } },

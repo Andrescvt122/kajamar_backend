@@ -1,6 +1,9 @@
 // src/controllers/purchase.controller.js
 const { PrismaClient } = require("@prisma/client");
-const { compras } = require("../prisma/prismaClient");
+const {
+  safeUnlink,
+  uploadImageFileToCloudinary,
+} = require("../utils/cloudinaryUpload");
 const prisma = new PrismaClient();
 
 /** ===================== Helpers ===================== */
@@ -51,11 +54,14 @@ function getPayload(req) {
   return req.body || {};
 }
 
-function getComprobante(req, payload) {
+async function getComprobante(req, payload) {
   if (req.file) {
-    const url = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    const uploadResult = await uploadImageFileToCloudinary(req.file.path, {
+      folder: "kajamart/purchases",
+    });
+
     return {
-      url,
+      url: uploadResult?.secure_url ?? null,
       nombre: req.file.originalname,
       mime: req.file.mimetype,
       size: req.file.size,
@@ -74,18 +80,77 @@ function getComprobante(req, payload) {
   return null;
 }
 
+function normalizeInvoiceNumber(value) {
+  const normalized = String(value ?? "").trim();
+  return normalized || null;
+}
+
+function isInvoiceUniqueConstraintError(error) {
+  if (error?.code !== "P2002") return false;
+
+  const target = error?.meta?.target;
+  if (Array.isArray(target)) return target.includes("numero_factura");
+
+  return String(target || "").includes("numero_factura");
+}
+
+exports.validatePurchaseInvoiceNumber = async (req, res) => {
+  try {
+    const numeroFactura = normalizeInvoiceNumber(req.query.numero_factura);
+
+    if (!numeroFactura) {
+      return res.status(400).json({
+        message: "El numero de factura es obligatorio",
+      });
+    }
+
+    const purchase = await prisma.compras.findFirst({
+      where: { numero_factura: numeroFactura },
+      select: { id_compra: true },
+    });
+
+    return res.status(200).json({
+      numero_factura: numeroFactura,
+      exists: Boolean(purchase),
+      isUnique: !purchase,
+    });
+  } catch (error) {
+    console.error("❌ validatePurchaseInvoiceNumber:", error);
+    return res.status(500).json({
+      message: "Error al validar el numero de factura",
+    });
+  }
+};
+
 /** ===================== CREATE PURCHASE ===================== */
 exports.createPurchase = async (req, res) => {
   try {
     const payload = getPayload(req);
-    const { fecha_compra, id_proveedor, items } = payload;
+    const { fecha_compra, id_proveedor, items, numero_factura } = payload;
+    const numeroFactura = normalizeInvoiceNumber(numero_factura);
 
     if (!id_proveedor || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Datos incompletos (proveedor/items)" });
     }
 
+    if (!numeroFactura) {
+      return res.status(400).json({ message: "El numero de factura es obligatorio" });
+    }
+
     const fechaCompraDate = parseFecha(fecha_compra) || new Date();
-    const comprobante = getComprobante(req, payload);
+
+    const purchaseWithSameInvoice = await prisma.compras.findFirst({
+      where: { numero_factura: numeroFactura },
+      select: { id_compra: true },
+    });
+
+    if (purchaseWithSameInvoice) {
+      return res.status(409).json({
+        message: "El numero de factura ya existe",
+      });
+    }
+
+    const comprobante = await getComprobante(req, payload);
 
     const compraCreada = await prisma.$transaction(async (tx) => {
       let subtotal = 0;
@@ -122,6 +187,7 @@ exports.createPurchase = async (req, res) => {
       const compra = await tx.compras.create({
         data: {
           fecha_compra: fechaCompraDate,
+          numero_factura: numeroFactura,
           id_proveedor: Number(id_proveedor),
           subtotal,
           total_impuestos: totalImpuestos,
@@ -268,10 +334,20 @@ exports.createPurchase = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ createPurchase:", error);
+
+    if (isInvoiceUniqueConstraintError(error)) {
+      return res.status(409).json({
+        message: "El numero de factura ya existe",
+        error: error.message,
+      });
+    }
+
     return res.status(500).json({
       message: "Error al registrar la compra",
       error: error.message,
     });
+  } finally {
+    await safeUnlink(req.file?.path);
   }
 };
 
