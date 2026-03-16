@@ -94,6 +94,17 @@ function isInvoiceUniqueConstraintError(error) {
   return String(target || "").includes("numero_factura");
 }
 
+function getPurchaseCreatedAt(compra) {
+  const createdAt = compra?.created_at
+    ? new Date(compra.created_at)
+    : compra?.fecha_compra
+    ? new Date(compra.fecha_compra)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+}
+
 exports.validatePurchaseInvoiceNumber = async (req, res) => {
   try {
     const numeroFactura = normalizeInvoiceNumber(req.query.numero_factura);
@@ -138,6 +149,7 @@ exports.createPurchase = async (req, res) => {
     }
 
     const fechaCompraDate = parseFecha(fecha_compra) || new Date();
+    const createdAt = new Date();
 
     const purchaseWithSameInvoice = await prisma.compras.findFirst({
       where: { numero_factura: numeroFactura },
@@ -186,6 +198,7 @@ exports.createPurchase = async (req, res) => {
       /** ===== CREAR COMPRA ===== */
       const compra = await tx.compras.create({
         data: {
+          created_at: createdAt,
           fecha_compra: fechaCompraDate,
           numero_factura: numeroFactura,
           id_proveedor: Number(id_proveedor),
@@ -357,7 +370,7 @@ exports.createPurchase = async (req, res) => {
 exports.getPurchases = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit =6;
 
     const skip = (page - 1) * limit;
 
@@ -415,6 +428,7 @@ exports.cancelPurchase = async (req, res) => {
   try {
     const id_compra = Number(req.params.id_compra);
     const { motivo } = req.body;
+    const LIMIT_MINUTES = 30;
 
     if (!id_compra || !motivo || motivo.trim().length < 5) {
       return res.status(400).json({
@@ -435,6 +449,22 @@ exports.cancelPurchase = async (req, res) => {
       if (!compra) throw new Error("Compra no encontrada");
       if (compra.estado_compra === "Anulada")
         throw new Error("La compra ya está anulada");
+
+      const createdAt = getPurchaseCreatedAt(compra);
+      if (!createdAt) {
+        const error = new Error("La compra no tiene una fecha de creacion valida para anular.");
+        error.statusCode = 400;
+        throw error;
+      }
+
+      const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
+      if (diffMinutes > LIMIT_MINUTES) {
+        const error = new Error(
+          `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la compra (limite ${LIMIT_MINUTES}).`
+        );
+        error.statusCode = 409;
+        throw error;
+      }
 
       // revertir stock
       for (const dc of compra.detalle_compra) {
@@ -485,7 +515,7 @@ exports.cancelPurchase = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ cancelPurchase:", error);
-    return res.status(500).json({
+    return res.status(error.statusCode || 500).json({
       message: error.message || "Error al anular compra",
     });
   }

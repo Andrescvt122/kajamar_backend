@@ -43,6 +43,33 @@ async function getComprobante(req, payload) {
   return null;
 }
 
+function parseFecha(fecha) {
+  if (!fecha) return null;
+
+  if (fecha instanceof Date && !Number.isNaN(fecha.getTime())) return fecha;
+
+  if (typeof fecha === "string" && /^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    const [year, month, day] = fecha.split("-").map(Number);
+    const parsed = new Date(year, month - 1, day);
+    parsed.setHours(0, 0, 0, 0);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  const parsed = new Date(fecha);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function getReturnProductCreatedAt(devolucion) {
+  const createdAt = devolucion?.created_at
+    ? new Date(devolucion.created_at)
+    : devolucion?.fecha_devolucion
+    ? new Date(devolucion.fecha_devolucion)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+}
+
 const getAllReturnProducts = async (req,res)=>{
   try{
     const returnProducts = await prisma.devolucion_producto.findMany({
@@ -361,6 +388,8 @@ const createReturnProduct = async (req, res) => {
       });
     }
 
+    const fechaDevolucion = parseFecha(data.fecha_devolucion) || new Date();
+    const createdAt = new Date();
     const comprobante = await getComprobante(req, data);
 
     const result = await prisma.$transaction(
@@ -370,8 +399,9 @@ const createReturnProduct = async (req, res) => {
           data: {
             id_responsable: responsable.usuario_id,
             id_compras: Number(data.id_compra),
+            created_at: createdAt,
             numero_factura: data.numero_factura ?? null,
-            fecha_devolucion: new Date(),
+            fecha_devolucion: fechaDevolucion,
             cantidad_total: cantidadTotal,
             nombre_responsable: responsable.nombre,
             estado: true,
@@ -520,6 +550,7 @@ const createReturnProduct = async (req, res) => {
 const anularReturnProduct = async (req, res) => {
   const { id } = req.params;
   const devolucionId = Number(id);
+  const LIMIT_MINUTES = 30;
 
   if (!Number.isFinite(devolucionId)) {
     return res.status(400).json({ error: "ID inválido" });
@@ -540,6 +571,26 @@ const anularReturnProduct = async (req, res) => {
 
         if (devolucion.estado === false) {
           return { ok: false, status: 400, payload: { error: "La devolución ya está anulada" } };
+        }
+
+        const createdAt = getReturnProductCreatedAt(devolucion);
+        if (!createdAt) {
+          return {
+            ok: false,
+            status: 400,
+            payload: { error: "La devolución no tiene una fecha de creación válida para anular." },
+          };
+        }
+
+        const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
+        if (diffMinutes > LIMIT_MINUTES) {
+          return {
+            ok: false,
+            status: 409,
+            payload: {
+              error: `No se puede anular: han pasado ${diffMinutes} minutos desde la creación de la devolución (límite ${LIMIT_MINUTES}).`,
+            },
+          };
         }
 
         const lineas = devolucion.detalle_devolucion_producto.filter((l) => l.estado !== false);
