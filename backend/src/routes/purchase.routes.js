@@ -56,8 +56,10 @@ router.post("/", (req, res, next) => {
 }, purchaseController.createPurchase);
 
 // ✅ Queda: /kajamart/api/purchase
+router.get("/validate-invoice", purchaseController.validatePurchaseInvoiceNumber);
+
+// ✅ Queda: /kajamart/api/purchase
 router.get("/", purchaseController.getPurchases);
-router.get("/all", purchaseController.getAllPurchases);
 
 // ✅ Queda: /kajamart/api/purchase/:id_compra/cancel
 router.put("/:id_compra/cancel", purchaseController.cancelPurchase);

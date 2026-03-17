@@ -192,6 +192,24 @@ const searchLowProduct = async (req, res) => {
                         mode: "insensitive",
                       },
                     },
+                    {
+                      detalle_productos: {
+                        is: {
+                          productos: {
+                            is: {
+                              categorias: {
+                                is: {
+                                  nombre_categoria: {
+                                    contains: q,
+                                    mode: "insensitive",
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
                   ],
                 },
               },

@@ -1,4 +1,74 @@
 ﻿const prisma = require("../prisma/prismaClient");
+const {
+  safeUnlink,
+  uploadImageFileToCloudinary,
+} = require("../utils/cloudinaryUpload");
+
+function getPayload(req) {
+  if (req.body?.data) {
+    try {
+      return JSON.parse(req.body.data);
+    } catch {
+      throw new Error("El campo 'data' no es JSON válido");
+    }
+  }
+
+  return req.body || {};
+}
+
+async function getComprobante(req, payload) {
+  if (req.file) {
+    const uploadResult = await uploadImageFileToCloudinary(req.file.path, {
+      folder: "kajamart/return-products",
+    });
+
+    return {
+      url: uploadResult?.secure_url ?? null,
+      nombre: req.file.originalname,
+      mime: req.file.mimetype,
+      size: req.file.size,
+    };
+  }
+
+  const comprobante = payload?.comprobante;
+  if (comprobante && typeof comprobante === "object") {
+    return {
+      url: comprobante.url ?? null,
+      nombre: comprobante.nombre ?? null,
+      mime: comprobante.mime ?? null,
+      size: comprobante.size != null ? Number(comprobante.size) : null,
+    };
+  }
+
+  return null;
+}
+
+function parseFecha(fecha) {
+  if (!fecha) return null;
+
+  if (fecha instanceof Date && !Number.isNaN(fecha.getTime())) return fecha;
+
+  if (typeof fecha === "string" && /^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    const [year, month, day] = fecha.split("-").map(Number);
+    const parsed = new Date(year, month - 1, day);
+    parsed.setHours(0, 0, 0, 0);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  const parsed = new Date(fecha);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function getReturnProductCreatedAt(devolucion) {
+  const createdAt = devolucion?.created_at
+    ? new Date(devolucion.created_at)
+    : devolucion?.fecha_devolucion
+    ? new Date(devolucion.fecha_devolucion)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+}
 
 const getAllReturnProducts = async (req,res)=>{
   try{
@@ -135,101 +205,193 @@ const getReturnProducts = async (req, res) => {
 };
 
 const searchReturnProdcts = async (req, res) => {
-  const { q } = req.query;
-  const isNumber = !isNaN(q);
-  console.log(q);
-  const filter = isNumber
-    ? {
+  try {
+    const q = String(req.query.q || "").trim();
+    if (!q) {
+      return res.status(200).json({ data: [] });
+    }
+
+    const numericId = Number(q);
+    const isNumeric = !Number.isNaN(numericId);
+    const normalized = q.toLowerCase();
+    const statusFilters = [];
+
+    if (/^activos?$/.test(normalized)) statusFilters.push(true);
+    if (/^inactivos?$/.test(normalized)) statusFilters.push(false);
+
+    const returnProducts = await prisma.devolucion_producto.findMany({
+      where: {
         OR: [
-          { id_devolucion_product: { equals: Number(q) } },
-          { fecha_devolucion: { contains: q } },
-          { cantidad_total: { equals: Number(q) } },
+          ...(isNumeric
+            ? [
+                { id_devolucion_product: numericId },
+                { id_compras: numericId },
+                { cantidad_total: numericId },
+                {
+                  detalle_devolucion_producto: {
+                    some: {
+                      cantidad_devuelta: numericId,
+                    },
+                  },
+                },
+              ]
+            : []),
+          {
+            numero_factura: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            nombre_responsable: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            compras: {
+              is: {
+                proveedores: {
+                  is: {
+                    nombre: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          },
           {
             detalle_devolucion_producto: {
               some: {
                 OR: [
                   {
-                    cantidad_devuelta: { equals: Number(q) },
+                    nombre_producto: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    motivo: {
+                      contains: q,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    detalle_productos: {
+                      is: {
+                        productos: {
+                          is: {
+                            nombre: {
+                              contains: q,
+                              mode: "insensitive",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    detalle_productos: {
+                      is: {
+                        productos: {
+                          is: {
+                            categorias: {
+                              is: {
+                                nombre_categoria: {
+                                  contains: q,
+                                  mode: "insensitive",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
                   },
                 ],
               },
             },
           },
+          ...statusFilters.map((estado) => ({ estado })),
         ],
-      }
-    : {
-        OR: [
-          {
-            nombre_responsable: { contains: q, mode: "insensitive" },
+      },
+      include: {
+        compras: {
+          include: {
+            proveedores: true,
           },
-          {
-            OR: [
-              {
-                detalle_devolucion_producto: {
-                  some: {
-                    OR: [
-                      {
-                        nombre_producto: { contains: q, mode: "insensitive" },
+        },
+        detalle_devolucion_producto: {
+          include: {
+            detalle_productos: {
+              include: {
+                productos: {
+                  include: {
+                    categorias: {
+                      select: {
+                        id_categoria: true,
+                        nombre_categoria: true,
                       },
-                      {
-                        motivo: { contains: q, mode: "insensitive" },
-                      },
-                    ],
+                    },
                   },
                 },
               },
-            ],
+            },
           },
-        ],
-      };
-  try {
-    const returnProducts = await prisma.devolucion_producto.findMany({
-      where: filter,
-      include: { detalle_devolucion_producto: true },
+        },
+      },
+      orderBy: { id_devolucion_product: "desc" },
     });
-    return res.status(200).json({ returnProducts });
+
+    return res.status(200).json({ data: returnProducts });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Error al obtener el producto" });
   }
 };
 
 const createReturnProduct = async (req, res) => {
-  const data = req.body;
-
-  const responsable = await getResponsable(Number(data.id_responsable));
-  if (!responsable) return res.status(400).json({ error: "Responsable inválido" });
-
-  if (!Array.isArray(data.products) || data.products.length === 0) {
-    return res.status(400).json({ error: "Debe enviar al menos un producto" });
-  }
-
-  const cantidadTotal = data.products.reduce((acc, p) => acc + Number(p.cantidad || 0), 0);
-
-  // 1) Validar compra
-  const compra = await prisma.compras.findUnique({
-    where: { id_compra: Number(data.id_compra) },
-    include: {
-      detalle_compra: { include: { detalle_productos: true } },
-    },
-  });
-
-  if (!compra) {
-    return res.status(404).json({ error: "La compra especificada no existe" });
-  }
-
-  // Productos permitidos por compra (a nivel id_producto)
-  const purchaseProductIds = new Set(
-    compra.detalle_compra.map((dc) => dc?.detalle_productos?.id_producto).filter(Boolean)
-  );
-
-  const isValidReturn = data.products.every((p) => purchaseProductIds.has(Number(p.id_producto)));
-  if (!isValidReturn) {
-    return res.status(400).json({
-      error: "Uno o más productos no pertenecen a la compra especificada",
-    });
-  }
-
   try {
+    const data = getPayload(req);
+    const responsable = await getResponsable(Number(data.id_responsable));
+    if (!responsable) return res.status(400).json({ error: "Responsable inválido" });
+
+    if (!Array.isArray(data.products) || data.products.length === 0) {
+      return res.status(400).json({ error: "Debe enviar al menos un producto" });
+    }
+
+    const cantidadTotal = data.products.reduce((acc, p) => acc + Number(p.cantidad || 0), 0);
+
+    // 1) Validar compra
+    const compra = await prisma.compras.findUnique({
+      where: { id_compra: Number(data.id_compra) },
+      include: {
+        detalle_compra: { include: { detalle_productos: true } },
+      },
+    });
+
+    if (!compra) {
+      return res.status(404).json({ error: "La compra especificada no existe" });
+    }
+
+    // Productos permitidos por compra (a nivel id_producto)
+    const purchaseProductIds = new Set(
+      compra.detalle_compra.map((dc) => dc?.detalle_productos?.id_producto).filter(Boolean)
+    );
+
+    const isValidReturn = data.products.every((p) => purchaseProductIds.has(Number(p.id_producto)));
+    if (!isValidReturn) {
+      return res.status(400).json({
+        error: "Uno o más productos no pertenecen a la compra especificada",
+      });
+    }
+
+    const fechaDevolucion = parseFecha(data.fecha_devolucion) || new Date();
+    const createdAt = new Date();
+    const comprobante = await getComprobante(req, data);
+
     const result = await prisma.$transaction(
       async (tx) => {
         // 2) Crear cabecera devolución
@@ -237,12 +399,17 @@ const createReturnProduct = async (req, res) => {
           data: {
             id_responsable: responsable.usuario_id,
             id_compras: Number(data.id_compra),
+            created_at: createdAt,
             numero_factura: data.numero_factura ?? null,
-            fecha_devolucion: new Date(),
+            fecha_devolucion: fechaDevolucion,
             cantidad_total: cantidadTotal,
             nombre_responsable: responsable.nombre,
             estado: true,
             tipo_devolucion: "reemplazo", // tu default, aunque existan líneas con descuento
+            comprobante_url: comprobante?.url || null,
+            comprobante_nombre: comprobante?.nombre || null,
+            comprobante_mime: comprobante?.mime || null,
+            comprobante_size: comprobante?.size ?? null,
           },
         });
 
@@ -375,12 +542,15 @@ const createReturnProduct = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message ?? "Error al crear la devolución" });
+  } finally {
+    await safeUnlink(req.file?.path);
   }
 };
 
 const anularReturnProduct = async (req, res) => {
   const { id } = req.params;
   const devolucionId = Number(id);
+  const LIMIT_MINUTES = 30;
 
   if (!Number.isFinite(devolucionId)) {
     return res.status(400).json({ error: "ID inválido" });
@@ -401,6 +571,26 @@ const anularReturnProduct = async (req, res) => {
 
         if (devolucion.estado === false) {
           return { ok: false, status: 400, payload: { error: "La devolución ya está anulada" } };
+        }
+
+        const createdAt = getReturnProductCreatedAt(devolucion);
+        if (!createdAt) {
+          return {
+            ok: false,
+            status: 400,
+            payload: { error: "La devolución no tiene una fecha de creación válida para anular." },
+          };
+        }
+
+        const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
+        if (diffMinutes > LIMIT_MINUTES) {
+          return {
+            ok: false,
+            status: 409,
+            payload: {
+              error: `No se puede anular: han pasado ${diffMinutes} minutos desde la creación de la devolución (límite ${LIMIT_MINUTES}).`,
+            },
+          };
         }
 
         const lineas = devolucion.detalle_devolucion_producto.filter((l) => l.estado !== false);
