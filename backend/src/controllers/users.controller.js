@@ -1,46 +1,57 @@
 // controllers/usersController.js
 const prisma = require("../prisma/prismaClient");
 const bcrypt = require("bcryptjs");
-// 🟢 Obtener todos los usuarios\
+// 🟢 Obtener todos los usuarios (paginado)
 const saltRounds = 10;
 const getUsers = async (req, res) => {
   try {
-    const users = await prisma.usuarios.findMany({
-      include: {
-        acceso: {
-          select: {
-            email: true,
-            estado_usuario: true,
-            roles: {
-              select: {
-                rol_nombre: true,
-              },
-            },
-          },
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 6);
+    const search = (req.query.search || "").trim();
+    const skip = (page - 1) * limit;
+
+    // Filtro de búsqueda sobre campos de usuario y email de acceso
+    const where = search
+      ? {
+        OR: [
+          { nombre: { contains: search, mode: "insensitive" } },
+          { apellido: { contains: search, mode: "insensitive" } },
+          { documento: { contains: search, mode: "insensitive" } },
+          { telefono: { contains: search, mode: "insensitive" } },
+          { acceso: { email: { contains: search, mode: "insensitive" } } },
+        ],
+      }
+      : {};
+
+    const include = {
+      acceso: {
+        select: {
+          email: true,
+          estado_usuario: true,
+          roles: { select: { rol_nombre: true } },
         },
       },
-    });
+    };
 
-    const normalizedUsers = users.map((user) => {
-      const NombreCompleto = `${user.nombre} ${user.apellido || ""}`;
-      const Correo = user.acceso?.email || "N/A";
-      const Rol = user.acceso?.roles?.rol_nombre || "Sin Rol";
-      const EstadoUsuario =
-        user.acceso?.estado_usuario === true ? "Activo" : "Inactivo";
+    const [total, users] = await Promise.all([
+      prisma.usuarios.count({ where }),
+      prisma.usuarios.findMany({ where, include, skip, take: limit, orderBy: { usuario_id: "asc" } }),
+    ]);
 
-      return {
-        id: user.usuario_id,
-        Nombre: NombreCompleto,
-        Correo: Correo,
-        Documento: user.documento,
-        Telefono: user.telefono,
-        Rol: Rol,
-        Estado: EstadoUsuario,
-        _original: user,
-      };
-    });
+    const totalPages = Math.max(1, Math.ceil(total / limit));
 
-    return res.status(200).json(normalizedUsers);
+    const data = users.map((user) => ({
+      id: user.usuario_id,
+      Nombre: `${user.nombre} ${user.apellido || ""}`,
+      Correo: user.acceso?.email || "N/A",
+      Documento: user.documento,
+      Telefono: user.telefono,
+      Rol: user.acceso?.roles?.rol_nombre || "Sin Rol",
+      Estado: user.acceso?.estado_usuario === true ? "Activo" : "Inactivo",
+      _original: user,
+    }));
+
+    return res.status(200).json({ data, total, totalPages, page });
   } catch (error) {
     console.error("Error al obtener usuarios:", error);
     return res.status(500).json({ error: "Error getting users" });
@@ -87,12 +98,26 @@ const createUser = async (req, res) => {
   } = req.body;
 
   try {
+    // Validar que el rol existe y su estado no impida crear un usuario activo
+    const role = await prisma.roles.findUnique({
+      where: { rol_id },
+      select: { estado_rol: true },
+    });
+
+    if (!role) {
+      return res.status(404).json({ error: "Rol no encontrado." });
+    }
+
+    if (role.estado_rol === false && estado_usuario === true) {
+      return res.status(400).json({ error: "No se puede crear un usuario activo con un rol desactivado." });
+    }
+
     const hashedPassword = await bcrypt.hash(password_hash, saltRounds);
     // 1️⃣ Crear acceso vinculado a un rol
     const nuevoAcceso = await prisma.acceso.create({
       data: {
         email,
-        password_hash: hashedPassword, 
+        password_hash: hashedPassword,
         estado_usuario,
         rol_id,
       },
@@ -185,11 +210,24 @@ const toggleUserStatus = async (req, res) => {
   try {
     const usuario = await prisma.usuarios.findUnique({
       where: { usuario_id },
-      select: { acceso_id: true },
+      select: { 
+        acceso_id: true,
+        acceso: {
+          select: {
+            roles: {
+              select: { estado_rol: true }
+            }
+          }
+        }
+      },
     });
 
     if (!usuario) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    if (nuevoEstado === true && usuario.acceso?.roles?.estado_rol === false) {
+      return res.status(400).json({ error: "No se puede activar un usuario si su rol está desactivado." });
     }
 
     const updatedAcceso = await prisma.acceso.update({
@@ -200,9 +238,8 @@ const toggleUserStatus = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: `Estado del usuario ${usuario_id} actualizado a ${
-        nuevoEstado ? "Activo" : "Inactivo"
-      }`,
+      message: `Estado del usuario ${usuario_id} actualizado a ${nuevoEstado ? "Activo" : "Inactivo"
+        }`,
       estado: updatedAcceso.estado_usuario,
     });
   } catch (error) {
@@ -217,16 +254,27 @@ const toggleUserStatus = async (req, res) => {
 const deleteUser = async (req, res) => {
   const usuario_id = Number(req.params.id);
   try {
-    await prisma.usuarios.delete({
+    // 1️⃣ Buscar el usuario para obtener su acceso_id
+    const user = await prisma.usuarios.findUnique({
       where: { usuario_id },
+      select: { acceso_id: true },
     });
 
-    return res.status(200).json({ message: "User deleted successfully" });
+    if (!user) {
+      return res.status(404).json({ error: "User not found for deletion" });
+    }
+
+    // 2️⃣ Eliminar el registro de acceso (esto eliminará el usuario en cascada)
+    await prisma.acceso.delete({
+      where: { acceso_id: user.acceso_id },
+    });
+
+    return res.status(200).json({ message: "User and access deleted successfully" });
   } catch (error) {
     console.error("Error al eliminar usuario:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({ error: "User not found for deletion" });
+      return res.status(404).json({ error: "User or access not found for deletion" });
     }
 
     return res.status(500).json({ error: "Error deleting the user" });

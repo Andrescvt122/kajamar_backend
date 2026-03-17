@@ -1,23 +1,43 @@
 const prisma = require("../prisma/prismaClient");
 const { PrismaClientKnownRequestError } = require("@prisma/client/runtime/library");
 
-// 🟢 GET /roles - Obtiene todos los roles con sus permisos
+// 🟢 GET /roles - Obtiene roles con paginación y búsqueda
 const getRoles = async (req, res) => {
     try {
-        const roles = await prisma.roles.findMany({
-            include: {
-                // Asegúrate que el nombre de la relación sea 'roles_permisos' o 'rol_permisos'
-                rol_permisos: {
-                    include: { permisos: true },
-                },
+        const page = Math.max(1, parseInt(req.query.page) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit) || 6);
+        const search = (req.query.search || "").trim();
+        const skip = (page - 1) * limit;
+
+        const where = search
+            ? {
+                OR: [
+                    { rol_nombre: { contains: search, mode: "insensitive" } },
+                    { descripcion: { contains: search, mode: "insensitive" } },
+                ],
+            }
+            : {};
+
+        const include = {
+            rol_permisos: {
+                include: { permisos: true },
             },
-        });
-        return res.status(200).json(roles);
+        };
+
+        const [total, roles] = await Promise.all([
+            prisma.roles.count({ where }),
+            prisma.roles.findMany({ where, include, skip, take: limit, orderBy: { rol_id: "asc" } }),
+        ]);
+
+        const totalPages = Math.max(1, Math.ceil(total / limit));
+
+        return res.status(200).json({ data: roles, total, totalPages, page });
     } catch (error) {
         console.error("❌ ERROR al obtener roles:", error);
         return res.status(500).json({ error: "Error al obtener roles." });
     }
 };
+
 
 // 🟢 GET /roles/:id - Obtiene un rol específico
 const getRoleById = async (req, res) => {
@@ -50,13 +70,13 @@ const getRoleById = async (req, res) => {
 // 🟢 POST /roles - Crea un nuevo rol con sus permisos
 const createRole = async (req, res) => {
     // Nota: El frontend ya debería enviar el rol_nombre, descripcion y permisosIds
-    const { rol_nombre, descripcion, estado_rol = true, permisosIds } = req.body; 
+    const { rol_nombre, descripcion, estado_rol = true, permisosIds } = req.body;
 
     try {
         if (!rol_nombre || rol_nombre.trim() === "") {
             return res.status(400).json({ error: "El nombre del rol es obligatorio." });
         }
-        
+
         // 1. ✅ PRE-VERIFICACIÓN DE UNICIDAD (Mejora clave)
         const existingRole = await prisma.roles.findUnique({
             where: { rol_nombre: rol_nombre },
@@ -99,13 +119,13 @@ const createRole = async (req, res) => {
         });
     } catch (error) {
         console.error("❌ ERROR al crear rol:", error);
-        
+
         // El P2002 de unicidad ahora debería ser raro, ya que lo pre-verificamos (409)
         if (error.code === "P2002") {
-             // Este caso se daría solo en condiciones de carrera o si la pre-verificación falla
-             return res.status(409).json({ error: "El nombre del rol ya existe." });
+            // Este caso se daría solo en condiciones de carrera o si la pre-verificación falla
+            return res.status(409).json({ error: "El nombre del rol ya existe." });
         }
-        
+
         // Manejo de error de Clave Foránea (permiso_id no existe)
         if (error.code === "P2003") {
             return res.status(400).json({ error: "Uno o más IDs de permisos son inválidos o no existen." });
@@ -135,7 +155,7 @@ const updateRole = async (req, res) => {
                 return res.status(409).json({ error: "El nombre de rol ya existe y debe ser único." });
             }
         }
-        
+
         // 2. Validar IDs de permisos
         const permisosValidosUnicos = [
             ...new Set(
@@ -147,35 +167,43 @@ const updateRole = async (req, res) => {
 
         // 3. 🚨 USO DE TRANSACCIÓN: Garantiza que la sincronización sea atómica
         await prisma.$transaction(async (tx) => {
-            
+
             // a. Eliminar TODOS los permisos antiguos (limpiar la tabla intermedia)
             await tx.rol_permisos.deleteMany({ where: { rol_id } });
 
             // b. Crear TODAS las nuevas relaciones (sólo si hay permisos para crear)
             if (permisosValidosUnicos.length > 0) {
                 await tx.rol_permisos.createMany({
-                    data: permisosValidosUnicos.map((permiso_id) => ({ 
+                    data: permisosValidosUnicos.map((permiso_id) => ({
                         rol_id: rol_id,
-                        permiso_id: permiso_id 
+                        permiso_id: permiso_id
                     })),
                     skipDuplicates: true,
                 });
             }
-            
+
             // c. Actualizar los campos escalares del rol
             await tx.roles.update({
                 where: { rol_id },
                 data: { rol_nombre, descripcion, estado_rol },
             });
+
+            // d. Desactivar usuarios vinculados si el rol se desactiva
+            if (estado_rol === false) {
+                await tx.acceso.updateMany({
+                    where: { rol_id },
+                    data: { estado_usuario: false },
+                });
+            }
         });
 
         // 4. Devolver el rol actualizado con sus nuevos permisos (requiere una consulta final)
         const rolActualizado = await prisma.roles.findUnique({
-             where: { rol_id },
-             include: {
-                 rol_permisos: { include: { permisos: true } },
-             },
-           });
+            where: { rol_id },
+            include: {
+                rol_permisos: { include: { permisos: true } },
+            },
+        });
 
         return res.status(200).json({
             message: "✅ Rol actualizado correctamente.",
@@ -188,17 +216,17 @@ const updateRole = async (req, res) => {
         if (error.code === "P2025") {
             return res.status(404).json({ error: "Rol no encontrado para actualización." });
         }
-        
+
         // P2003: Clave foránea fallida (permiso_id o rol_id inválido)
         if (error.code === "P2003") {
-             return res.status(400).json({ error: "Uno o más IDs de permisos son inválidos o no existen." });
+            return res.status(400).json({ error: "Uno o más IDs de permisos son inválidos o no existen." });
         }
-        
+
         // P2002: Unicidad (Aunque lo pre-verificamos, lo dejamos como fallback)
         if (error.code === "P2002") {
             return res.status(409).json({ error: "El nombre del rol ya existe." });
         }
-        
+
         return res.status(500).json({ error: "Error al actualizar el rol." });
     }
 };
@@ -226,7 +254,7 @@ const deleteRole = async (req, res) => {
 
         // 2. Si no está en uso, proceder con la eliminación.
         // La eliminación en cascada (configurada en el schema de Prisma) se encargará de los `rol_permisos`.
-        await prisma.roles.delete({ where: { rol_id } }); 
+        await prisma.roles.delete({ where: { rol_id } });
         return res.status(200).json({ message: "🗑️ Rol eliminado correctamente." });
     } catch (error) {
         console.error("❌ ERROR al eliminar rol:", error);

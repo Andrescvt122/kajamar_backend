@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+    command: sh -c "npx prisma migrate deploy && npm start"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs

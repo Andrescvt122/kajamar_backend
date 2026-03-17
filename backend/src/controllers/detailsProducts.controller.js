@@ -1,30 +1,65 @@
 const prisma = require("../prisma/prismaClient");
 
-// 🟢 Crear detalle de producto
+/** Helpers */
+function toDecimalOrNull(v) {
+  if (v === undefined || v === null || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function toDecimalOrUndefined(v) {
+  if (v === undefined) return undefined; // no tocar si no viene
+  if (v === null || v === "") return null; // permitir setear null explícito
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function toInt(v, def = 0) {
+  const n = Math.floor(Number(v));
+  return Number.isFinite(n) ? n : def;
+}
+
+/** ============================
+ * 🟢 Crear detalle de producto
+ * ============================ */
 const createDetailProduct = async (req, res) => {
   const data = req.body;
-
   try {
+    if (!data?.id_producto) {
+      return res.status(400).json({ message: "Falta id_producto" });
+    }
+    if (!data?.codigo_barras) {
+      return res.status(400).json({ message: "Falta codigo_barras" });
+    }
+
+    const stock = toInt(data.stock_producto, 0);
+    if (stock < 0) {
+      return res.status(400).json({ message: "stock_producto inválido" });
+    }
+
     const register = await prisma.$transaction(async (tx) => {
       const detailProduct = await tx.detalle_productos.create({
         data: {
-          id_producto: data.id_producto,
-          codigo_barras_producto_compra: data.codigo_barras,
+          id_producto: Number(data.id_producto),
+          codigo_barras_producto_compra: String(data.codigo_barras).trim(),
           fecha_vencimiento: data.fecha_vencimiento
             ? new Date(data.fecha_vencimiento)
             : null,
-          stock_producto: data.stock_producto,
+          stock_producto: stock,
           es_devolucion: data.es_devolucion ?? false,
           estado: true,
+
+          // ✅ NUEVO: impuestos y precio venta por detalle
+          iva_porcentaje: toDecimalOrNull(data.iva_porcentaje),
+          icu_porcentaje: toDecimalOrNull(data.icu_porcentaje),
+          precio_venta: toDecimalOrNull(data.precio_venta),
         },
       });
 
-      // Actualiza el stock total del producto
+      // ✅ Actualiza el stock total del producto
       await tx.productos.update({
-        where: { id_producto: data.id_producto },
-        data: {
-          stock_actual: { increment: data.stock_producto },
-        },
+        where: { id_producto: Number(data.id_producto) },
+        data: { stock_actual: { increment: stock } },
       });
 
       return detailProduct;
@@ -33,70 +68,207 @@ const createDetailProduct = async (req, res) => {
     return res.status(201).json(register);
   } catch (error) {
     console.error("❌ Error al crear el detalle del producto:", error);
-    return res
-      .status(500)
-      .json({ message: "Error al crear el detalle del producto" });
+    return res.status(500).json({
+      message: "Error al crear el detalle del producto",
+      error: error.message,
+    });
   }
 };
 
-// 🔵 Listar todos los detalles (general)
+/** ============================
+ * 🔵 Listar todos los detalles
+ * ============================ */
 const getAllDetails = async (req, res) => {
   try {
-    const detalles = await prisma.detalle_productos.findMany({
-      include: {
-        productos: {
-          select: { nombre: true },
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const search = req.query.search || "";
+
+    const skip = (page - 1) * limit;
+
+    const where = {
+      AND: [
+        { estado: true },
+        search
+          ? {
+              OR: [
+                {
+                  codigo_barras_producto_compra: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+                {
+                  productos: {
+                    nombre: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              ],
+            }
+          : {},
+      ],
+    };
+
+    const [detalles, total] = await Promise.all([
+      prisma.detalle_productos.findMany({
+        where,
+        orderBy: { id_detalle_producto: "desc" },
+        skip,
+        take: limit,
+        select: {
+          id_detalle_producto: true,
+          id_producto: true,
+          codigo_barras_producto_compra: true,
+          fecha_vencimiento: true,
+          stock_producto: true,
+          es_devolucion: true,
+          estado: true,
+
+          iva_porcentaje: true,
+          icu_porcentaje: true,
+          precio_venta: true,
+          costo_unitario: true,
+          incremento_venta: true,
+
+          productos: {
+            select: {
+              nombre: true,
+              precio_venta: true,
+            },
+          },
         },
-      },
-      orderBy: { id_detalle_producto: "desc" },
-      where: {
-        estado: true,
-      },
+      }),
+
+      prisma.detalle_productos.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      data: detalles,
+      currentPage: page,
+      totalPages,
+      totalItems: total,
     });
-    res.json(detalles);
+
   } catch (error) {
+
     console.error("❌ Error al listar detalles:", error);
-    res.status(500).json({ message: "Error al obtener los detalles" });
-  }
-};
 
-// 🟣 Listar detalles por producto (id_producto)
-const getDetailsByProduct = async (req, res) => {
-  const { id_producto } = req.params;
-
-  try {
-    const detalles = await prisma.detalle_productos.findMany({
-      where: {
-        AND: [{ id_producto: Number(id_producto) }, { estado: true }],
-      },
-      orderBy: { id_detalle_producto: "desc" },
+    res.status(500).json({
+      message: "Error al obtener los detalles",
     });
 
-    // ✅ Mejor UX: si no hay detalles, devolvemos array vacío (200)
-    return res.json(detalles || []);
-  } catch (error) {
-    console.error("❌ Error al obtener detalles del producto:", error);
-    res.status(500).json({ message: "Error al obtener detalles del producto" });
   }
 };
+/** ============================
+ * 🟣 Listar detalles por producto
+ * ============================ */
+const getDetailsByProduct = async (req, res) => {
+  try {
+    const id_producto = Number(req.params.id_producto);
 
-// 🟠 Obtener un detalle individual (por id_detalle_producto)
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+
+    const skip = (page - 1) * limit;
+
+    if (!Number.isFinite(id_producto) || id_producto <= 0) {
+      return res.status(400).json({ message: "id_producto inválido" });
+    }
+
+    const [detalles, totalItems] = await prisma.$transaction([
+      prisma.detalle_productos.findMany({
+        where: {
+          id_producto: id_producto,
+          OR: [{ estado: true }, { estado: null }],
+        },
+        orderBy: { id_detalle_producto: "desc" },
+        skip,
+        take: limit,
+
+        select: {
+          id_detalle_producto: true,
+          id_producto: true,
+          codigo_barras_producto_compra: true,
+          fecha_vencimiento: true,
+          stock_producto: true,
+          es_devolucion: true,
+          estado: true,
+
+          iva_porcentaje: true,
+          icu_porcentaje: true,
+          precio_venta: true,
+          costo_unitario: true,
+          incremento_venta: true,
+
+          productos: {
+            select: {
+              nombre: true,
+              precio_venta: true,
+            },
+          },
+        },
+      }),
+
+      prisma.detalle_productos.count({
+        where: {
+          id_producto: id_producto,
+          OR: [{ estado: true }, { estado: null }],
+        },
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return res.json({
+      data: detalles,
+      currentPage: page,
+      totalPages,
+      totalItems,
+    });
+  } catch (error) {
+    console.error("❌ getDetailsByProduct:", error);
+    return res.status(500).json({
+      message: "Error al obtener detalles del producto",
+      error: error.message,
+    });
+  }
+};
+/** ============================
+ * 🟠 Obtener un detalle individual
+ * ============================ */
 const getDetailById = async (req, res) => {
   const { id_detalle_producto } = req.params;
 
   try {
     const detalle = await prisma.detalle_productos.findUnique({
       where: { id_detalle_producto: Number(id_detalle_producto) },
-      include: {
-        productos: {
-          select: { nombre: true },
-        },
+      select: {
+        id_detalle_producto: true,
+        id_producto: true,
+        codigo_barras_producto_compra: true,
+        fecha_vencimiento: true,
+        stock_producto: true,
+        es_devolucion: true,
+        estado: true,
+
+        // ✅ DEVOLVER ESTOS CAMPOS SIEMPRE
+        iva_porcentaje: true,
+        icu_porcentaje: true,
+        precio_venta: true,
+
+        productos: { select: { nombre: true, precio_venta: true } },
       },
     });
 
-    if (!detalle)
-      return res.status(404).json({ message: "Detalle no encontrado" });
-
+    if (!detalle) return res.status(404).json({ message: "Detalle no encontrado" });
     res.json(detalle);
   } catch (error) {
     console.error("❌ Error al obtener detalle individual:", error);
@@ -104,7 +276,9 @@ const getDetailById = async (req, res) => {
   }
 };
 
-// 🟡 Actualizar un detalle
+/** ============================
+ * 🟡 Actualizar un detalle
+ * ============================ */
 const updateDetailProduct = async (req, res) => {
   const { id_detalle_producto } = req.params;
   const data = req.body;
@@ -113,25 +287,38 @@ const updateDetailProduct = async (req, res) => {
     const updated = await prisma.detalle_productos.update({
       where: { id_detalle_producto: Number(id_detalle_producto) },
       data: {
-        codigo_barras_producto_compra: data.codigo_barras,
-        fecha_vencimiento: data.fecha_vencimiento
-          ? new Date(data.fecha_vencimiento)
-          : null,
-        stock_producto: data.stock_producto,
+        codigo_barras_producto_compra: data.codigo_barras
+          ? String(data.codigo_barras).trim()
+          : undefined,
+
+        fecha_vencimiento:
+          data.fecha_vencimiento === undefined
+            ? undefined
+            : data.fecha_vencimiento
+            ? new Date(data.fecha_vencimiento)
+            : null,
+
+        stock_producto: data.stock_producto === undefined ? undefined : toInt(data.stock_producto, 0),
         es_devolucion: data.es_devolucion ?? false,
         estado: true,
+
+        // ✅ NUEVO: actualizar impuestos y precio venta
+        iva_porcentaje: toDecimalOrUndefined(data.iva_porcentaje),
+        icu_porcentaje: toDecimalOrUndefined(data.icu_porcentaje),
+        precio_venta: toDecimalOrUndefined(data.precio_venta),
       },
     });
 
     res.json(updated);
   } catch (error) {
     console.error("❌ Error al actualizar detalle:", error);
-    res.status(500).json({ message: "Error al actualizar detalle" });
+    res.status(500).json({ message: "Error al actualizar detalle", error: error.message });
   }
 };
 
-// 🔴 Eliminar detalle (soft delete) con motivo específico
-// 🔴 Eliminar detalle (soft delete) -> si tiene relaciones, NO deja y explica
+/** ============================
+ * 🔴 Eliminar detalle (soft delete)
+ * ============================ */
 const deleteDetailProduct = async (req, res) => {
   const { id_detalle_producto } = req.params;
 
@@ -141,15 +328,13 @@ const deleteDetailProduct = async (req, res) => {
       include: {
         detalle_venta: true,
         detalle_compra: true,
-        detalle_devolucion_cliente: true,
+        devolucion_cliente_entregado: true,
         detalle_devolucion_producto: true,
         detalle_productos_baja: true,
       },
     });
 
-    if (!detail) {
-      return res.status(404).json({ message: "Detalle no encontrado" });
-    }
+    if (!detail) return res.status(404).json({ message: "Detalle no encontrado" });
 
     if (detail.estado === false) {
       return res.status(409).json({ message: "Este detalle ya está eliminado." });
@@ -158,7 +343,7 @@ const deleteDetailProduct = async (req, res) => {
     const counts = {
       ventas: detail.detalle_venta?.length ?? 0,
       compras: detail.detalle_compra?.length ?? 0,
-      devolucion_cliente: detail.detalle_devolucion_cliente?.length ?? 0,
+      devolucion_cliente: detail.devolucion_cliente_entregado?.length ?? 0,
       devolucion_producto: detail.detalle_devolucion_producto?.length ?? 0,
       bajas: detail.detalle_productos_baja?.length ?? 0,
     };
@@ -175,7 +360,7 @@ const deleteDetailProduct = async (req, res) => {
     if (reasons.length > 0) {
       return res.status(409).json({
         message: `No se puede eliminar: este detalle está asociado a ${reasons.join(", ")}.`,
-        details: counts, // opcional para UI/logs
+        details: counts,
       });
     }
 
@@ -191,8 +376,9 @@ const deleteDetailProduct = async (req, res) => {
   }
 };
 
-// 🔴 Eliminar definitivo (hard delete) por query ?q=
-// 🔴 Eliminar definitivo (hard delete) -> si tiene relaciones, NO deja y explica
+/** ============================
+ * 🔴 Eliminar definitivo (hard delete) por query ?q=
+ * ============================ */
 const deleteOneDetailProduct = async (req, res) => {
   let { q } = req.query;
   const id = Number(q);
@@ -203,20 +389,18 @@ const deleteOneDetailProduct = async (req, res) => {
       include: {
         detalle_venta: true,
         detalle_compra: true,
-        detalle_devolucion_cliente: true,
+        devolucion_cliente_entregado: true,
         detalle_devolucion_producto: true,
         detalle_productos_baja: true,
       },
     });
 
-    if (!detail) {
-      return res.status(404).json({ message: "Detalle no encontrado" });
-    }
+    if (!detail) return res.status(404).json({ message: "Detalle no encontrado" });
 
     const counts = {
       ventas: detail.detalle_venta?.length ?? 0,
       compras: detail.detalle_compra?.length ?? 0,
-      devolucion_cliente: detail.detalle_devolucion_cliente?.length ?? 0,
+      devolucion_cliente: detail.devolucion_cliente_entregado?.length ?? 0,
       devolucion_producto: detail.detalle_devolucion_producto?.length ?? 0,
       bajas: detail.detalle_productos_baja?.length ?? 0,
     };
@@ -247,7 +431,6 @@ const deleteOneDetailProduct = async (req, res) => {
     return res.status(500).json({ message: "Error al eliminar detalle" });
   }
 };
-
 
 module.exports = {
   createDetailProduct,

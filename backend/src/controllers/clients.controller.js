@@ -17,22 +17,48 @@ const clienteCaja = {
 };
 
 // ✅ Obtener todos los clientes (Cliente de Caja SIEMPRE primero)
+// ✅ Obtener clientes con paginación (Cliente de Caja SIEMPRE primero)
 const getClients = async (req, res) => {
   try {
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+
+    const skip = (page - 1) * limit;
+
+    // total de clientes (sin contar el cliente caja)
+    const totalClients = await prisma.clientes.count();
+
     const clients = await prisma.clientes.findMany({
       orderBy: { id_cliente: "asc" },
+      skip: skip,
+      take: limit,
     });
 
-    // Evita duplicado si algún día alguien creó un cliente con id 0 (raro, pero por si acaso)
-    const filtered = clients.filter((c) => c.id_cliente !== CAJA_ID);
+    const totalPages = Math.ceil(totalClients / limit);
 
-    return res.status(200).json([clienteCaja, ...filtered]);
+    // Cliente de caja solo aparece en la primera página
+    let data = clients;
+
+    if (page === 1) {
+      data = [clienteCaja, ...clients];
+    }
+
+    return res.status(200).json({
+      data,
+      pagination: {
+        total: totalClients,
+        page,
+        limit,
+        totalPages,
+      },
+    });
+
   } catch (error) {
     console.error("❌ Error al obtener los clientes:", error);
     return res.status(500).json({ error: "Error al obtener los clientes" });
   }
 };
-
 // ✅ Obtener un cliente por ID (incluye Cliente de Caja)
 const getClientById = async (req, res) => {
   const id = parseInt(req.params.id, 10);
