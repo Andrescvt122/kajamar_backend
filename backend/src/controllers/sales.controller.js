@@ -61,31 +61,47 @@ const diffMinutesBetween = (a, b) => {
 // ======================
 // GET /sales
 // ======================
-exports.getSales = async (_req, res) => {
+// ======================
+// GET /sales (con paginación)
+// ======================
+exports.getSales = async (req, res) => {
   try {
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const totalSales = await prisma.ventas.count();
+
     const sales = await prisma.ventas.findMany({
       orderBy: { id_venta: "desc" },
+      skip: skip,
+      take: limit,
       include: {
         clientes: true,
         detalle_venta: {
           include: {
             detalle_productos: {
-            include: { productos:{
-              select:{
-                nombre:true,
-                id_producto:true,
-                categorias:{
-                  select:{id_categoria:true, nombre_categoria:true}
-                }
-              }
-            } },
+              include: { productos: true },
             },
           },
         },
       },
     });
 
-    res.json(sales);
+    const totalPages = Math.ceil(totalSales / limit);
+
+    res.json({
+      data: sales,
+      pagination: {
+        total: totalSales,
+        page,
+        limit,
+        totalPages,
+      },
+    });
+
   } catch (error) {
     console.error("❌ getSales:", error);
     res.status(500).json({ message: "Error listando ventas" });

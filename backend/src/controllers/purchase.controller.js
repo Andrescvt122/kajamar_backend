@@ -1,17 +1,10 @@
 // src/controllers/purchase.controller.js
 const { PrismaClient } = require("@prisma/client");
-const { compras } = require("../prisma/prismaClient");
-const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/library");
+const {
+  safeUnlink,
+  uploadImageFileToCloudinary,
+} = require("../utils/cloudinaryUpload");
 const prisma = new PrismaClient();
-const fs = require("fs/promises");
-const cloudinary = require("cloudinary").v2;
-
-// ───────── CONFIG CLOUDINARY ─────────
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 /** ===================== Helpers ===================== */
 function parseFecha(fecha) {
@@ -61,11 +54,14 @@ function getPayload(req) {
   return req.body || {};
 }
 
-function getComprobante(req, payload) {
+async function getComprobante(req, payload) {
   if (req.file) {
-    const url = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    const uploadResult = await uploadImageFileToCloudinary(req.file.path, {
+      folder: "kajamart/purchases",
+    });
+
     return {
-      url,
+      url: uploadResult?.secure_url ?? null,
       nombre: req.file.originalname,
       mime: req.file.mimetype,
       size: req.file.size,
@@ -84,41 +80,89 @@ function getComprobante(req, payload) {
   return null;
 }
 
+function normalizeInvoiceNumber(value) {
+  const normalized = String(value ?? "").trim();
+  return normalized || null;
+}
+
+function isInvoiceUniqueConstraintError(error) {
+  if (error?.code !== "P2002") return false;
+
+  const target = error?.meta?.target;
+  if (Array.isArray(target)) return target.includes("numero_factura");
+
+  return String(target || "").includes("numero_factura");
+}
+
+function getPurchaseCreatedAt(compra) {
+  const createdAt = compra?.created_at
+    ? new Date(compra.created_at)
+    : compra?.fecha_compra
+    ? new Date(compra.fecha_compra)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+}
+
+exports.validatePurchaseInvoiceNumber = async (req, res) => {
+  try {
+    const numeroFactura = normalizeInvoiceNumber(req.query.numero_factura);
+
+    if (!numeroFactura) {
+      return res.status(400).json({
+        message: "El numero de factura es obligatorio",
+      });
+    }
+
+    const purchase = await prisma.compras.findFirst({
+      where: { numero_factura: numeroFactura },
+      select: { id_compra: true },
+    });
+
+    return res.status(200).json({
+      numero_factura: numeroFactura,
+      exists: Boolean(purchase),
+      isUnique: !purchase,
+    });
+  } catch (error) {
+    console.error("❌ validatePurchaseInvoiceNumber:", error);
+    return res.status(500).json({
+      message: "Error al validar el numero de factura",
+    });
+  }
+};
+
 /** ===================== CREATE PURCHASE ===================== */
 exports.createPurchase = async (req, res) => {
-  let tempPath = null;
-
   try {
     const payload = getPayload(req);
-    const { fecha_compra, id_proveedor, items } = payload;
+    const { fecha_compra, id_proveedor, items, numero_factura } = payload;
+    const numeroFactura = normalizeInvoiceNumber(numero_factura);
 
     if (!id_proveedor || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Datos incompletos (proveedor/items)" });
     }
 
-    const fechaCompraDate = parseFecha(fecha_compra) || new Date();
-
-    // ───────── SUBIR COMPROBANTE A CLOUDINARY SI VIENE ─────────
-    let comprobante = null;
-    if (req.file) {
-      tempPath = req.file.path;
-      try {
-        const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-          folder: "kajamart/comprobantes",
-        });
-        comprobante = {
-          url: uploadResult.secure_url,
-          nombre: req.file.originalname,
-          mime: req.file.mimetype,
-          size: req.file.size,
-        };
-      } catch (err) {
-        console.error("❌ Error al subir comprobante a Cloudinary:", err);
-        return res.status(500).json({ message: "Error al subir el comprobante a Cloudinary" });
-      }
-    } else {
-      comprobante = getComprobante(req, payload);
+    if (!numeroFactura) {
+      return res.status(400).json({ message: "El numero de factura es obligatorio" });
     }
+
+    const fechaCompraDate = parseFecha(fecha_compra) || new Date();
+    const createdAt = new Date();
+
+    const purchaseWithSameInvoice = await prisma.compras.findFirst({
+      where: { numero_factura: numeroFactura },
+      select: { id_compra: true },
+    });
+
+    if (purchaseWithSameInvoice) {
+      return res.status(409).json({
+        message: "El numero de factura ya existe",
+      });
+    }
+
+    const comprobante = await getComprobante(req, payload);
 
     const compraCreada = await prisma.$transaction(async (tx) => {
       let subtotal = 0;
@@ -154,7 +198,9 @@ exports.createPurchase = async (req, res) => {
       /** ===== CREAR COMPRA ===== */
       const compra = await tx.compras.create({
         data: {
+          created_at: createdAt,
           fecha_compra: fechaCompraDate,
+          numero_factura: numeroFactura,
           id_proveedor: Number(id_proveedor),
           subtotal,
           total_impuestos: totalImpuestos,
@@ -301,26 +347,39 @@ exports.createPurchase = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ createPurchase:", error);
+
+    if (isInvoiceUniqueConstraintError(error)) {
+      return res.status(409).json({
+        message: "El numero de factura ya existe",
+        error: error.message,
+      });
+    }
+
     return res.status(500).json({
       message: "Error al registrar la compra",
       error: error.message,
     });
   } finally {
-    if (tempPath) {
-      try {
-        await fs.unlink(tempPath);
-      } catch (e) {
-        console.warn("⚠️ No se pudo borrar el archivo temporal:", e.message);
-      }
-    }
+    await safeUnlink(req.file?.path);
   }
 };
 
 /** ===================== GET PURCHASES ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
+/** ===================== GET PURCHASES (PAGINACIÓN) ===================== */
 exports.getPurchases = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit =6;
+
+    const skip = (page - 1) * limit;
+
+    const totalPurchases = await prisma.compras.count();
+
     const compras = await prisma.compras.findMany({
       orderBy: { id_compra: "desc" },
+      skip,
+      take: limit,
       include: {
         proveedores: {
           select: {
@@ -333,14 +392,11 @@ exports.getPurchases = async (req, res) => {
             detalle_productos: {
               include: {
                 productos: {
-                  select:{
-                    nombre:true,
-                    id_producto:true,
-                    categorias:{
-                      select:{id_categoria:true, nombre_categoria:true}
-                    }
+                  select: {
+                    id_producto: true,
+                    nombre: true,
                   },
-                }
+                },
               },
             },
           },
@@ -348,7 +404,17 @@ exports.getPurchases = async (req, res) => {
       },
     });
 
-    return res.json(compras);
+    const totalPages = Math.ceil(totalPurchases / limit);
+
+    return res.json({
+      data: compras,
+      pagination: {
+        total: totalPurchases,
+        page,
+        limit,
+        totalPages,
+      },
+    });
   } catch (error) {
     console.error("❌ getPurchases:", error);
     return res.status(500).json({
@@ -357,13 +423,12 @@ exports.getPurchases = async (req, res) => {
     });
   }
 };
-
-/** ===================== CANCEL PURCHASE ===================== */
-/** ===================== CANCEL PURCHASE ===================== */
+  /** ===================== CANCEL PURCHASE ===================== */
 exports.cancelPurchase = async (req, res) => {
   try {
     const id_compra = Number(req.params.id_compra);
     const { motivo } = req.body;
+    const LIMIT_MINUTES = 30;
 
     if (!id_compra || !motivo || motivo.trim().length < 5) {
       return res.status(400).json({
@@ -384,6 +449,22 @@ exports.cancelPurchase = async (req, res) => {
       if (!compra) throw new Error("Compra no encontrada");
       if (compra.estado_compra === "Anulada")
         throw new Error("La compra ya está anulada");
+
+      const createdAt = getPurchaseCreatedAt(compra);
+      if (!createdAt) {
+        const error = new Error("La compra no tiene una fecha de creacion valida para anular.");
+        error.statusCode = 400;
+        throw error;
+      }
+
+      const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
+      if (diffMinutes > LIMIT_MINUTES) {
+        const error = new Error(
+          `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la compra (limite ${LIMIT_MINUTES}).`
+        );
+        error.statusCode = 409;
+        throw error;
+      }
 
       // revertir stock
       for (const dc of compra.detalle_compra) {
@@ -434,7 +515,7 @@ exports.cancelPurchase = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ cancelPurchase:", error);
-    return res.status(500).json({
+    return res.status(error.statusCode || 500).json({
       message: error.message || "Error al anular compra",
     });
   }

@@ -2,24 +2,8 @@
 // kajamar_backend/backend/src/controllers/products.controller.js
 require("dotenv").config();
 const prisma = require("../prisma/prismaClient");
-const fs = require("fs/promises");
-const cloudinary = require("cloudinary").v2;
 const { removeImageBackground } = require("../utils/removeBackground");
-
-// ───────── CONFIG CLOUDINARY ─────────
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// ───────── HELPERS IMAGEN ─────────
-const safeUnlink = async (filePath) => {
-  if (!filePath) return;
-  try {
-    await fs.unlink(filePath);
-  } catch (_) {}
-};
+const { cloudinary, safeUnlink } = require("../utils/cloudinaryUpload");
 
 const uploadWithBgRemoval = async (originalPath) => {
   let processedPath = null;
@@ -89,6 +73,15 @@ const resolveImpuestoId = async (val, tipo = "IMP") => {
 
   return created.id_impuesto;
 };
+
+const parseOptionalPositiveInt = (value) => {
+  if (value === undefined || value === null || value === "") return null;
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return null;
+
+  return Math.max(0, Math.trunc(parsed));
+};
 // -------------------- GET PRODUCT BY ID --------------------
 const getProductById = async (req, res) => {
   const { id } = req.params;
@@ -135,6 +128,163 @@ const getProductById = async (req, res) => {
   }
 };
 // --------------------- GETs ---------------------
+
+const getProducts = async (req,res)=>{
+  try{
+    const productos = await prisma.productos.findMany({
+      orderBy: { nombre: "asc" },
+      include:{
+        categorias: { select: { id_categoria: true, nombre_categoria: true } },
+        producto_proveedor: {
+          include: {
+            proveedores: {
+              select: { id_proveedor: true, nombre: true, nit: true },
+            },
+          },
+        },
+        impuestos_productos_productos_ivaToimpuestos_productos: true,
+        impuestos_productos_productos_icuToimpuestos_productos: true,
+        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
+      },
+    });
+
+    const formatted = productos.map((p) => ({
+      ...p,
+      categoria: p.categorias ? p.categorias.nombre_categoria : null,
+      proveedores: Array.isArray(p.producto_proveedor)
+        ? p.producto_proveedor.map((pp) => pp.proveedores)
+        : [],
+      iva_detalle:
+        p.impuestos_productos_productos_ivaToimpuestos_productos || null,
+      icu_detalle:
+        p.impuestos_productos_productos_icuToimpuestos_productos || null,
+      incremento_detalle:
+        p.impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos ||
+        null,
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error("❌ Error al obtener productos:", error);
+    res.status(500).json({ message: "Error al obtener los productos" });
+  }
+}
+
+const searchProducts = async (req, res) => {
+  try {
+    const q = String(req.query.q || "").trim();
+    if (!q) {
+      return res.status(200).json({ data: [] });
+    }
+
+    const normalized = q.toLowerCase();
+    const numericId = Number(q);
+    const isNumeric = !Number.isNaN(numericId);
+    const statusFilters = [];
+
+    if (/^activos?$/.test(normalized)) statusFilters.push(true);
+    if (/^inactivos?$/.test(normalized)) statusFilters.push(false);
+
+    const products = await prisma.productos.findMany({
+      where: {
+        OR: [
+          ...(isNumeric ? [{ id_producto: numericId }] : []),
+          ...(isNumeric
+            ? [
+                { stock_actual: numericId },
+                { stock_minimo: numericId },
+                { stock_maximo: numericId },
+                { precio_venta: numericId },
+                { costo_unitario: numericId },
+              ]
+            : []),
+          {
+            nombre: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            descripcion: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            categorias: {
+              is: {
+                nombre_categoria: {
+                  contains: q,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+          {
+            producto_proveedor: {
+              some: {
+                proveedores: {
+                  OR: [
+                    {
+                      nombre: {
+                        contains: q,
+                        mode: "insensitive",
+                      },
+                    },
+                    {
+                      nit: {
+                        contains: q,
+                        mode: "insensitive",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          ...statusFilters.map((estado) => ({ estado })),
+        ],
+      },
+      orderBy: { nombre: "asc" },
+      include: {
+        categorias: { select: { id_categoria: true, nombre_categoria: true } },
+        producto_proveedor: {
+          include: {
+            proveedores: {
+              select: { id_proveedor: true, nombre: true, nit: true },
+            },
+          },
+        },
+        impuestos_productos_productos_ivaToimpuestos_productos: true,
+        impuestos_productos_productos_icuToimpuestos_productos: true,
+        impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos: true,
+      },
+    });
+
+    const formatted = products.map((p) => ({
+      ...p,
+      categoria: p.categorias ? p.categorias.nombre_categoria : null,
+      proveedores: Array.isArray(p.producto_proveedor)
+        ? p.producto_proveedor.map((pp) => pp.proveedores)
+        : [],
+      iva_detalle:
+        p.impuestos_productos_productos_ivaToimpuestos_productos || null,
+      icu_detalle:
+        p.impuestos_productos_productos_icuToimpuestos_productos || null,
+      incremento_detalle:
+        p.impuestos_productos_productos_porcentaje_incrementoToimpuestos_productos ||
+        null,
+    }));
+
+    res.status(200).json({ data: formatted });
+  } catch (error) {
+    console.error("❌ Error al buscar productos:", error);
+    res.status(500).json({
+      message: "Error al buscar productos.",
+    });
+  }
+};
+
 const getAllProducts = async (req, res) => {
   try {
 
@@ -363,7 +513,7 @@ const createProduct = async (req, res) => {
         porcentaje_incremento: porcId,
         costo_unitario: costoUnitarioNum,
         precio_venta: precioVentaNum,
-        cantidad_unitaria: Number(cantidad_unitaria),
+        cantidad_unitaria: parseOptionalPositiveInt(cantidad_unitaria),
         url_imagen: imageUrl,
       },
     });
@@ -411,6 +561,7 @@ const updateProduct = async (req, res) => {
       porcentaje_incremento,
       costo_unitario,
       precio_venta,
+      cantidad_unitaria,
       id_proveedor,
       url_imagen,
     } = req.body;
@@ -473,6 +624,9 @@ const updateProduct = async (req, res) => {
 
     if (costo_unitario !== undefined) data.costo_unitario = Number(costo_unitario);
     if (precio_venta !== undefined) data.precio_venta = Number(precio_venta);
+    if (cantidad_unitaria !== undefined) {
+      data.cantidad_unitaria = parseOptionalPositiveInt(cantidad_unitaria);
+    }
 
     if (finalImageUrl !== undefined) data.url_imagen = finalImageUrl || null;
 
@@ -611,4 +765,6 @@ module.exports = {
   getRandomProduct,
   getProductsByCategory,
   getProductById,
+  getProducts,
+  searchProducts,
 };

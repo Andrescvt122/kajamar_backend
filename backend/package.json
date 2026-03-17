@@ -35,8 +35,14 @@
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
+<<<<<<< HEAD
+    "jest": "^30.3.0",
+=======
     "jest": "^30.2.0",
+>>>>>>> yarcestahot
     "nodemon": "^3.1.10",
-    "prisma": "^6.18.0"
+    "prisma": "^6.18.0",
+    "prisma-erd-generator": "^2.4.2",
+    "supertest": "^7.2.2"
   }
 }

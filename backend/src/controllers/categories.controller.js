@@ -1,7 +1,94 @@
 // controllers/categories.controller.js
 const prisma = require("../prisma/prismaClient");
 
+const categoryProductSelect = {
+  id_producto: true,
+  nombre: true,
+  stock_actual: true,
+  url_imagen: true,
+};
+
+const formatCategory = (category) => {
+  const products = Array.isArray(category.productos) ? category.productos : [];
+  const imageProduct = products.find(
+    (product) => product.url_imagen && String(product.url_imagen).trim() !== ""
+  );
+
+  return {
+    ...category,
+    productos: products,
+    imagen_categoria: imageProduct?.url_imagen || null,
+  };
+};
+
 // ✅ Obtener todas las categorías
+
+const getAllCategories = async(req,res)=>{
+  try{
+    const categories = await prisma.categorias.findMany({
+      orderBy: { id_categoria: "desc" },
+      include:{
+        productos:{
+          select: categoryProductSelect,
+        }
+      }
+    });
+
+    res.status(200).json(categories.map(formatCategory));
+  }catch(error){
+    console.error("❌ Error al obtener categorías:", error);
+    res.status(500).json({
+      message: "Error al obtener las categorías"
+    });
+  }
+}
+
+const searchCategories = async (req, res) => {
+  try {
+    const q = String(req.query.q || "").trim();
+    if (!q) {
+      return res.status(200).json({ data: [] });
+    }
+
+    const normalized = q.toLowerCase();
+    const numericId = Number(q);
+    const isNumeric = !Number.isNaN(numericId);
+    const statusFilters = [];
+
+    if (/^activos?$/.test(normalized)) statusFilters.push(true);
+    if (/^inactivos?$/.test(normalized)) statusFilters.push(false);
+
+    const categories = await prisma.categorias.findMany({
+      where: {
+        OR: [
+          ...(isNumeric ? [{ id_categoria: numericId }] : []),
+          {
+            nombre_categoria: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            descripcion_categoria: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          ...statusFilters.map((estado) => ({ estado })),
+        ],
+      },
+      orderBy: { id_categoria: "desc" },
+    });
+
+    res.status(200).json({ data: categories });
+  } catch (error) {
+    console.error("❌ Error al buscar categorías:", error);
+    res.status(500).json({
+      message: "Error al buscar las categorías",
+    });
+  }
+};
+
 const getCategories = async (req, res) => {
   try {
 
@@ -36,6 +123,11 @@ const getCategories = async (req, res) => {
         skip,
         take: limit,
         orderBy: { id_categoria: "desc" },
+        include: {
+          productos: {
+            select: categoryProductSelect,
+          },
+        },
       }),
       prisma.categorias.count({
         where,
@@ -45,7 +137,7 @@ const getCategories = async (req, res) => {
     const totalPages = Math.ceil(total / limit);
 
     res.json({
-      data: categories,
+      data: categories.map(formatCategory),
       currentPage: page,
       totalPages,
       totalItems: total,
@@ -67,11 +159,16 @@ const getCategoryById = async (req, res) => {
   try {
     const category = await prisma.categorias.findUnique({
       where: { id_categoria: Number(id) },
+      include: {
+        productos: {
+          select: categoryProductSelect,
+        },
+      },
     });
     if (!category)
       return res.status(404).json({ message: "Categoría no encontrada" });
 
-    res.json(category);
+    res.json(formatCategory(category));
   } catch (error) {
     console.error("❌ Error al obtener la categoría:", error);
     res.status(500).json({ message: "Error al obtener la categoría" });
@@ -199,4 +296,6 @@ module.exports = {
   createCategory,
   updateCategory,
   deleteCategory,
+  getAllCategories,
+  searchCategories,
 };
