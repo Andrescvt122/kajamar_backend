@@ -10,6 +10,17 @@ cloudinary.config({
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
 
+const getLowProductCreatedAt = (lowProduct) => {
+  const createdAt = lowProduct?.created_at
+    ? new Date(lowProduct.created_at)
+    : lowProduct?.fecha_baja
+    ? new Date(lowProduct.fecha_baja)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+};
+
 const lowProductInclude = {
   usuarios: {
     select: { usuario_id: true, nombre: true, apellido: true },
@@ -259,10 +270,12 @@ const createLowProduct = async (req, res) => {
   try {
     const result = await prisma.$transaction(
       async (tx) => {
+        const createdAt = new Date();
         const lowProduct = await tx.productos_baja.create({
           data: {
             id_responsable: responsable.usuario_id,
-            fecha_baja: new Date(),
+            fecha_baja: createdAt,
+            created_at: createdAt,
             cantida_baja: cantidad_total_baja,
             total_precio_baja,
             nombre_responsable: fullNameFromUser(responsable),
@@ -488,6 +501,7 @@ const createLowProduct = async (req, res) => {
 const cancelLowProduct = async (req, res) => {
   const { id } = req.params;
   const bajaId = Number(id);
+  const LIMIT_MINUTES = 30;
 
   if (!Number.isFinite(bajaId)) {
     return res.status(400).json({ error: "ID invalido" });
@@ -503,6 +517,31 @@ const cancelLowProduct = async (req, res) => {
 
         if (!baja) return { ok: false, status: 404, payload: { error: "Baja no encontrada" } };
         if (baja.estado === false) return { ok: false, status: 400, payload: { error: "La baja ya esta anulada" } };
+
+        const createdAt = getLowProductCreatedAt(baja);
+        if (!createdAt) {
+          return {
+            ok: false,
+            status: 400,
+            payload: {
+              error: "La baja no tiene una fecha de creacion valida para anular.",
+            },
+          };
+        }
+
+        const diffMinutes = Math.floor(
+          (Date.now() - createdAt.getTime()) / (1000 * 60)
+        );
+        if (diffMinutes > LIMIT_MINUTES) {
+          return {
+            ok: false,
+            status: 409,
+            payload: {
+              error:
+                `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la baja (limite ${LIMIT_MINUTES}).`,
+            },
+          };
+        }
 
         const conversiones = await tx.conversion_productos.findMany({
           where: { id_baja_productos: bajaId, estado: true },
