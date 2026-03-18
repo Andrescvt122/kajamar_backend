@@ -30,4 +30,4 @@ RUN mkdir -p /app/src/uploads && chown -R app:app /app/src/uploads
 USER app
 
 EXPOSE 3000
-CMD ["npm","start"]
+CMD ["node","src/index.js"]
