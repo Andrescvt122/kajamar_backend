@@ -1,5 +1,5 @@
 jest.mock("../prisma/prismaClient", () => ({
-  devolucion_cliente: { findMany: jest.fn() },
+  devolucion_cliente: { findMany: jest.fn(), count: jest.fn() },
   ventas: { findUnique: jest.fn(), findFirst: jest.fn(), update: jest.fn() },
   $transaction: jest.fn(),
 }));
@@ -29,27 +29,34 @@ describe("returnClient.controller", () => {
   });
 
   describe("getReturnClients", () => {
-    test("debe limitar a 20 resultados máximo y devolver nextCursor", async () => {
-      const req = { query: { limit: "50" } };
+    test("debe paginar y limitar a 20 resultados máximo", async () => {
+      const req = { query: { page: "2", limit: "50" } };
       const res = buildRes();
 
-      const rows = Array.from({ length: 21 }, (_, i) => ({
+      const rows = Array.from({ length: 20 }, (_, i) => ({
         id_devoluciones_cliente: 100 - i,
       }));
       prisma.devolucion_cliente.findMany.mockResolvedValue(rows);
+      prisma.devolucion_cliente.count.mockResolvedValue(31);
 
       await getReturnClients(req, res);
 
       expect(prisma.devolucion_cliente.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          take: 21,
+          skip: 20,
+          take: 20,
           orderBy: { id_devoluciones_cliente: "desc" },
-        }),
+        })
       );
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
-        data: rows.slice(0, 20),
-        meta: { limit: 20, nextCursor: rows[19].id_devoluciones_cliente },
+        data: rows,
+        meta: {
+          page: 2,
+          limit: 20,
+          totalItems: 31,
+          totalPages: 2,
+        },
       });
     });
     test("debe responder 500 cuando ocurre un error al listar devoluciones", async () => {
@@ -281,6 +288,7 @@ describe("returnClient.controller", () => {
             id_devoluciones_cliente: 50,
             id_venta: 15,
             estado: true,
+            created_at: new Date(Date.now() - 5 * 60 * 1000),
           }),
           update: jest.fn().mockResolvedValue({}),
         },
@@ -344,6 +352,7 @@ describe("returnClient.controller", () => {
               id_devoluciones_cliente: 22,
               id_venta: 5,
               estado: false,
+              created_at: new Date(),
             }),
           },
         }),
@@ -356,6 +365,40 @@ describe("returnClient.controller", () => {
         error: "La devolucion al cliente ya esta anulada",
       });
     });
+
+    test("debe responder 409 cuando ya pasaron más de 30 minutos", async () => {
+      const req = { params: { id: "22" }, body: { id_responsable: 1 } };
+      const res = buildRes();
+
+      getResponsable.mockResolvedValue({
+        usuario_id: 1,
+        nombre: "Ana",
+        apellido: "Pérez",
+      });
+
+      prisma.$transaction.mockImplementation(async (cb) =>
+        cb({
+          devolucion_cliente: {
+            findUnique: jest.fn().mockResolvedValue({
+              id_devoluciones_cliente: 22,
+              id_venta: 5,
+              estado: true,
+              created_at: new Date(Date.now() - 31 * 60 * 1000),
+            }),
+          },
+        }),
+      );
+
+      await anularReturnClient(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(409);
+      expect(res.json).toHaveBeenCalledWith({
+        error: expect.stringContaining(
+          "han pasado 31 minutos desde la creacion de la devolucion al cliente",
+        ),
+      });
+    });
+
     test("debe responder 500 cuando ocurre un error al anular la devolucion", async () => {
       const req = { params: { id: "50" }, body: { id_responsable: 7 } };
       const res = buildRes();
