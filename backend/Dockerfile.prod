@@ -26,6 +26,7 @@ RUN apk add --no-cache openssl
 COPY --from=build /app ./
 
 RUN addgroup -S app && adduser -S app -G app
+RUN mkdir -p /app/src/uploads && chown -R app:app /app/src/uploads
 USER app
 
 EXPOSE 3000
