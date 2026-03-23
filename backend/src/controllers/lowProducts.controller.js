@@ -1,11 +1,6 @@
 const prisma = require("../prisma/prismaClient");
-const cloudinary = require("cloudinary").v2;
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+const { safeUnlink } = require("../utils/cloudinaryUpload");
+const { uploadProductImageWithBgRemoval } = require("../utils/productImageUpload");
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
@@ -363,6 +358,8 @@ const createLowProduct = async (req, res) => {
                   typeof pd.url_imagen === "string" && pd.url_imagen.trim()
                     ? pd.url_imagen.trim()
                     : null;
+                let tempSourcePath = null;
+                let processedPath = null;
 
                 if (
                   !imageUrl &&
@@ -370,15 +367,19 @@ const createLowProduct = async (req, res) => {
                   pd.imagen_base64.trim()
                 ) {
                   try {
-                    const uploadResult = await cloudinary.uploader.upload(
-                      pd.imagen_base64,
-                      { folder: "kajamart/products" }
-                    );
-                    imageUrl = uploadResult.secure_url;
+                    const uploadResult = await uploadProductImageWithBgRemoval({
+                      imageBase64: pd.imagen_base64,
+                    });
+                    imageUrl = uploadResult.url;
+                    tempSourcePath = uploadResult.sourcePath;
+                    processedPath = uploadResult.processedPath;
                   } catch (_err) {
                     throw new Error(
                       "No se pudo subir la imagen del producto destino"
                     );
+                  } finally {
+                    await safeUnlink(tempSourcePath);
+                    await safeUnlink(processedPath);
                   }
                 }
 
