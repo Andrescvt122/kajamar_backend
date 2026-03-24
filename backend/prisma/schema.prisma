@@ -97,7 +97,7 @@ model detalle_devolucion_producto {
 model detalle_productos {
   id_detalle_producto           Int                            @id @default(autoincrement())
   id_producto                   Int
-  codigo_barras_producto_compra String                         @db.VarChar(50)
+  codigo_barras_producto_compra String                         @unique(map: "uq_detalle_productos_codigo_barras_producto_compra") @db.VarChar(50)
   fecha_vencimiento             DateTime?                      @db.Date
   stock_producto                Int
   es_devolucion                 Boolean?                       @default(false)

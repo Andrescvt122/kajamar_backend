@@ -1,6 +1,11 @@
 const prisma = require("../prisma/prismaClient");
 const { safeUnlink } = require("../utils/cloudinaryUpload");
 const { uploadProductImageWithBgRemoval } = require("../utils/productImageUpload");
+const {
+  assertDetailBarcodeAvailable,
+  isDetailBarcodeUniqueConstraintError,
+  isDetailBarcodeValidationError,
+} = require("../utils/detailBarcode");
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
@@ -420,10 +425,15 @@ const createLowProduct = async (req, res) => {
                 throw new Error("Para crear destino debes enviar codigo_barras_destino (único).");
               }
 
+              const codigoBarrasDestino = await assertDetailBarcodeAvailable(
+                tx,
+                p.codigo_barras_destino
+              );
+
               const nuevoDetalle = await tx.detalle_productos.create({
                 data: {
                   id_producto: idProductoDestino,
-                  codigo_barras_producto_compra: String(p.codigo_barras_destino),
+                  codigo_barras_producto_compra: codigoBarrasDestino,
                   stock_producto: 0,
                   estado: true,
                   es_devolucion: false,
@@ -495,6 +505,17 @@ const createLowProduct = async (req, res) => {
     return res.status(201).json(result ? enrichLowProduct(result) : null); // <- tu helper
   } catch (error) {
     console.error(error);
+
+    if (isDetailBarcodeValidationError(error)) {
+      return res.status(
+        error.code === "DETAIL_BARCODE_ALREADY_EXISTS" ? 409 : 400
+      ).json({ error: error.message });
+    }
+
+    if (isDetailBarcodeUniqueConstraintError(error)) {
+      return res.status(409).json({ error: "El código de barras ya existe" });
+    }
+
     return res.status(500).json({ error: error.message ?? "Error al crear el producto" });
   }
 };
