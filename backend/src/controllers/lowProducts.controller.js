@@ -1,14 +1,25 @@
 const prisma = require("../prisma/prismaClient");
-const cloudinary = require("cloudinary").v2;
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+const { safeUnlink } = require("../utils/cloudinaryUpload");
+const { uploadProductImageWithBgRemoval } = require("../utils/productImageUpload");
+const {
+  assertDetailBarcodeAvailable,
+  isDetailBarcodeUniqueConstraintError,
+  isDetailBarcodeValidationError,
+} = require("../utils/detailBarcode");
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
+
+const getLowProductCreatedAt = (lowProduct) => {
+  const createdAt = lowProduct?.created_at
+    ? new Date(lowProduct.created_at)
+    : lowProduct?.fecha_baja
+    ? new Date(lowProduct.fecha_baja)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+};
 
 const lowProductInclude = {
   usuarios: {
@@ -259,10 +270,12 @@ const createLowProduct = async (req, res) => {
   try {
     const result = await prisma.$transaction(
       async (tx) => {
+        const createdAt = new Date();
         const lowProduct = await tx.productos_baja.create({
           data: {
             id_responsable: responsable.usuario_id,
-            fecha_baja: new Date(),
+            fecha_baja: createdAt,
+            created_at: createdAt,
             cantida_baja: cantidad_total_baja,
             total_precio_baja,
             nombre_responsable: fullNameFromUser(responsable),
@@ -350,6 +363,8 @@ const createLowProduct = async (req, res) => {
                   typeof pd.url_imagen === "string" && pd.url_imagen.trim()
                     ? pd.url_imagen.trim()
                     : null;
+                let tempSourcePath = null;
+                let processedPath = null;
 
                 if (
                   !imageUrl &&
@@ -357,15 +372,19 @@ const createLowProduct = async (req, res) => {
                   pd.imagen_base64.trim()
                 ) {
                   try {
-                    const uploadResult = await cloudinary.uploader.upload(
-                      pd.imagen_base64,
-                      { folder: "kajamart/products" }
-                    );
-                    imageUrl = uploadResult.secure_url;
+                    const uploadResult = await uploadProductImageWithBgRemoval({
+                      imageBase64: pd.imagen_base64,
+                    });
+                    imageUrl = uploadResult.url;
+                    tempSourcePath = uploadResult.sourcePath;
+                    processedPath = uploadResult.processedPath;
                   } catch (_err) {
                     throw new Error(
                       "No se pudo subir la imagen del producto destino"
                     );
+                  } finally {
+                    await safeUnlink(tempSourcePath);
+                    await safeUnlink(processedPath);
                   }
                 }
 
@@ -406,10 +425,15 @@ const createLowProduct = async (req, res) => {
                 throw new Error("Para crear destino debes enviar codigo_barras_destino (único).");
               }
 
+              const codigoBarrasDestino = await assertDetailBarcodeAvailable(
+                tx,
+                p.codigo_barras_destino
+              );
+
               const nuevoDetalle = await tx.detalle_productos.create({
                 data: {
                   id_producto: idProductoDestino,
-                  codigo_barras_producto_compra: String(p.codigo_barras_destino),
+                  codigo_barras_producto_compra: codigoBarrasDestino,
                   stock_producto: 0,
                   estado: true,
                   es_devolucion: false,
@@ -481,6 +505,17 @@ const createLowProduct = async (req, res) => {
     return res.status(201).json(result ? enrichLowProduct(result) : null); // <- tu helper
   } catch (error) {
     console.error(error);
+
+    if (isDetailBarcodeValidationError(error)) {
+      return res.status(
+        error.code === "DETAIL_BARCODE_ALREADY_EXISTS" ? 409 : 400
+      ).json({ error: error.message });
+    }
+
+    if (isDetailBarcodeUniqueConstraintError(error)) {
+      return res.status(409).json({ error: "El código de barras ya existe" });
+    }
+
     return res.status(500).json({ error: error.message ?? "Error al crear el producto" });
   }
 };
@@ -488,6 +523,7 @@ const createLowProduct = async (req, res) => {
 const cancelLowProduct = async (req, res) => {
   const { id } = req.params;
   const bajaId = Number(id);
+  const LIMIT_MINUTES = 30;
 
   if (!Number.isFinite(bajaId)) {
     return res.status(400).json({ error: "ID invalido" });
@@ -503,6 +539,31 @@ const cancelLowProduct = async (req, res) => {
 
         if (!baja) return { ok: false, status: 404, payload: { error: "Baja no encontrada" } };
         if (baja.estado === false) return { ok: false, status: 400, payload: { error: "La baja ya esta anulada" } };
+
+        const createdAt = getLowProductCreatedAt(baja);
+        if (!createdAt) {
+          return {
+            ok: false,
+            status: 400,
+            payload: {
+              error: "La baja no tiene una fecha de creacion valida para anular.",
+            },
+          };
+        }
+
+        const diffMinutes = Math.floor(
+          (Date.now() - createdAt.getTime()) / (1000 * 60)
+        );
+        if (diffMinutes > LIMIT_MINUTES) {
+          return {
+            ok: false,
+            status: 409,
+            payload: {
+              error:
+                `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la baja (limite ${LIMIT_MINUTES}).`,
+            },
+          };
+        }
 
         const conversiones = await tx.conversion_productos.findMany({
           where: { id_baja_productos: bajaId, estado: true },

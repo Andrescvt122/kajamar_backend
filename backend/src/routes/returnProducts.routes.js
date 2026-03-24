@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 const returnProductsController = require("../controllers/returnProducts.controller");
 
@@ -13,7 +14,14 @@ const allowedImageMimeTypes = new Set([
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
+    const uploadsDir = path.join(__dirname, "../uploads");
+
+    try {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+      cb(null, uploadsDir);
+    } catch (error) {
+      cb(error);
+    }
   },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname || "");

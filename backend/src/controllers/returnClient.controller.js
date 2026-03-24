@@ -1,6 +1,17 @@
 const prisma = require("../prisma/prismaClient");
 const { getResponsable } = require("./returnProducts.controller");
 
+function getReturnClientCreatedAt(devolucion) {
+  const createdAt = devolucion?.created_at
+    ? new Date(devolucion.created_at)
+    : devolucion?.fecha_devolucion
+    ? new Date(devolucion.fecha_devolucion)
+    : null;
+
+  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
+  return createdAt;
+}
+
 const getAllReturnClients = async (req, res) => {
   try {
     const returnClients = await prisma.devolucion_cliente.findMany({
@@ -389,11 +400,13 @@ const createReturnClients = async (req, res) => {
         0,
       );
       const registro = await prisma.$transaction(async (tx) => {
+        const createdAt = new Date();
         const devolucionCliente = await tx.devolucion_cliente.create({
           data: {
             id_venta: Number(data.id_venta),
             id_responsable: responsable.usuario_id,
-            fecha_devolucion: new Date(Date.now()),
+            fecha_devolucion: createdAt,
+            created_at: createdAt,
             total_devolucion_producto: data.total_devolucion_producto,
             total_devolucion_cliente: data.total_devolucion_cliente,
             cantidad_devuelta_a_cliente: cantidadTotalAEntregar,
@@ -429,6 +442,7 @@ const createReturnClients = async (req, res) => {
               include: { detalle_productos: true },
             });
             if (condicion === "dañado") {
+              const lowCreatedAt = new Date();
               const detalle_producto = await tx.detalle_productos.findUnique({
                 where: {
                   id_detalle_producto: detalleVenta.id_detalle_producto,
@@ -440,7 +454,8 @@ const createReturnClients = async (req, res) => {
                 data: {
                   id_responsable: responsable.usuario_id,
                   desde_dev_cliente: devolucionCliente.id_devoluciones_cliente,
-                  fecha_baja: new Date(),
+                  fecha_baja: lowCreatedAt,
+                  created_at: lowCreatedAt,
                   cantida_baja: pv.cantidad,
                   total_precio_baja: pv.valor_unitario * pv.cantidad,
                   nombre_responsable: `${responsable.nombre} ${responsable.apellido}`,
@@ -535,6 +550,7 @@ const cancelReturnClient = async (req, res) => {
   const id_devolucion_cliente = Number(
     req.params.id ?? data.id_devolucion_cliente,
   );
+  const LIMIT_MINUTES = 30;
 
   if (!Number.isFinite(id_devolucion_cliente)) {
     return res.status(400).json({ error: "ID de devolucion invalido" });
@@ -549,7 +565,13 @@ const cancelReturnClient = async (req, res) => {
     const result = await prisma.$transaction(async (tx) => {
       const devolucion = await tx.devolucion_cliente.findUnique({
         where: { id_devoluciones_cliente: id_devolucion_cliente },
-        select: { id_devoluciones_cliente: true, id_venta: true, estado: true },
+        select: {
+          id_devoluciones_cliente: true,
+          id_venta: true,
+          estado: true,
+          created_at: true,
+          fecha_devolucion: true,
+        },
       });
 
       if (!devolucion) {
@@ -565,6 +587,32 @@ const cancelReturnClient = async (req, res) => {
           ok: false,
           status: 400,
           payload: { error: "La devolucion al cliente ya esta anulada" },
+        };
+      }
+
+      const createdAt = getReturnClientCreatedAt(devolucion);
+      if (!createdAt) {
+        return {
+          ok: false,
+          status: 400,
+          payload: {
+            error:
+              "La devolucion al cliente no tiene una fecha de creacion valida para anular.",
+          },
+        };
+      }
+
+      const diffMinutes = Math.floor(
+        (Date.now() - createdAt.getTime()) / (1000 * 60),
+      );
+      if (diffMinutes > LIMIT_MINUTES) {
+        return {
+          ok: false,
+          status: 409,
+          payload: {
+            error:
+              `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la devolucion al cliente (limite ${LIMIT_MINUTES}).`,
+          },
         };
       }
 

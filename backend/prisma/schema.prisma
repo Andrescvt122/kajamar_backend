@@ -97,7 +97,7 @@ model detalle_devolucion_producto {
 model detalle_productos {
   id_detalle_producto           Int                            @id @default(autoincrement())
   id_producto                   Int
-  codigo_barras_producto_compra String                         @db.VarChar(50)
+  codigo_barras_producto_compra String                         @unique(map: "uq_detalle_productos_codigo_barras_producto_compra") @db.VarChar(50)
   fecha_vencimiento             DateTime?                      @db.Date
   stock_producto                Int
   es_devolucion                 Boolean?                       @default(false)
@@ -139,6 +139,7 @@ model devolucion_cliente {
   id_venta                     Int?
   id_responsable               Int?
   fecha_devolucion             DateTime?                      @db.Date
+  created_at                   DateTime?                      @default(now()) @db.Timestamp(6)
   cantidad_devuelta_a_cliente  Int?
   cantidad_devuelta_cliente    Int?
   total_devolucion_cliente     Decimal?                       @db.Decimal
@@ -241,6 +242,7 @@ model productos_baja {
   id_baja_productos      Int                      @id @default(autoincrement())
   id_responsable         Int?
   fecha_baja             DateTime?                @db.Date
+  created_at             DateTime?                @default(now()) @db.Timestamp(6)
   cantida_baja           Int?
   total_precio_baja      Decimal?                 @db.Decimal
   nombre_responsable     String?                  @db.VarChar(50)

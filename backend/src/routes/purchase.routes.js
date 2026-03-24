@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const purchaseController = require("../controllers/purchase.controller");
 
+const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
 const allowedImageMimeTypes = new Set([
@@ -15,7 +16,14 @@ const allowedImageMimeTypes = new Set([
 // ✅ Guarda archivo físico en: backend/src/uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
+    const uploadsDir = path.join(__dirname, "../uploads");
+
+    try {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+      cb(null, uploadsDir);
+    } catch (error) {
+      cb(error);
+    }
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname || "");
