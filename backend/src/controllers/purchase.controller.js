@@ -137,8 +137,7 @@ exports.createPurchase = async (req, res) => {
       return res.status(400).json({ message: "El numero de factura es obligatorio" });
     }
 
-    const fechaCompraDate = parseFecha(fecha_compra) || new Date();
-
+    const fechaCompraDate = new Date(); 
     const purchaseWithSameInvoice = await prisma.compras.findFirst({
       where: { numero_factura: numeroFactura },
       select: { id_compra: true },
