@@ -2,47 +2,8 @@
 // kajamar_backend/backend/src/controllers/products.controller.js
 require("dotenv").config();
 const prisma = require("../prisma/prismaClient");
-const { removeImageBackground } = require("../utils/removeBackground");
-const { cloudinary, safeUnlink } = require("../utils/cloudinaryUpload");
-
-const uploadWithBgRemoval = async (originalPath) => {
-  let processedPath = null;
-
-  try {
-    if (typeof removeImageBackground !== "function") {
-      console.error(
-        "❌ removeImageBackground no es una función. Revisa ../utils/removeBackground"
-      );
-      throw new Error("removeImageBackground not available");
-    }
-
-    processedPath = await removeImageBackground(originalPath);
-    console.log("🧼 remove.bg processedPath:", processedPath);
-
-    const finalPath = processedPath || originalPath;
-
-    const uploadResult = await cloudinary.uploader.upload(finalPath, {
-      folder: "kajamart/products",
-      resource_type: "image",
-      format: "png",
-      flags: "preserve_transparency",
-    });
-
-    return { url: uploadResult.secure_url, processedPath };
-  } catch (err) {
-    console.error(
-      "⚠️ BG removal falló, subiendo original. Motivo:",
-      err?.message || err
-    );
-
-    const uploadResult = await cloudinary.uploader.upload(originalPath, {
-      folder: "kajamart/products",
-      resource_type: "image",
-    });
-
-    return { url: uploadResult.secure_url, processedPath: null };
-  }
-};
+const { safeUnlink } = require("../utils/cloudinaryUpload");
+const { uploadProductImageWithBgRemoval } = require("../utils/productImageUpload");
 
 // ───────── HELPERS IMPUESTOS ─────────
 const resolveImpuestoId = async (val, tipo = "IMP") => {
@@ -455,7 +416,9 @@ const createProduct = async (req, res) => {
       const originalPath = req.file.path;
       tempPath = originalPath;
 
-      const { url, processedPath } = await uploadWithBgRemoval(originalPath);
+      const { url, processedPath } = await uploadProductImageWithBgRemoval({
+        originalPath,
+      });
       imageUrl = url;
 
       await safeUnlink(originalPath);
@@ -599,7 +562,9 @@ const updateProduct = async (req, res) => {
       const originalPath = req.file.path;
       tempPath = originalPath;
 
-      const { url, processedPath } = await uploadWithBgRemoval(originalPath);
+      const { url, processedPath } = await uploadProductImageWithBgRemoval({
+        originalPath,
+      });
       finalImageUrl = url;
 
       await safeUnlink(originalPath);
