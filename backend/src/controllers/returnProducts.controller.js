@@ -4,6 +4,7 @@ const {
   uploadImageFileToCloudinary,
 } = require("../utils/cloudinaryUpload");
 const { parseTimestampValue } = require("../utils/dateTime");
+const { buildStatusWhere } = require("../utils/statusFilter");
 
 function getPayload(req) {
   if (req.body?.data) {
@@ -66,7 +67,9 @@ function getReturnProductCreatedAt(devolucion) {
 
 const getAllReturnProducts = async (req,res)=>{
   try{
+    const where = buildStatusWhere(req.query.status);
     const returnProducts = await prisma.devolucion_producto.findMany({
+      where,
       include:{
         compras:{
           select:{
@@ -149,7 +152,9 @@ const getReturnProducts = async (req, res) => {
     const limit = Number(req.query.limit) || 6; // valor predeterminado si no se proporciona un límite
     const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
     const safeLimit = Math.min(limit, 20);
+    const where = buildStatusWhere(req.query.status);
     const returnProducts = await prisma.devolucion_producto.findMany({
+      where,
       take: safeLimit + 1,
       skip: cursor ? 1 : 0,
       cursor: cursor ? { id_devolucion_product: cursor } : undefined,
@@ -209,13 +214,13 @@ const searchReturnProdcts = async (req, res) => {
     const isNumeric = !Number.isNaN(numericId);
     const normalized = q.toLowerCase();
     const statusFilters = [];
+    const statusWhere = buildStatusWhere(req.query.status);
 
     if (/^activos?$/.test(normalized)) statusFilters.push(true);
     if (/^inactivos?$/.test(normalized)) statusFilters.push(false);
 
-    const returnProducts = await prisma.devolucion_producto.findMany({
-      where: {
-        OR: [
+    const searchWhere = {
+      OR: [
           ...(isNumeric
             ? [
                 { id_devolucion_product: numericId },
@@ -310,7 +315,15 @@ const searchReturnProdcts = async (req, res) => {
           },
           ...statusFilters.map((estado) => ({ estado })),
         ],
-      },
+      };
+
+    const returnProducts = await prisma.devolucion_producto.findMany({
+      where:
+        Object.keys(statusWhere).length > 0
+          ? {
+              AND: [searchWhere, statusWhere],
+            }
+          : searchWhere,
       include: {
         compras: {
           include: {

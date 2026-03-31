@@ -11,6 +11,7 @@ const {
   parseTimestampValue,
   toBusinessDateOnly,
 } = require("../utils/dateTime");
+const { buildStatusWhere } = require("../utils/statusFilter");
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
@@ -104,7 +105,9 @@ const enrichLowProduct = (lowProduct) => ({
 
 const getAllLowProducts = async (req,res)=>{
   try{
+    const where = buildStatusWhere(req.query.status);
     const lowProducts = await prisma.productos_baja.findMany({
+      where,
       include: lowProductInclude,
       orderBy: { id_baja_productos: "desc" },
     });
@@ -120,8 +123,10 @@ const getLowProducts = async (req, res) => {
     const limit = Number(req.query.limit) || 6;
     const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
     const safeLimit = Math.min(limit, 20);
+    const where = buildStatusWhere(req.query.status);
 
     const lowProducts = await prisma.productos_baja.findMany({
+      where,
       take: safeLimit + 1,
       skip: cursor ? 1 : 0,
       cursor: cursor ? { id_baja_productos: cursor } : undefined,
@@ -171,6 +176,7 @@ const searchLowProduct = async (req, res) => {
 
   try {
     const isNumber = !isNaN(q);
+    const statusWhere = buildStatusWhere(req.query.status);
 
     const filter = isNumber
       ? {
@@ -230,8 +236,14 @@ const searchLowProduct = async (req, res) => {
         };
 
     const lowProducts = await prisma.productos_baja.findMany({
-      where: filter,
+      where:
+        Object.keys(statusWhere).length > 0
+          ? {
+              AND: [filter, statusWhere],
+            }
+          : filter,
       include: lowProductInclude,
+      orderBy: { id_baja_productos: "desc" },
     });
 
     return res.status(200).json(lowProducts.map(enrichLowProduct));
