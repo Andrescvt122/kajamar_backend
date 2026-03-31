@@ -1,15 +1,12 @@
 const prisma = require("../prisma/prismaClient");
 const { getResponsable } = require("./returnProducts.controller");
+const {
+  parseTimestampValue,
+  toBusinessDateOnly,
+} = require("../utils/dateTime");
 
 function getReturnClientCreatedAt(devolucion) {
-  const createdAt = devolucion?.created_at
-    ? new Date(devolucion.created_at)
-    : devolucion?.fecha_devolucion
-    ? new Date(devolucion.fecha_devolucion)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
+  return parseTimestampValue(devolucion?.created_at);
 }
 
 const getAllReturnClients = async (req, res) => {
@@ -454,7 +451,7 @@ const createReturnClients = async (req, res) => {
                 data: {
                   id_responsable: responsable.usuario_id,
                   desde_dev_cliente: devolucionCliente.id_devoluciones_cliente,
-                  fecha_baja: lowCreatedAt,
+                  fecha_baja: toBusinessDateOnly(lowCreatedAt),
                   created_at: lowCreatedAt,
                   cantida_baja: pv.cantidad,
                   total_precio_baja: pv.valor_unitario * pv.cantidad,

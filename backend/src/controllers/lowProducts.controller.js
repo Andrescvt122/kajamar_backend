@@ -6,20 +6,17 @@ const {
   isDetailBarcodeUniqueConstraintError,
   isDetailBarcodeValidationError,
 } = require("../utils/detailBarcode");
+const {
+  formatTimestampForTimeZone,
+  parseTimestampValue,
+  toBusinessDateOnly,
+} = require("../utils/dateTime");
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
 
-const getLowProductCreatedAt = (lowProduct) => {
-  const createdAt = lowProduct?.created_at
-    ? new Date(lowProduct.created_at)
-    : lowProduct?.fecha_baja
-    ? new Date(lowProduct.fecha_baja)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
-};
+const getLowProductCreatedAt = (lowProduct) =>
+  parseTimestampValue(lowProduct?.created_at);
 
 const lowProductInclude = {
   usuarios: {
@@ -85,6 +82,10 @@ const enrichConversion = (conversion) => ({
 
 const enrichLowProduct = (lowProduct) => ({
   ...lowProduct,
+  created_at_local:
+    lowProduct.created_at_local ?? formatTimestampForTimeZone(lowProduct.created_at),
+  createdAtLocal:
+    lowProduct.createdAtLocal ?? formatTimestampForTimeZone(lowProduct.created_at),
   nombre_responsable:
     lowProduct.nombre_responsable ?? fullNameFromUser(lowProduct.usuarios),
   detalle_productos_baja: (lowProduct.detalle_productos_baja ?? []).map(
@@ -268,13 +269,14 @@ const createLowProduct = async (req, res) => {
   if (!responsable) return res.status(400).json({ error: "Responsable invalido" });
 
   try {
+    console.log("Fecha",new Date())
     const result = await prisma.$transaction(
       async (tx) => {
         const createdAt = new Date();
         const lowProduct = await tx.productos_baja.create({
           data: {
             id_responsable: responsable.usuario_id,
-            fecha_baja: createdAt,
+            fecha_baja: toBusinessDateOnly(createdAt),
             created_at: createdAt,
             cantida_baja: cantidad_total_baja,
             total_precio_baja,
@@ -541,20 +543,14 @@ const cancelLowProduct = async (req, res) => {
         if (baja.estado === false) return { ok: false, status: 400, payload: { error: "La baja ya esta anulada" } };
 
         const createdAt = getLowProductCreatedAt(baja);
-        if (!createdAt) {
-          return {
-            ok: false,
-            status: 400,
-            payload: {
-              error: "La baja no tiene una fecha de creacion valida para anular.",
-            },
-          };
-        }
+        const diffMinutes = createdAt
+          ? Math.max(
+              0,
+              Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60))
+            )
+          : null;
 
-        const diffMinutes = Math.floor(
-          (Date.now() - createdAt.getTime()) / (1000 * 60)
-        );
-        if (diffMinutes > LIMIT_MINUTES) {
+        if (diffMinutes !== null && diffMinutes > LIMIT_MINUTES) {
           return {
             ok: false,
             status: 409,

@@ -3,6 +3,7 @@ const {
   safeUnlink,
   uploadImageFileToCloudinary,
 } = require("../utils/cloudinaryUpload");
+const { parseTimestampValue } = require("../utils/dateTime");
 
 function getPayload(req) {
   if (req.body?.data) {
@@ -60,14 +61,7 @@ function parseFecha(fecha) {
 }
 
 function getReturnProductCreatedAt(devolucion) {
-  const createdAt = devolucion?.created_at
-    ? new Date(devolucion.created_at)
-    : devolucion?.fecha_devolucion
-    ? new Date(devolucion.fecha_devolucion)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
+  return parseTimestampValue(devolucion?.created_at);
 }
 
 const getAllReturnProducts = async (req,res)=>{

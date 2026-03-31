@@ -55,7 +55,7 @@ model compras {
   motivo_anulacion    String?
   fecha_anulacion     DateTime?             @db.Timestamp(6)
   numero_factura      String?               @unique(map: "uq_compras_numero_factura") @db.VarChar(50)
-  created_at          DateTime?             @default(now()) @db.Timestamp(6)
+  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
   proveedores         proveedores           @relation(fields: [id_proveedor], references: [id_proveedor], onUpdate: NoAction, map: "fk_compras_proveedor")
   detalle_compra      detalle_compra[]
   devolucion_producto devolucion_producto[]
@@ -97,7 +97,7 @@ model detalle_devolucion_producto {
 model detalle_productos {
   id_detalle_producto           Int                            @id @default(autoincrement())
   id_producto                   Int
-  codigo_barras_producto_compra String                         @unique(map: "uq_detalle_productos_codigo_barras_producto_compra") @db.VarChar(50)
+  codigo_barras_producto_compra String                         @db.VarChar(50)
   fecha_vencimiento             DateTime?                      @db.Date
   stock_producto                Int
   es_devolucion                 Boolean?                       @default(false)
@@ -139,12 +139,12 @@ model devolucion_cliente {
   id_venta                     Int?
   id_responsable               Int?
   fecha_devolucion             DateTime?                      @db.Date
-  created_at                   DateTime?                      @default(now()) @db.Timestamp(6)
   cantidad_devuelta_a_cliente  Int?
   cantidad_devuelta_cliente    Int?
   total_devolucion_cliente     Decimal?                       @db.Decimal
   total_devolucion_producto    Decimal?                       @db.Decimal
   estado                       Boolean?                       @default(true)
+  created_at                   DateTime?                      @default(now()) @db.Timestamptz(6)
   usuarios                     usuarios?                      @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
   ventas                       ventas?                        @relation(fields: [id_venta], references: [id_venta], onDelete: NoAction, onUpdate: NoAction, map: "fk_venta")
   devolucion_cliente_devuelto  devolucion_cliente_devuelto[]
@@ -162,11 +162,11 @@ model devolucion_producto {
   id_compras                  Int?
   estado                      Boolean?                      @default(true)
   tipo_devolucion             String                        @default("reemplazo") @db.VarChar(20)
-  comprobante_url             String?                       @db.VarChar(255)
-  comprobante_nombre          String?                       @db.VarChar(255)
+  created_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
   comprobante_mime            String?                       @db.VarChar(100)
+  comprobante_nombre          String?                       @db.VarChar(255)
   comprobante_size            Int?
-  created_at                  DateTime?                     @default(now()) @db.Timestamp(6)
+  comprobante_url             String?                       @db.VarChar(255)
   detalle_devolucion_producto detalle_devolucion_producto[]
   compras                     compras?                      @relation(fields: [id_compras], references: [id_compra], onDelete: NoAction, onUpdate: NoAction, map: "fk_compra")
   usuarios                    usuarios?                     @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
@@ -242,12 +242,12 @@ model productos_baja {
   id_baja_productos      Int                      @id @default(autoincrement())
   id_responsable         Int?
   fecha_baja             DateTime?                @db.Date
-  created_at             DateTime?                @default(now()) @db.Timestamp(6)
   cantida_baja           Int?
   total_precio_baja      Decimal?                 @db.Decimal
   nombre_responsable     String?                  @db.VarChar(50)
   estado                 Boolean?                 @default(true)
   desde_dev_cliente      Int?
+  created_at             DateTime?                @default(now()) @db.Timestamptz(6)
   conversionProductos    conversion_productos[]
   detalle_productos_baja detalle_productos_baja[]
   productos              productos[]

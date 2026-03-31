@@ -9,6 +9,7 @@ const {
   isDetailBarcodeUniqueConstraintError,
   isDetailBarcodeValidationError,
 } = require("../utils/detailBarcode");
+const { parseTimestampValue } = require("../utils/dateTime");
 const prisma = new PrismaClient();
 
 /** ===================== Helpers ===================== */
@@ -100,14 +101,7 @@ function isInvoiceUniqueConstraintError(error) {
 }
 
 function getPurchaseCreatedAt(compra) {
-  const createdAt = compra?.created_at
-    ? new Date(compra.created_at)
-    : compra?.fecha_compra
-    ? new Date(compra.fecha_compra)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
+  return parseTimestampValue(compra?.created_at);
 }
 
 exports.validatePurchaseInvoiceNumber = async (req, res) => {
@@ -470,10 +464,11 @@ exports.cancelPurchase = async (req, res) => {
         throw error;
       }
 
-      const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
-      if (diffMinutes > LIMIT_MINUTES) {
+      const elapsedMilliseconds = Math.max(0, Date.now() - createdAt.getTime());
+      if (elapsedMilliseconds >= LIMIT_MINUTES * 60 * 1000) {
+        const elapsedMinutes = Math.floor(elapsedMilliseconds / (1000 * 60));
         const error = new Error(
-          `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la compra (limite ${LIMIT_MINUTES}).`
+          `No se puede anular: han pasado ${elapsedMinutes} minutos desde la creacion de la compra (limite ${LIMIT_MINUTES}).`
         );
         error.statusCode = 409;
         throw error;
