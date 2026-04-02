@@ -1,4 +1,11 @@
 const prisma = require("../prisma/prismaClient");
+const {
+  assertDetailBarcodeAvailable,
+  findDetailByBarcode,
+  isDetailBarcodeUniqueConstraintError,
+  isDetailBarcodeValidationError,
+  normalizeDetailBarcode,
+} = require("../utils/detailBarcode");
 
 /** Helpers */
 function toDecimalOrNull(v) {
@@ -28,9 +35,6 @@ const createDetailProduct = async (req, res) => {
     if (!data?.id_producto) {
       return res.status(400).json({ message: "Falta id_producto" });
     }
-    if (!data?.codigo_barras) {
-      return res.status(400).json({ message: "Falta codigo_barras" });
-    }
 
     const stock = toInt(data.stock_producto, 0);
     if (stock < 0) {
@@ -38,10 +42,12 @@ const createDetailProduct = async (req, res) => {
     }
 
     const register = await prisma.$transaction(async (tx) => {
+      const barcode = await assertDetailBarcodeAvailable(tx, data.codigo_barras);
+
       const detailProduct = await tx.detalle_productos.create({
         data: {
           id_producto: Number(data.id_producto),
-          codigo_barras_producto_compra: String(data.codigo_barras).trim(),
+          codigo_barras_producto_compra: barcode,
           fecha_vencimiento: data.fecha_vencimiento
             ? new Date(data.fecha_vencimiento)
             : null,
@@ -68,8 +74,53 @@ const createDetailProduct = async (req, res) => {
     return res.status(201).json(register);
   } catch (error) {
     console.error("❌ Error al crear el detalle del producto:", error);
+
+    if (isDetailBarcodeValidationError(error)) {
+      return res.status(error.code === "DETAIL_BARCODE_ALREADY_EXISTS" ? 409 : 400).json({
+        message: error.message,
+        error: error.message,
+      });
+    }
+
+    if (isDetailBarcodeUniqueConstraintError(error)) {
+      return res.status(409).json({
+        message: "El código de barras ya existe",
+        error: "El código de barras ya existe",
+      });
+    }
+
     return res.status(500).json({
       message: "Error al crear el detalle del producto",
+      error: error.message,
+    });
+  }
+};
+
+const validateDetailBarcode = async (req, res) => {
+  try {
+    const barcode = normalizeDetailBarcode(req.query.codigo_barras);
+    const ignoreDetailId = Number(req.query.ignore_id_detalle_producto);
+
+    if (!barcode) {
+      return res.status(400).json({
+        message: "El código de barras es obligatorio",
+      });
+    }
+
+    const existingDetail = await findDetailByBarcode(prisma, barcode, {
+      ignoreDetailId,
+    });
+
+    return res.json({
+      barcode,
+      isUnique: !existingDetail,
+      exists: Boolean(existingDetail),
+      detailId: existingDetail?.id_detalle_producto ?? null,
+    });
+  } catch (error) {
+    console.error("❌ Error al validar código de barras:", error);
+    return res.status(500).json({
+      message: "Error al validar el código de barras",
       error: error.message,
     });
   }
@@ -284,12 +335,20 @@ const updateDetailProduct = async (req, res) => {
   const data = req.body;
 
   try {
+    let barcode = undefined;
+
+    if (data.codigo_barras !== undefined) {
+      barcode = await prisma.$transaction((tx) =>
+        assertDetailBarcodeAvailable(tx, data.codigo_barras, {
+          ignoreDetailId: Number(id_detalle_producto),
+        })
+      );
+    }
+
     const updated = await prisma.detalle_productos.update({
       where: { id_detalle_producto: Number(id_detalle_producto) },
       data: {
-        codigo_barras_producto_compra: data.codigo_barras
-          ? String(data.codigo_barras).trim()
-          : undefined,
+        codigo_barras_producto_compra: barcode,
 
         fecha_vencimiento:
           data.fecha_vencimiento === undefined
@@ -312,6 +371,21 @@ const updateDetailProduct = async (req, res) => {
     res.json(updated);
   } catch (error) {
     console.error("❌ Error al actualizar detalle:", error);
+
+    if (isDetailBarcodeValidationError(error)) {
+      return res.status(error.code === "DETAIL_BARCODE_ALREADY_EXISTS" ? 409 : 400).json({
+        message: error.message,
+        error: error.message,
+      });
+    }
+
+    if (isDetailBarcodeUniqueConstraintError(error)) {
+      return res.status(409).json({
+        message: "El código de barras ya existe",
+        error: "El código de barras ya existe",
+      });
+    }
+
     res.status(500).json({ message: "Error al actualizar detalle", error: error.message });
   }
 };
@@ -434,6 +508,7 @@ const deleteOneDetailProduct = async (req, res) => {
 
 module.exports = {
   createDetailProduct,
+  validateDetailBarcode,
   getAllDetails,
   getDetailsByProduct,
   getDetailById,
