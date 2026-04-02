@@ -4,6 +4,12 @@ const {
   safeUnlink,
   uploadImageFileToCloudinary,
 } = require("../utils/cloudinaryUpload");
+const {
+  assertDetailBarcodeAvailable,
+  isDetailBarcodeUniqueConstraintError,
+  isDetailBarcodeValidationError,
+} = require("../utils/detailBarcode");
+const { parseTimestampValue } = require("../utils/dateTime");
 const prisma = new PrismaClient();
 
 /** ===================== Helpers ===================== */
@@ -95,14 +101,7 @@ function isInvoiceUniqueConstraintError(error) {
 }
 
 function getPurchaseCreatedAt(compra) {
-  const createdAt = compra?.created_at
-    ? new Date(compra.created_at)
-    : compra?.fecha_compra
-    ? new Date(compra.fecha_compra)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
+  return parseTimestampValue(compra?.created_at);
 }
 
 exports.validatePurchaseInvoiceNumber = async (req, res) => {
@@ -282,34 +281,26 @@ exports.createPurchase = async (req, res) => {
 
         /** ===== DETALLE POR PAQUETE ===== */
         for (const pack of paquetes) {
-          const codigo = pack.codigoBarrasIngreso?.trim();
-          if (!codigo) throw new Error("Paquete sin código");
+          const codigo = await assertDetailBarcodeAvailable(
+            tx,
+            pack.codigoBarrasIngreso
+          );
 
           const fechaVenc = parseFecha(pack.fechaVencimiento);
-
-          let detalle = await tx.detalle_productos.findFirst({
-            where: {
+          const detalle = await tx.detalle_productos.create({
+            data: {
               id_producto: idProducto,
               codigo_barras_producto_compra: codigo,
+              fecha_vencimiento: fechaVenc,
+              stock_producto: 0,
+              estado: true,
+              iva_porcentaje: ivaPct,
+              icu_porcentaje: icuPct,
+              precio_venta: precioVenta,
+              costo_unitario: costoUnitarioCalc,
+              incremento_venta: incrementoVentaCalc,
             },
           });
-
-          if (!detalle) {
-            detalle = await tx.detalle_productos.create({
-              data: {
-                id_producto: idProducto,
-                codigo_barras_producto_compra: codigo,
-                fecha_vencimiento: fechaVenc,
-                stock_producto: 0,
-                estado: true,
-                iva_porcentaje: ivaPct,
-                icu_porcentaje: icuPct,
-                precio_venta: precioVenta,
-                costo_unitario: costoUnitarioCalc,
-                incremento_venta: incrementoVentaCalc,
-              },
-            });
-          }
 
           if (unidadesPorPaquete > 0) {
             await tx.detalle_productos.update({
@@ -352,6 +343,22 @@ exports.createPurchase = async (req, res) => {
       return res.status(409).json({
         message: "El numero de factura ya existe",
         error: error.message,
+      });
+    }
+
+    if (isDetailBarcodeValidationError(error)) {
+      return res.status(
+        error.code === "DETAIL_BARCODE_ALREADY_EXISTS" ? 409 : 400
+      ).json({
+        message: error.message,
+        error: error.message,
+      });
+    }
+
+    if (isDetailBarcodeUniqueConstraintError(error)) {
+      return res.status(409).json({
+        message: "El código de barras ya existe",
+        error: "El código de barras ya existe",
       });
     }
 
@@ -457,10 +464,11 @@ exports.cancelPurchase = async (req, res) => {
         throw error;
       }
 
-      const diffMinutes = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60));
-      if (diffMinutes > LIMIT_MINUTES) {
+      const elapsedMilliseconds = Math.max(0, Date.now() - createdAt.getTime());
+      if (elapsedMilliseconds >= LIMIT_MINUTES * 60 * 1000) {
+        const elapsedMinutes = Math.floor(elapsedMilliseconds / (1000 * 60));
         const error = new Error(
-          `No se puede anular: han pasado ${diffMinutes} minutos desde la creacion de la compra (limite ${LIMIT_MINUTES}).`
+          `No se puede anular: han pasado ${elapsedMinutes} minutos desde la creacion de la compra (limite ${LIMIT_MINUTES}).`
         );
         error.statusCode = 409;
         throw error;
