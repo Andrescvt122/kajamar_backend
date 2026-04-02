@@ -55,7 +55,7 @@ model compras {
   motivo_anulacion    String?
   fecha_anulacion     DateTime?             @db.Timestamp(6)
   numero_factura      String?               @unique(map: "uq_compras_numero_factura") @db.VarChar(50)
-  created_at          DateTime?             @default(now()) @db.Timestamp(6)
+  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
   proveedores         proveedores           @relation(fields: [id_proveedor], references: [id_proveedor], onUpdate: NoAction, map: "fk_compras_proveedor")
   detalle_compra      detalle_compra[]
   devolucion_producto devolucion_producto[]
@@ -144,7 +144,7 @@ model devolucion_cliente {
   total_devolucion_cliente     Decimal?                       @db.Decimal
   total_devolucion_producto    Decimal?                       @db.Decimal
   estado                       Boolean?                       @default(true)
-  created_at                   DateTime?                      @default(now()) @db.Timestamp(6)
+  created_at                   DateTime?                      @default(now()) @db.Timestamptz(6)
   usuarios                     usuarios?                      @relation(fields: [id_responsable], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_responsable")
   ventas                       ventas?                        @relation(fields: [id_venta], references: [id_venta], onDelete: NoAction, onUpdate: NoAction, map: "fk_venta")
   devolucion_cliente_devuelto  devolucion_cliente_devuelto[]
@@ -162,7 +162,7 @@ model devolucion_producto {
   id_compras                  Int?
   estado                      Boolean?                      @default(true)
   tipo_devolucion             String                        @default("reemplazo") @db.VarChar(20)
-  created_at                  DateTime?                     @default(now()) @db.Timestamp(6)
+  created_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
   comprobante_mime            String?                       @db.VarChar(100)
   comprobante_nombre          String?                       @db.VarChar(255)
   comprobante_size            Int?
@@ -247,7 +247,7 @@ model productos_baja {
   nombre_responsable     String?                  @db.VarChar(50)
   estado                 Boolean?                 @default(true)
   desde_dev_cliente      Int?
-  created_at             DateTime?                @default(now()) @db.Timestamp(6)
+  created_at             DateTime?                @default(now()) @db.Timestamptz(6)
   conversionProductos    conversion_productos[]
   detalle_productos_baja detalle_productos_baja[]
   productos              productos[]

@@ -1,20 +1,23 @@
 const prisma = require("../prisma/prismaClient");
 const { safeUnlink } = require("../utils/cloudinaryUpload");
 const { uploadProductImageWithBgRemoval } = require("../utils/productImageUpload");
+const {
+  assertDetailBarcodeAvailable,
+  isDetailBarcodeUniqueConstraintError,
+  isDetailBarcodeValidationError,
+} = require("../utils/detailBarcode");
+const {
+  formatTimestampForTimeZone,
+  parseTimestampValue,
+  toBusinessDateOnly,
+} = require("../utils/dateTime");
+const { buildStatusWhere } = require("../utils/statusFilter");
 
 const fullNameFromUser = (user) =>
   [user?.nombre, user?.apellido].filter(Boolean).join(" ").trim() || null;
 
-const getLowProductCreatedAt = (lowProduct) => {
-  const createdAt = lowProduct?.created_at
-    ? new Date(lowProduct.created_at)
-    : lowProduct?.fecha_baja
-    ? new Date(lowProduct.fecha_baja)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
-};
+const getLowProductCreatedAt = (lowProduct) =>
+  parseTimestampValue(lowProduct?.created_at);
 
 const lowProductInclude = {
   usuarios: {
@@ -80,6 +83,10 @@ const enrichConversion = (conversion) => ({
 
 const enrichLowProduct = (lowProduct) => ({
   ...lowProduct,
+  created_at_local:
+    lowProduct.created_at_local ?? formatTimestampForTimeZone(lowProduct.created_at),
+  createdAtLocal:
+    lowProduct.createdAtLocal ?? formatTimestampForTimeZone(lowProduct.created_at),
   nombre_responsable:
     lowProduct.nombre_responsable ?? fullNameFromUser(lowProduct.usuarios),
   detalle_productos_baja: (lowProduct.detalle_productos_baja ?? []).map(
@@ -98,7 +105,9 @@ const enrichLowProduct = (lowProduct) => ({
 
 const getAllLowProducts = async (req,res)=>{
   try{
+    const where = buildStatusWhere(req.query.status);
     const lowProducts = await prisma.productos_baja.findMany({
+      where,
       include: lowProductInclude,
       orderBy: { id_baja_productos: "desc" },
     });
@@ -114,8 +123,10 @@ const getLowProducts = async (req, res) => {
     const limit = Number(req.query.limit) || 6;
     const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
     const safeLimit = Math.min(limit, 20);
+    const where = buildStatusWhere(req.query.status);
 
     const lowProducts = await prisma.productos_baja.findMany({
+      where,
       take: safeLimit + 1,
       skip: cursor ? 1 : 0,
       cursor: cursor ? { id_baja_productos: cursor } : undefined,
@@ -165,6 +176,7 @@ const searchLowProduct = async (req, res) => {
 
   try {
     const isNumber = !isNaN(q);
+    const statusWhere = buildStatusWhere(req.query.status);
 
     const filter = isNumber
       ? {
@@ -224,8 +236,14 @@ const searchLowProduct = async (req, res) => {
         };
 
     const lowProducts = await prisma.productos_baja.findMany({
-      where: filter,
+      where:
+        Object.keys(statusWhere).length > 0
+          ? {
+              AND: [filter, statusWhere],
+            }
+          : filter,
       include: lowProductInclude,
+      orderBy: { id_baja_productos: "desc" },
     });
 
     return res.status(200).json(lowProducts.map(enrichLowProduct));
@@ -263,13 +281,14 @@ const createLowProduct = async (req, res) => {
   if (!responsable) return res.status(400).json({ error: "Responsable invalido" });
 
   try {
+    console.log("Fecha",new Date())
     const result = await prisma.$transaction(
       async (tx) => {
         const createdAt = new Date();
         const lowProduct = await tx.productos_baja.create({
           data: {
             id_responsable: responsable.usuario_id,
-            fecha_baja: createdAt,
+            fecha_baja: toBusinessDateOnly(createdAt),
             created_at: createdAt,
             cantida_baja: cantidad_total_baja,
             total_precio_baja,
@@ -420,10 +439,15 @@ const createLowProduct = async (req, res) => {
                 throw new Error("Para crear destino debes enviar codigo_barras_destino (único).");
               }
 
+              const codigoBarrasDestino = await assertDetailBarcodeAvailable(
+                tx,
+                p.codigo_barras_destino
+              );
+
               const nuevoDetalle = await tx.detalle_productos.create({
                 data: {
                   id_producto: idProductoDestino,
-                  codigo_barras_producto_compra: String(p.codigo_barras_destino),
+                  codigo_barras_producto_compra: codigoBarrasDestino,
                   stock_producto: 0,
                   estado: true,
                   es_devolucion: false,
@@ -495,6 +519,17 @@ const createLowProduct = async (req, res) => {
     return res.status(201).json(result ? enrichLowProduct(result) : null); // <- tu helper
   } catch (error) {
     console.error(error);
+
+    if (isDetailBarcodeValidationError(error)) {
+      return res.status(
+        error.code === "DETAIL_BARCODE_ALREADY_EXISTS" ? 409 : 400
+      ).json({ error: error.message });
+    }
+
+    if (isDetailBarcodeUniqueConstraintError(error)) {
+      return res.status(409).json({ error: "El código de barras ya existe" });
+    }
+
     return res.status(500).json({ error: error.message ?? "Error al crear el producto" });
   }
 };
@@ -520,20 +555,14 @@ const cancelLowProduct = async (req, res) => {
         if (baja.estado === false) return { ok: false, status: 400, payload: { error: "La baja ya esta anulada" } };
 
         const createdAt = getLowProductCreatedAt(baja);
-        if (!createdAt) {
-          return {
-            ok: false,
-            status: 400,
-            payload: {
-              error: "La baja no tiene una fecha de creacion valida para anular.",
-            },
-          };
-        }
+        const diffMinutes = createdAt
+          ? Math.max(
+              0,
+              Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60))
+            )
+          : null;
 
-        const diffMinutes = Math.floor(
-          (Date.now() - createdAt.getTime()) / (1000 * 60)
-        );
-        if (diffMinutes > LIMIT_MINUTES) {
+        if (diffMinutes !== null && diffMinutes > LIMIT_MINUTES) {
           return {
             ok: false,
             status: 409,

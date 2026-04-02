@@ -32,14 +32,19 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
-    "nodemailer": "^7.0.11"
+    "nodemailer": "^8.0.4"
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
     "jest": "^30.3.0",
     "nodemon": "^3.1.10",
-    "prisma": "^6.18.0",
+    "prisma": "^6.19.2",
     "prisma-erd-generator": "^2.4.2",
     "supertest": "^7.2.2"
+  },
+  "overrides": {
+    "@prisma/config": {
+      "effect": "3.20.0"
+    }
   }
 }

@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   createDetailProduct,
+  validateDetailBarcode,
   getAllDetails,
   getDetailsByProduct,
   getDetailById,
@@ -16,6 +17,9 @@ router.post("/", createDetailProduct);
 
 // 🔵 todos
 router.get("/", getAllDetails);
+
+// 🔎 validar unicidad del código de barras
+router.get("/validate-barcode", validateDetailBarcode);
 
 // 🟣 por producto (⚠️ SIEMPRE antes de :id)
 router.get("/producto/:id_producto", getDetailsByProduct);

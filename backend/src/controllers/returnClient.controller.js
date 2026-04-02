@@ -1,20 +1,20 @@
 const prisma = require("../prisma/prismaClient");
 const { getResponsable } = require("./returnProducts.controller");
+const {
+  parseTimestampValue,
+  toBusinessDateOnly,
+} = require("../utils/dateTime");
+const { buildStatusWhere } = require("../utils/statusFilter");
 
 function getReturnClientCreatedAt(devolucion) {
-  const createdAt = devolucion?.created_at
-    ? new Date(devolucion.created_at)
-    : devolucion?.fecha_devolucion
-    ? new Date(devolucion.fecha_devolucion)
-    : null;
-
-  if (!createdAt || Number.isNaN(createdAt.getTime())) return null;
-  return createdAt;
+  return parseTimestampValue(devolucion?.created_at);
 }
 
 const getAllReturnClients = async (req, res) => {
   try {
+    const where = buildStatusWhere(req.query.status);
     const returnClients = await prisma.devolucion_cliente.findMany({
+      where,
       include: {
         ventas: {
           select: {
@@ -120,9 +120,11 @@ const getReturnClients = async (req, res) => {
     const page = Math.max(Number(req.query.page) || 1, 1);
     const limit = Math.min(Math.max(Number(req.query.limit) || 6, 1), 20);
     const skip = (page - 1) * limit;
+    const where = buildStatusWhere(req.query.status);
 
     const [data, totalItems] = await Promise.all([
       prisma.devolucion_cliente.findMany({
+        where,
         skip,
         take: limit,
         orderBy: { id_devoluciones_cliente: "desc" },
@@ -168,7 +170,7 @@ const getReturnClients = async (req, res) => {
           usuarios: true,
         },
       }),
-      prisma.devolucion_cliente.count(),
+      prisma.devolucion_cliente.count({ where }),
     ]);
 
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
@@ -198,10 +200,15 @@ const searchReturnClients = async (req, res) => {
 
     const numericId = Number(q);
     const isNumeric = !Number.isNaN(numericId);
+    const normalized = q.toLowerCase();
+    const inferredStatusFilters = [];
+    const statusWhere = buildStatusWhere(req.query.status);
 
-    const returnClients = await prisma.devolucion_cliente.findMany({
-      where: {
-        OR: [
+    if (/^activos?$/.test(normalized)) inferredStatusFilters.push(true);
+    if (/^inactivos?$/.test(normalized)) inferredStatusFilters.push(false);
+
+    const searchWhere = {
+      OR: [
           ...(isNumeric
             ? [
                 { id_devoluciones_cliente: numericId },
@@ -292,8 +299,17 @@ const searchReturnClients = async (req, res) => {
               },
             },
           },
+          ...inferredStatusFilters.map((estado) => ({ estado })),
         ],
-      },
+      };
+
+    const returnClients = await prisma.devolucion_cliente.findMany({
+      where:
+        Object.keys(statusWhere).length > 0
+          ? {
+              AND: [searchWhere, statusWhere],
+            }
+          : searchWhere,
       include: {
         ventas: {
           include: {
@@ -454,7 +470,7 @@ const createReturnClients = async (req, res) => {
                 data: {
                   id_responsable: responsable.usuario_id,
                   desde_dev_cliente: devolucionCliente.id_devoluciones_cliente,
-                  fecha_baja: lowCreatedAt,
+                  fecha_baja: toBusinessDateOnly(lowCreatedAt),
                   created_at: lowCreatedAt,
                   cantida_baja: pv.cantidad,
                   total_precio_baja: pv.valor_unitario * pv.cantidad,
