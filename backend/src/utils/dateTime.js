@@ -68,8 +68,22 @@ const parseTimestampValue = (value) => {
     return Number.isNaN(value.getTime()) ? null : value;
   }
 
-  if (typeof value === "string" && DATE_ONLY_PATTERN.test(value.trim())) {
-    return null;
+  if (typeof value === "string") {
+    // Si es solo una fecha, sin hora
+    if (DATE_ONLY_PATTERN.test(value.trim())) {
+      return null;
+    }
+
+    // Para strings ISO con zona horaria (PostgreSQL timestamptz)
+    // Normalizar para asegurar parsing correcto
+    const trimmed = value.trim();
+
+    try {
+      const parsed = new Date(trimmed);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    } catch {
+      return null;
+    }
   }
 
   const parsed = new Date(value);
