@@ -148,7 +148,6 @@ exports.createPurchase = async (req, res) => {
     }
 
     const fechaCompraDate = parseFecha(fecha_compra) || new Date();
-    const createdAt = new Date();
 
     const purchaseWithSameInvoice = await prisma.compras.findFirst({
       where: { numero_factura: numeroFactura },
@@ -197,7 +196,6 @@ exports.createPurchase = async (req, res) => {
       /** ===== CREAR COMPRA ===== */
       const compra = await tx.compras.create({
         data: {
-          created_at: createdAt,
           fecha_compra: fechaCompraDate,
           numero_factura: numeroFactura,
           id_proveedor: Number(id_proveedor),
