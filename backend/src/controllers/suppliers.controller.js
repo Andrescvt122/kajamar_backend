@@ -1,4 +1,14 @@
+const { Prisma } = require("@prisma/client");
 const prisma = require("../prisma/prismaClient");
+
+const normalizeSupplierNit = (value) => {
+  if (value === undefined || value === null) return null;
+
+  const normalized = String(value).trim().replace(/[.\-\s]/g, "");
+  if (!normalized || !/^\d+$/.test(normalized)) return null;
+
+  return normalized;
+};
 
 // ✅ Obtener todos los proveedores con sus categorías
 // ✅ Obtener proveedores con paginación
@@ -291,7 +301,7 @@ exports.getSupplierDetail = async (req, res) => {
       estado: supplier.estado,
       tipo_persona: supplier.tipo_persona || null,
       contacto: supplier.contacto || null,
-      max_porcentaje_de_devolucion: supplier.max_porcentaje_de_devolucion,
+      // max_porcentaje_de_devolucion: supplier.max_porcentaje_de_devolucion,
       categorias,
       productos,
     };
@@ -356,6 +366,14 @@ exports.createSupplier = async (req, res) => {
   } = req.body;
 
   try {
+    const normalizedNit = normalizeSupplierNit(nit);
+
+    if (!normalizedNit) {
+      return res.status(400).json({
+        message:
+          "El NIT debe contener solo números y puede incluir puntos o guiones.",
+      });
+    }
 
     // Verificar categorías válidas
     const existingCats = await prisma.categorias.findMany({
@@ -373,7 +391,7 @@ exports.createSupplier = async (req, res) => {
     const newSupplier = await prisma.proveedores.create({
       data: {
         nombre,
-        nit: nit,
+        nit: normalizedNit,
         telefono,
         direccion,
         estado: estado ?? true,
@@ -464,11 +482,14 @@ exports.updateSupplier = async (req, res) => {
       return res.status(404).json({ message: "Proveedor no encontrado." });
     }
 
-    const nitNumber = Number(nit);
-    if (!Number.isInteger(nitNumber) || nitNumber <= 0) {
+    const normalizedNit = normalizeSupplierNit(nit);
+    if (!normalizedNit) {
       return res
         .status(400)
-        .json({ message: "El NIT debe ser un número válido mayor que 0." });
+        .json({
+          message:
+            "El NIT debe contener solo números y puede incluir puntos o guiones.",
+        });
     }
 
     // Actualiza proveedor
@@ -476,7 +497,7 @@ exports.updateSupplier = async (req, res) => {
       where: { id_proveedor: supplierId },
       data: {
         nombre,
-        nit: nitNumber,
+        nit: normalizedNit,
         telefono,
         direccion,
         estado,
@@ -484,9 +505,9 @@ exports.updateSupplier = async (req, res) => {
         tipo_persona,
         contacto,
         correo,
-        max_porcentaje_de_devolucion: max_porcentaje_de_devolucion
-          ? parseFloat(max_porcentaje_de_devolucion)
-          : null,
+        // max_porcentaje_de_devolucion: max_porcentaje_de_devolucion
+        //   ? parseFloat(max_porcentaje_de_devolucion)
+        //   : null,
       },
     });
 
