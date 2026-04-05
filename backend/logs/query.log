@@ -1,0 +1,60 @@
+
+[2026-04-04T23:55:54.497Z]
+Query: SELECT COUNT(*) AS "_count$_all" FROM (SELECT "public"."proveedores"."id_proveedor" FROM "public"."proveedores" WHERE 1=1 OFFSET $1) AS "sub"
+Params: [0]
+Duration: 146 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.518Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE ("public"."proveedores"."id_proveedor" = $1 AND 1=1) LIMIT $2 OFFSET $3
+Params: [7,1,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.534Z]
+Query: SELECT "public"."proveedores"."id_proveedor", "public"."proveedores"."nombre", "public"."proveedores"."telefono", "public"."proveedores"."direccion", "public"."proveedores"."estado", "public"."proveedores"."descripcion", "public"."proveedores"."nit", "public"."proveedores"."tipo_persona", "public"."proveedores"."contacto", "public"."proveedores"."correo" FROM "public"."proveedores" WHERE 1=1 ORDER BY "public"."proveedores"."id_proveedor" DESC LIMIT $1 OFFSET $2
+Params: [6,12]
+Duration: 152 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.667Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1) OFFSET $2
+Params: [7,0]
+Duration: 149 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.770Z]
+Query: SELECT "public"."proveedor_categoria"."id_proveedor_categoria", "public"."proveedor_categoria"."id_proveedor", "public"."proveedor_categoria"."id_categoria", "public"."proveedor_categoria"."created_at", "public"."proveedor_categoria"."updated_at" FROM "public"."proveedor_categoria" WHERE "public"."proveedor_categoria"."id_proveedor" IN ($1,$2,$3,$4,$5,$6) OFFSET $7
+Params: [12,11,10,9,7,6,0]
+Duration: 235 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.818Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3) OFFSET $4
+Params: [1,2,4,0]
+Duration: 150 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.922Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria", "public"."categorias"."descripcion_categoria", "public"."categorias"."estado" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1,$2,$3,$4,$5) OFFSET $6
+Params: [3,1,2,4,5,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2026-04-04T23:55:54.971Z]
+Query: SELECT "public"."producto_proveedor"."id_producto_proveedor", "public"."producto_proveedor"."id_proveedor", "public"."producto_proveedor"."id_producto", "public"."producto_proveedor"."estado_producto_proveedor" FROM "public"."producto_proveedor" WHERE "public"."producto_proveedor"."id_proveedor" IN ($1) OFFSET $2
+Params: [7,0]
+Duration: 152 ms
+----------------------------------------------
+
+[2026-04-04T23:55:55.137Z]
+Query: SELECT "public"."productos"."id_producto", "public"."productos"."nombre", "public"."productos"."descripcion", "public"."productos"."stock_actual", "public"."productos"."stock_minimo", "public"."productos"."stock_maximo", "public"."productos"."estado", "public"."productos"."id_categoria", "public"."productos"."iva", "public"."productos"."icu", "public"."productos"."porcentaje_incremento", "public"."productos"."costo_unitario", "public"."productos"."precio_venta", "public"."productos"."url_imagen", "public"."productos"."created_at", "public"."productos"."updated_at", "public"."productos"."cantidad_unitaria", "public"."productos"."desde_dev_productos", "public"."productos"."desde_baja_productos" FROM "public"."productos" WHERE "public"."productos"."id_producto" IN ($1) OFFSET $2
+Params: [1,0]
+Duration: 165 ms
+----------------------------------------------
+
+[2026-04-04T23:55:55.287Z]
+Query: SELECT "public"."categorias"."id_categoria", "public"."categorias"."nombre_categoria" FROM "public"."categorias" WHERE "public"."categorias"."id_categoria" IN ($1) OFFSET $2
+Params: [4,0]
+Duration: 149 ms
+----------------------------------------------

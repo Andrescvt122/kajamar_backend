@@ -72,4 +72,6 @@ router.get("/", purchaseController.getPurchases);
 // ✅ Queda: /kajamart/api/purchase/:id_compra/cancel
 router.put("/:id_compra/cancel", purchaseController.cancelPurchase);
 
+router.get("/all", purchaseController.getAllPurchases);
+
 module.exports = router;

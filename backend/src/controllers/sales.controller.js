@@ -469,3 +469,25 @@ exports.updateSaleStatus = async (req, res) => {
     });
   }
 };
+
+exports.getAllSales = async (req,res)=>{
+  const sales = await prisma.ventas.findMany({
+    orderBy:{id_venta:"desc"},
+    include:{
+      clientes:true,
+      detalle_venta:{
+        include:{
+          detalle_productos:{
+            include:{productos:{
+              select:{
+                id_producto:true,
+                nombre:true,
+              }
+            }}
+          }
+        }
+      }
+    }
+  })
+  return res.json({ data: sales  });
+}

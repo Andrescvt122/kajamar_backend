@@ -104,6 +104,42 @@ function getPurchaseCreatedAt(compra) {
   return parseTimestampValue(compra?.created_at);
 }
 
+async function ensureProductSupplierRelation(tx, idProveedor, idProducto) {
+  const existingRelation = await tx.producto_proveedor.findFirst({
+    where: {
+      id_proveedor: idProveedor,
+      id_producto: idProducto,
+    },
+    select: {
+      id_producto_proveedor: true,
+      estado_producto_proveedor: true,
+    },
+  });
+
+  if (!existingRelation) {
+    return tx.producto_proveedor.create({
+      data: {
+        id_proveedor: idProveedor,
+        id_producto: idProducto,
+        estado_producto_proveedor: true,
+      },
+    });
+  }
+
+  if (!existingRelation.estado_producto_proveedor) {
+    return tx.producto_proveedor.update({
+      where: {
+        id_producto_proveedor: existingRelation.id_producto_proveedor,
+      },
+      data: {
+        estado_producto_proveedor: true,
+      },
+    });
+  }
+
+  return existingRelation;
+}
+
 exports.validatePurchaseInvoiceNumber = async (req, res) => {
   try {
     const numeroFactura = normalizeInvoiceNumber(req.query.numero_factura);
@@ -138,6 +174,7 @@ exports.createPurchase = async (req, res) => {
     const payload = getPayload(req);
     const { fecha_compra, id_proveedor, items, numero_factura } = payload;
     const numeroFactura = normalizeInvoiceNumber(numero_factura);
+    const supplierId = Number(id_proveedor);
 
     if (!id_proveedor || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Datos incompletos (proveedor/items)" });
@@ -198,7 +235,7 @@ exports.createPurchase = async (req, res) => {
         data: {
           fecha_compra: fechaCompraDate,
           numero_factura: numeroFactura,
-          id_proveedor: Number(id_proveedor),
+          id_proveedor: supplierId,
           subtotal,
           total_impuestos: totalImpuestos,
           total,
@@ -220,6 +257,8 @@ exports.createPurchase = async (req, res) => {
         const icuPct = toDecimalOrNull(item.icu_porcentaje);
 
         const unidadesPorPaquete = toNonNegInt(item.unidades_por_paquete, 0);
+
+        await ensureProductSupplierRelation(tx, supplierId, idProducto);
 
         let paquetes = Array.isArray(item.paquetes) ? [...item.paquetes] : [];
         if (paquetes.length === 0) {
@@ -526,3 +565,27 @@ exports.cancelPurchase = async (req, res) => {
     });
   }
 };
+
+exports.getAllPurchases = async (req,res)=>{
+  const compras = await prisma.compras.findMany({
+    orderBy: { id_compra: "desc" },
+    include:{
+      proveedores:true,
+      detalle_compra:{
+        include:{
+          detalle_productos:{
+            include:{
+              productos:{
+                select:{
+                  id_producto:true,
+                  nombre:true,
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+  })
+  return res.json({ data: compras });
+}

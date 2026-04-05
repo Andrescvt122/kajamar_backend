@@ -11,4 +11,6 @@ router.post("/", salesController.createSale);
 // PUT /kajamart/api/sales/:id/status
 router.put("/:id/status", salesController.updateSaleStatus);
 
+router.get("/all", salesController.getAllSales);
+
 module.exports = router;
