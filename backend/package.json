@@ -45,6 +45,7 @@
   "overrides": {
     "@prisma/config": {
       "effect": "3.20.0"
-    }
+    },
+    "lodash-es": "4.18.1"
   }
 }
