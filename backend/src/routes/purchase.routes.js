@@ -6,16 +6,17 @@ const purchaseController = require("../controllers/purchase.controller");
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
-const allowedImageMimeTypes = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/jpg",
-  "image/webp",
+
+const allowedImageExtensions = new Map([
+  ["image/jpeg", ".jpg"],
+  ["image/jpg", ".jpg"],
+  ["image/png", ".png"],
+  ["image/webp", ".webp"],
 ]);
 
 // ✅ Guarda archivo físico en: backend/src/uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     const uploadsDir = path.join(__dirname, "../uploads");
 
     try {
@@ -25,21 +26,28 @@ const storage = multer.diskStorage({
       cb(error);
     }
   },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname || "");
-    const base = path
-      .basename(file.originalname || "comprobante", ext)
-      .replace(/\s+/g, "_")
-      .replace(/[^\w\-]/g, "");
+  filename: (_req, file, cb) => {
+    const ext = allowedImageExtensions.get(file.mimetype);
+    if (!ext) {
+      cb(new Error("Tipo de archivo no permitido"));
+      return;
+    }
 
-    cb(null, `${Date.now()}-${base}${ext}`);
+    const base = path
+      .basename(file.originalname || "comprobante", path.extname(file.originalname || ""))
+      .replace(/\s+/g, "_")
+      .replace(/[^\w\-]/g, "")
+      .slice(0, 80);
+
+    cb(null, `${Date.now()}-${base || "comprobante"}${ext}`);
   },
 });
 
 const upload = multer({
   storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
-    if (allowedImageMimeTypes.has(file.mimetype)) {
+    if (allowedImageExtensions.has(file.mimetype)) {
       cb(null, true);
       return;
     }

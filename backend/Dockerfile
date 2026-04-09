@@ -1,17 +1,17 @@
 # -------- deps --------
-FROM node:20-alpine AS deps
+FROM node:22-alpine3.22 AS deps
 WORKDIR /app
 
 # Prisma en Alpine suele necesitar openssl
-RUN apk add --no-cache openssl
+RUN apk update && apk upgrade --no-cache && apk add --no-cache openssl
 
 COPY package*.json ./
 RUN npm ci
 
 # -------- build --------
-FROM node:20-alpine AS build
+FROM node:22-alpine3.22 AS build
 WORKDIR /app
-RUN apk add --no-cache openssl
+RUN apk update && apk upgrade --no-cache && apk add --no-cache openssl
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -23,10 +23,10 @@ RUN npx prisma generate
 # RUN npm run build
 
 # -------- runtime --------
-FROM node:20-alpine AS runtime
+FROM node:22-alpine3.22 AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
-RUN apk add --no-cache openssl
+RUN apk update && apk upgrade --no-cache && apk add --no-cache openssl
 
 # Copiamos app
 COPY --from=build /app ./
